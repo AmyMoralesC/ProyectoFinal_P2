@@ -1,0 +1,6 @@
+com\cci\controller\RegisterController.class
+com\cci\data\Servicio.class
+com\cci\bumib\JakartaRestConfiguration.class
+com\cci\model\Usuario.class
+com\cci\data\ServicioUsuario.class
+com\cci\bumib\resources\JakartaEE8Resource.class

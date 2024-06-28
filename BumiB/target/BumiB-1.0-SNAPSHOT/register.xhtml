@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Registro de Usuario</title>
+    </h:head>
+    <h:body>
+        <h2>Registro de Usuario</h2>
+        <div class="container">
+            <h:form id="registroFormulario">
+                <p:growl id="growl" life="3000" showDetail="true"/>
+                <p>Carnet <p:inputText value="#{registerController.usuario.carnet}"/></p>
+                <p>Nombre <p:inputText value="#{registerController.usuario.nombre}" /></p>
+                <p>Correo <p:inputText value="#{registerController.usuario.correo}" /></p>
+                <p>Contraseña <p:password value="#{registerController.usuario.clave}" /></p>
+                <p>
+                    <p:commandButton value="Registrar" actionListener="#{registerController.registrarUsuario}" update="registroFormulario" />
+                </p>
+            </h:form>
+        </div>
+    </h:body>
+</html>

@@ -1,3 +1,4 @@
+com\cci\controller\EmailValidator.class
 com\cci\controller\RegisterController.class
 com\cci\data\Servicio.class
 com\cci\bumib\JakartaRestConfiguration.class

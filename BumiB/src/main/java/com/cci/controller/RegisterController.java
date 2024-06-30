@@ -9,7 +9,9 @@ import com.cci.model.Usuario;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -37,6 +39,25 @@ public class RegisterController {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en el registro", "No se pudo registrar el usuario. Inténtalo de nuevo."));
         }
+    }
+
+    public void validatePassword(FacesContext context, UIComponent component, Object value) {
+        String password = value.toString();
+
+        // Validar que la contraseña tenga al menos una letra minúscula, una mayúscula, un número y un carácter especial
+        if (!isValidPassword(password)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña no válida",
+                    "La contraseña debe contener al menos una letra minúscula, una mayúscula, un número y un carácter especial.");
+            throw new ValidatorException(msg);
+        }
+    }
+
+    private boolean isValidPassword(String password) {
+        // Implementar la lógica de validación aquí
+        // Por ejemplo, usar expresiones regulares o métodos de comparación para verificar la complejidad de la contraseña
+        // Ejemplo básico: al menos 8 caracteres, una letra minúscula, una mayúscula, un número y un carácter especial
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return password.matches(regex);
     }
 
 }

@@ -33,7 +33,8 @@
                     </p:inputText>
 
                     <h:outputLabel for="clave" value="Contraseña" />
-                    <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Ingresar contraseña">
+                    <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Ingresar contraseña"
+                                validatorMessage="Contraseña no válida">
                         <f:validateLength minimum="8" />
                     </p:password>
 

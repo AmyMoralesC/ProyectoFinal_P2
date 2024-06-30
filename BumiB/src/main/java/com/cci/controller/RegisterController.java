@@ -41,23 +41,4 @@ public class RegisterController {
         }
     }
 
-    public void validatePassword(FacesContext context, UIComponent component, Object value) {
-        String password = value.toString();
-
-        // Validar que la contraseña tenga al menos una letra minúscula, una mayúscula, un número y un carácter especial
-        if (!isValidPassword(password)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña no válida",
-                    "La contraseña debe contener al menos una letra minúscula, una mayúscula, un número y un carácter especial.");
-            throw new ValidatorException(msg);
-        }
-    }
-
-    private boolean isValidPassword(String password) {
-        // Implementar la lógica de validación aquí
-        // Por ejemplo, usar expresiones regulares o métodos de comparación para verificar la complejidad de la contraseña
-        // Ejemplo básico: al menos 8 caracteres, una letra minúscula, una mayúscula, un número y un carácter especial
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-        return password.matches(regex);
-    }
-
 }

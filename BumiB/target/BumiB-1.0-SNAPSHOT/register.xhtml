@@ -34,8 +34,7 @@
 
                     <h:outputLabel for="clave" value="Contraseña" />
                     <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Ingresar contraseña">
-                        
-                        <f:validator validatorId="registerController.validatePassword" />
+                        <f:validateLength minimum="8" />
                     </p:password>
 
                     <h:outputLabel />

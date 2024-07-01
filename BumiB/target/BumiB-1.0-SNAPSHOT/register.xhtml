@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -11,15 +10,14 @@
         <h2>Registro de Usuario</h2>
         <div class="container">
             <h:form id="registerForm">
-                <p:growl id="growl" life="3000" showDetail="false" />
-                <h:panelGrid columns="2" cellpadding="5">
+                <p:growl id="growl" life="3000" showDetail="false"/>
 
+                <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="carnet" value="Carnet" />
                     <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" label="Carnet" requiredMessage="Introduce un carnet"
-                                 validatorMessage="Carnet no válido"> 
-                        
+                                 validatorMessage="Carnet no válido">
                         <f:validateLength minimum="11" maximum="11" />
-                    </p:inputText>             
+                    </p:inputText>
 
                     <h:outputLabel for="nombre" value="Nombre" />
                     <p:inputText id="nombre" value="#{registerController.usuario.nombre}" required="true" label="Nombre" requiredMessage="Introduce tu nombre"
@@ -28,20 +26,42 @@
                     </p:inputText>
 
                     <h:outputLabel for="correo" value="Correo" />
-                    <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce una dirección de correo">
+                    <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo">
                         <f:validator validatorId="emailValidator" />
                     </p:inputText>
 
                     <h:outputLabel for="clave" value="Contraseña" />
-                    <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Ingresar contraseña"
+                    <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
                                 validatorMessage="Contraseña no válida">
                         <f:validateLength minimum="8" />
                     </p:password>
 
+                    <!-- Botón para registrar -->
                     <h:outputLabel />
-                    <p:commandButton value="Registrar" actionListener="#{registerController.registrarUsuario}" update="registerForm growl" />
+                    <p:commandButton value="Verificar Cuenta" actionListener="#{registerController.verificarUsuario()}"
+                                     update=":registerForm:growl"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').show();" />
                 </h:panelGrid>
             </h:form>
+            
+            <!-- Ventana modal -->
+            <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false">
+                <h:form id="modalForm">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        
+                        <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación:" />
+                        <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true" />
+
+                        <h:outputLabel />
+                        <p:commandButton value="Verificar Código" actionListener="#{registerController.registrarUsuario()}" 
+                                         update=":registerForm:growl :registerForm"
+                                         process="@this codigoVerificacion"
+                                         oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+
         </div>
     </h:body>
 </html>

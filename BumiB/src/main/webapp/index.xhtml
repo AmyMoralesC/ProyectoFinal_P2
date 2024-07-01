@@ -8,6 +8,18 @@
     </h:head>
     <h:body>
         <h2>Bienvenido a la Plataforma de BumiB</h2>
+        <h:form>
+            <div class="container">
+                <h:form id ="miFormulario">
+                    <p:growl id="growl" life="3000" showDetail="true"/>
+                    <p>Correo: <p:inputText value="#{loginController.usuario.correo}" /></p>
+                    <p>Contraseña <p:password value="#{loginController.usuario.clave}" /></p>
+                    <p>
+                        <h:commandButton  value="Ingresar"  actionListener="#{loginController.ingresar()}"  />
+                    </p>
+                </h:form>
+            </div>
+        </h:form>
         <h:link value="Registro de Usuario" outcome="register.xhtml"/>
     </h:body>
 </html>

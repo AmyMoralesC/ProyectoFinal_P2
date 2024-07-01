@@ -89,6 +89,46 @@ public class ServicioUsuario extends Servicio{
         return listaRetorno;
     }
     
+    public Usuario Validar(String correo, String contraseña) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Usuario usuario = null;
+
+        try {
+            conectar();
+            String sql = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
+            stmt = getConexion().prepareStatement(sql);
+            stmt.setString(1, correo);
+            stmt.setString(2, contraseña);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("idUsuario");
+                String carnet = rs.getString("carnet");
+                String nombre = rs.getString("nombre");
+                String corre = rs.getString("correo");
+                String clave = rs.getString("contraseña");
+                String facultad = rs.getString("facultad");
+                String carrera = rs.getString("carrera");
+                String sede = rs.getString("sede");
+                String biografia = rs.getString("biografia");
+                String telefono = rs.getString("telefono");
+                usuario = new Usuario(id, carnet, nombre, corre, clave, facultad, carrera, sede, biografia, telefono);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+
+        return usuario;
+    }
+    
+    
+    
+    
     public boolean insertar(Usuario usuario) {
 
         try {

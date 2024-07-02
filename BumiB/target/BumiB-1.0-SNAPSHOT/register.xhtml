@@ -5,63 +5,113 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Registro de Usuario</title>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f5f5f5;
+                overflow: hidden;
+            }
+            .form-wrapper {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 500px;
+            }
+            h2 {
+                text-align: center;
+            }
+            .ui-float-label {
+                position: relative;
+                margin-top: 1.5em;
+                width: 100%;
+            }
+            .ui-float-label input {
+                padding: 0.5em 0.5em;
+                font-size: 16px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .commandButtonWrapper {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 1.5em;
+            }
+        </style>
     </h:head>
     <h:body>
-        <h2>Registro de Usuario</h2>
         <div class="container">
-            <h:form id="registerForm">
-                <p:growl id="growl" life="3000" showDetail="false"/>
+            <div class="form-wrapper">
+                <h2>Registro de Usuario</h2>
+                <h:form id="registerForm">
+                    <p:growl id="growl" life="3000" showDetail="false"/>
 
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="carnet" value="Carnet" />
-                    <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" label="Carnet" requiredMessage="Introduce un carnet"
-                                 validatorMessage="Carnet no válido">
-                        <f:validateLength minimum="11" maximum="11" />
-                    </p:inputText>
+                    <div class="ui-float-label">
+                        <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" label="Carnet" requiredMessage="Introduce un carnet"
+                                     validatorMessage="Carnet no válido">
+                            <f:validateLength minimum="11" maximum="11" />
+                        </p:inputText>
+                        <h:outputLabel for="carnet" value="Carnet" />
+                    </div>
 
-                    <h:outputLabel for="nombre" value="Nombre" />
-                    <p:inputText id="nombre" value="#{registerController.usuario.nombre}" required="true" label="Nombre" requiredMessage="Introduce tu nombre"
-                                 validatorMessage="Nombre no válido">
-                        <f:validateLength minimum="2" maximum="50" />
-                    </p:inputText>
+                    <div class="ui-float-label">
+                        <p:inputText id="nombre" value="#{registerController.usuario.nombre}" required="true" label="Nombre" requiredMessage="Introduce tu nombre"
+                                     validatorMessage="Nombre no válido">
+                            <f:validateLength minimum="2" maximum="50" />
+                        </p:inputText>
+                        <h:outputLabel for="nombre" value="Nombre" />
+                    </div>
 
-                    <h:outputLabel for="correo" value="Correo" />
-                    <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo">
-                        <f:validator validatorId="emailValidator" />
-                    </p:inputText>
+                    <div class="ui-float-label">
+                        <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo">
+                            <f:validator validatorId="emailValidator" />
+                        </p:inputText>
+                        <h:outputLabel for="correo" value="Correo" />
+                    </div>
 
-                    <h:outputLabel for="clave" value="Contraseña" />
-                    <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
-                                validatorMessage="Contraseña no válida">
-                        <f:validateLength minimum="8" />
-                    </p:password>
+                    <div class="ui-float-label">
+                        <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
+                                    validatorMessage="Contraseña no válida">
+                            <f:validateLength minimum="8" />
+                        </p:password>
+                        <h:outputLabel for="clave" value="Contraseña" />
+                    </div>
 
-                    <!-- Botón para registrar -->
-                    <h:outputLabel />
-                    <p:commandButton value="Verificar Cuenta" actionListener="#{registerController.verificarUsuario()}"
-                                     update=":registerForm:growl"
-                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').show();" />
-                </h:panelGrid>
-            </h:form>
-            
-            <!-- Ventana modal -->
-            <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false">
-                <h:form id="modalForm">
-                    <h:panelGrid columns="2" cellpadding="5">
-                        
-                        <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación:" />
-                        <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true" />
-
-                        <h:outputLabel />
-                        <p:commandButton value="Verificar Código" actionListener="#{registerController.registrarUsuario()}" 
-                                         update=":registerForm:growl :registerForm"
-                                         process="@this codigoVerificacion"
-                                         oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();" />
-                    </h:panelGrid>
+                    <div class="commandButtonWrapper">
+                        <p:commandButton value="Iniciar Sesión" action="index.xhtml" immediate="true" style="margin-right: auto;" />
+                        <p:commandButton value="Verificar Cuenta" actionListener="#{registerController.verificarUsuario()}"
+                                         update=":registerForm:growl"
+                                         oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').show();" style="margin-left: auto;" />
+                    </div>
+                    
                 </h:form>
-            </p:dialog>
 
+                <!-- Ventana modal -->
+                <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false">
+                    <h:form id="modalForm">
+                        <div class="ui-float-label">
+                            <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true" />
+                            <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación:" />
+                        </div>
 
+                        <div class="commandButtonWrapper">
+                            <p:commandButton value="Verificar Código" actionListener="#{registerController.registrarUsuario()}" 
+                                             update=":registerForm:growl :registerForm"
+                                             process="@this codigoVerificacion"
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();" />
+                        </div>
+                    </h:form>
+                </p:dialog>
+            </div>
         </div>
     </h:body>
 </html>

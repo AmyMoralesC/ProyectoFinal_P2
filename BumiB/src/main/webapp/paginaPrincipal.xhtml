@@ -1,11 +1,59 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <h:head>
-        <title>Facelet Title</title>
+        <title>Página principal</title>
+        <h:outputStylesheet library="css" name="style.css" />
     </h:head>
     <h:body>
-        PAGINA PRICIPAL
+
+        <div class="container">
+            <div class="menu-container">
+                <h:form>
+                    <h5 class="mt-0" style="text-align: center">BumiB</h5>
+                    <p:slideMenu style="border-radius: 0px; width:250px; border: none; background-color: #F8F9FA">
+                        <p:divider></p:divider>
+                        <p:menuitem value="Perfil de usuario" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
+                        <p:divider></p:divider>
+                        <p:submenu label="Comunidades">
+                            <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                            <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                            <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                        </p:submenu>
+                        <p:submenu label="Buscar usuario">
+
+                        </p:submenu>
+                        <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-users"></p:menuitem>
+                        <p:submenu label="Notificaciones">
+                        </p:submenu>
+                    </p:slideMenu>
+                </h:form>
+            </div>
+            <div class="content">
+                <div class="card">
+                    <h5>Basic</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                    <p:divider />
+
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.</p>
+
+                    <p:divider />
+
+                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.</p>
+
+                    <p:divider />
+
+                    <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat. Donec vel volutpat ipsum. Integer nunc magna, posuere ut tincidunt eget, egestas vitae sapien. Morbi dapibus luctus odio.</p>
+
+                    <p:divider />
+                </div>
+            </div>
+        </div>
+
     </h:body>
 </html>

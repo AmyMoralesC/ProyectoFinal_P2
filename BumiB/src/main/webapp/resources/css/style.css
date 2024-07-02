@@ -1,0 +1,50 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 1 jul 2024, 7:05:35 p.m.
+    Author     : Amy
+*/
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #00913f;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.menu-container {
+    width: 250px;
+    background-color: #F8F9FA;
+    padding: 0px;
+    position: sticky;
+    border-radius: 0px;
+    height: calc(100vh);
+
+}
+
+.content {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0px;
+    height: calc(100vh);
+}
+
+
+

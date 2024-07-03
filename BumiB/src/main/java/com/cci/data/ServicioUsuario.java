@@ -126,9 +126,6 @@ public class ServicioUsuario extends Servicio{
         return usuario;
     }
     
-    
-    
-    
     public boolean insertar(Usuario usuario) {
 
         try {

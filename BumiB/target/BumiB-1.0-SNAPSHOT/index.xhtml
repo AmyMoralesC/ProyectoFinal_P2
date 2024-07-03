@@ -5,7 +5,6 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>Bienvenido</title>
-        <h:outputStylesheet name="primefaces/primeflex/primeflex.min.css" />
         <style>
             body, html {
                 height: 100%;
@@ -69,7 +68,7 @@
                                             <p>Contraseña: <p:password value="#{loginController.usuario.clave}" /></p>
                                         </div>
                                         <div class ="commandButtonWrapper"> 
-                                            <h:commandButton value="Ingresar" actionListener="#{loginController.ingresar()}" />
+                                            <p:commandButton value="Ingresar" actionListener="#{loginController.ingresar()}" />
                                         </div>
                                         <div class="commandButtonWrapper">
                                             <h:link value="Registro de Usuario" outcome="register.xhtml" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">

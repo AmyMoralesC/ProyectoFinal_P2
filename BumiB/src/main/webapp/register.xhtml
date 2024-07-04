@@ -9,6 +9,7 @@
             body, html {
                 height: 100%;
                 margin: 0;
+                overflow: hidden;
             }
             .container {
                 display: flex;
@@ -21,7 +22,7 @@
             .form-wrapper {
                 background-color: white;
                 padding: 20px;
-                border-radius: 8px;
+                border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 width: 100%;
                 max-width: 500px;
@@ -40,7 +41,7 @@
                 width: 100%;
                 box-sizing: border-box;
             }
-            
+
             .commandButtonWrapper {
                 display: flex;
                 justify-content: space-between;
@@ -87,20 +88,21 @@
                     </div>
 
                     <div class="commandButtonWrapper">
-                        <p:commandButton value="Iniciar Sesión" action="index.xhtml" immediate="true" style="margin-right: auto;" />
-                        <p:commandButton value="Verificar Cuenta" actionListener="#{registerController.verificarUsuario()}"
+                        <p:commandButton value="Regresar" actionListener="#{loginController.ingresarLogin()}" immediate="true" style="margin-right: auto;" />
+                        <p:commandButton value="Registrarse" actionListener="#{registerController.verificarUsuario()}"
                                          update=":registerForm:growl"
                                          oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').show();" style="margin-left: auto;" />
                     </div>
-                    
+
                 </h:form>
 
                 <!-- Ventana modal -->
-                <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false">
+                <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false"
+                          width="500" height="150" closeOnEscape="true">
                     <h:form id="modalForm">
                         <div class="ui-float-label">
                             <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true" />
-                            <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación:" />
+                            <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación" />
                         </div>
 
                         <div class="commandButtonWrapper">

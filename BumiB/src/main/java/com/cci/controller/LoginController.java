@@ -20,13 +20,14 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author jared
  */
-@ManagedBean (name = "loginController")
+@ManagedBean(name = "loginController")
 @SessionScoped
 public class LoginController implements Serializable {
+
     List<Usuario> listaUsuarioTO = new ArrayList<>();
     private Usuario usuario = new Usuario();
 
-public void ingresar() {
+    public void ingresar() {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         Usuario usuarioRetorno = servicioUsuario.Validar(this.getUsuario().getCorreo(), this.getUsuario().getClave());
         if (usuarioRetorno != null) {
@@ -37,6 +38,13 @@ public void ingresar() {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campos inválidos", "La clave o correo no son correctos"));
         }
     }
+    
+    public void ingresarRegistro() {
+        this.redireccionar("/register.xhtml");
+    }
+    public void ingresarLogin() {
+        this.redireccionar("/index.xhtml");
+    }
 
     public void redireccionar(String ruta) {
         HttpServletRequest request;
@@ -46,10 +54,7 @@ public void ingresar() {
         } catch (IOException e) {
         }
     }
-    
-    
-    
-    
+
     public List<Usuario> getListaUsuarioTO() {
         return listaUsuarioTO;
     }
@@ -65,5 +70,5 @@ public void ingresar() {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
+
 }

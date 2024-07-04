@@ -12,7 +12,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.jboss.weld.context.RequestContext;
 
 /**
  *
@@ -69,9 +68,11 @@ public class RegisterController implements Serializable {
     }
 
     public void registrarUsuario() {
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        
         if (codigoIngresado != null && codigoIngresado.equals(codigoVerificacion)) {
-            codigoVerificado = true;
-            // Si el código es correcto, registrar el usuario
+            codigoVerificado = true;    
             boolean isInserted = servicioUsuario.insertar(this.getUsuario());
 
             if (isInserted) {
@@ -86,6 +87,7 @@ public class RegisterController implements Serializable {
             codigoVerificado = false;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Código incorrecto", "El código de verificación ingresado no es válido."));
+            context.validationFailed();
         }
     }
 

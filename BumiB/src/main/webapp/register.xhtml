@@ -52,7 +52,7 @@
     <h:body>
         <div class="container">
             <div class="form-wrapper">
-                <h2>Registro de Usuario</h2>
+                <h2>Registro</h2>
                 <h:form id="registerForm">
                     <p:growl id="growl" life="3000" showDetail="false"/>
 
@@ -96,20 +96,21 @@
 
                 </h:form>
 
-                <!-- Ventana modal -->
                 <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false"
                           width="500" height="150" closeOnEscape="true">
                     <h:form id="modalForm">
                         <div class="ui-float-label">
-                            <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true" />
+                            <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true"
+                                         requiredMessage="Ingrese el código de verificación"/>
                             <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación" />
+                            
                         </div>
 
                         <div class="commandButtonWrapper">
                             <p:commandButton value="Verificar Código" actionListener="#{registerController.registrarUsuario()}" 
                                              update=":registerForm:growl :registerForm"
                                              process="@this codigoVerificacion"
-                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();" />
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();"  />
                         </div>
                     </h:form>
                 </p:dialog>

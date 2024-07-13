@@ -30,6 +30,7 @@ public class RegisterController implements Serializable {
     private boolean camposValidados;
     private String codigoIngresado;
     private boolean codigoVerificado;
+    private boolean mostrarDialogo;
 
     public Usuario getUsuario() {
         return usuario;
@@ -40,14 +41,21 @@ public class RegisterController implements Serializable {
     }
 
     public void verificarUsuario() {
-        
+        if (servicioUsuario.existeCorreo(usuario.getCorreo())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Correo ya registrado", "El correo ingresado ya está registrado en el sistema."));
+            mostrarDialogo = false;
+            return;
+        }
         generarCodigo();
         enviarCorreoConCodigo();
-        
-        
+
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Verificación requerida", "Se ha enviado un código de verificación a su correo."));
+        mostrarDialogo = true;
     }
+    
+    
 
     public void generarCodigo() {
         Random random = new Random();
@@ -56,7 +64,7 @@ public class RegisterController implements Serializable {
     }
 
     private void enviarCorreoConCodigo() {
-        String correoUsuario = usuario.getCorreo(); // Obtén el correo del usuario
+        String correoUsuario = usuario.getCorreo();
         String asunto = "Código de Verificación";
 
         // Contenido del correo
@@ -114,4 +122,14 @@ public class RegisterController implements Serializable {
     public void setCodigoIngresado(String codigoIngresado) {
         this.codigoIngresado = codigoIngresado;
     }
+
+    public boolean isMostrarDialogo() {
+        return mostrarDialogo;
+    }
+
+    public void setMostrarDialogo(boolean mostrarDialogo) {
+        this.mostrarDialogo = mostrarDialogo;
+    }
+    
+    
 }

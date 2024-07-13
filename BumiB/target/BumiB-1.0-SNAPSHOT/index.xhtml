@@ -80,7 +80,7 @@
                 <div class="commandButtonWrapper">
                     <div class="login">
                         <h:form id="loginForm">
-                            <p:growl id="growl" life="3000" showDetail="true"/>
+                            <p:growl id="growl" life="3000"/>
 
                             <div class="ui-float-label">
                                 <p:inputText id="correo" value="#{loginController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo" />
@@ -88,7 +88,8 @@
                             </div>
 
                             <div class="ui-float-label">
-                                <p:password id="clave" value="#{loginController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña" />
+                                <p:password id="clave" value="#{loginController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña" 
+                                            toggleMask="true" redisplay="true"/>
                                 <h:outputLabel for="clave" value="Contraseña" />
                             </div>
 

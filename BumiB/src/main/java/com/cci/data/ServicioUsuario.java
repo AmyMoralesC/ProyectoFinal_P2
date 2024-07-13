@@ -5,6 +5,7 @@
 package com.cci.data;
 
 import com.cci.model.Usuario;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,10 +16,10 @@ import java.util.List;
  *
  * @author maule
  */
-public class ServicioUsuario extends Servicio{
-    
+public class ServicioUsuario extends Servicio {
+
     public void buscarTodosSinLista() {
-        
+
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -40,8 +41,8 @@ public class ServicioUsuario extends Servicio{
                 String biografia = rs.getString("biografia");
                 String telefono = rs.getString("telefono");
                 System.out.println("id: " + id + " carnet: " + carnet + " nombre: " + nombre + " correo: " + correo + "clave: "
-                                   + clave + "Facultad: " + facultad + "Carrera: " + carrera + "Sede: " + sede + "Biografia: " 
-                                   + biografia + "Telefono: " + telefono);
+                        + clave + "Facultad: " + facultad + "Carrera: " + carrera + "Sede: " + sede + "Biografia: "
+                        + biografia + "Telefono: " + telefono);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +52,7 @@ public class ServicioUsuario extends Servicio{
             desconectar();
         }
     }
-    
+
     public List<Usuario> buscarTodos() {
 
         PreparedStatement stmt = null;
@@ -88,7 +89,7 @@ public class ServicioUsuario extends Servicio{
 
         return listaRetorno;
     }
-    
+
     public Usuario Validar(String correo, String contraseña) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -125,7 +126,7 @@ public class ServicioUsuario extends Servicio{
 
         return usuario;
     }
-    
+
     public boolean insertar(Usuario usuario) {
 
         try {
@@ -154,13 +155,13 @@ public class ServicioUsuario extends Servicio{
         }
         return true;
     }
-    
+
     public boolean actualizar(Usuario usuario) {
 
         try {
             conectar();
             String sql = "UPDATE usuario SET carnet = ?, nombre = ?, correo = ?, contraseña = ?, facultad = ?,"
-                          + " carrera = ?, sede = ?, biografia = ?, telefono = ? WHERE idUsuario = ?";
+                    + " carrera = ?, sede = ?, biografia = ?, telefono = ? WHERE idUsuario = ?";
             PreparedStatement stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, usuario.getCarnet());
             stmt.setString(2, usuario.getNombre());
@@ -184,7 +185,7 @@ public class ServicioUsuario extends Servicio{
         }
         return true;
     }
-    
+
     public boolean eliminar(int id) {
 
         try {
@@ -206,5 +207,32 @@ public class ServicioUsuario extends Servicio{
         return true;
 
     }
-    
+
+    public boolean existeCorreo(String correo) {
+        String sql = "SELECT COUNT(*) FROM usuario WHERE correo = ?";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean existe = false;
+
+        try {
+            conectar(); // Asegúrate de que la conexión está establecida
+            Connection conn = getConexion();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, correo);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+
+        return existe;
+    }
+
 }

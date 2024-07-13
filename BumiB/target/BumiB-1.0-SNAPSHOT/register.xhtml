@@ -40,6 +40,7 @@
                 font-size: 16px;
                 width: 100%;
                 box-sizing: border-box;
+                margin-right: 240px;
             }
 
             .commandButtonWrapper {
@@ -47,6 +48,7 @@
                 justify-content: space-between;
                 margin-top: 1.5em;
             }
+            
         </style>
     </h:head>
     <h:body>
@@ -81,12 +83,12 @@
 
                     <div class="ui-float-label">
                         <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
-                                    validatorMessage="Contraseña no válida">
+                                    validatorMessage="Contraseña no válida" toggleMask="true" redisplay="true">
                             <f:validateLength minimum="8" />
                         </p:password>
                         <h:outputLabel for="clave" value="Contraseña" />
                     </div>
-
+                    
                     <div class="commandButtonWrapper">
                         <p:commandButton value="Regresar" actionListener="#{loginController.ingresarLogin()}" immediate="true" style="margin-right: auto;" />
                         <p:commandButton value="Registrarse" actionListener="#{registerController.verificarUsuario()}"
@@ -103,7 +105,6 @@
                             <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true"
                                          requiredMessage="Ingrese el código de verificación"/>
                             <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación" />
-                            
                         </div>
 
                         <div class="commandButtonWrapper">
@@ -113,6 +114,9 @@
                                              oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();"  />
                         </div>
                     </h:form>
+
+
+
                 </p:dialog>
             </div>
         </div>

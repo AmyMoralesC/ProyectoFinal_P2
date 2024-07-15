@@ -9,7 +9,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #00913f;
+    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -25,9 +25,9 @@ body {
 .menu-container {
     width: 250px;
     background-color: #F8F9FA;
-    padding: 0px;
+    padding: 0;
     position: sticky;
-    border-radius: 0px;
+    border-radius: 0;
     height: calc(100vh);
 }
 
@@ -35,15 +35,58 @@ body {
     flex: 1;
     overflow: auto;
     position: relative;
+    padding: 20px;
 }
 
 .card {
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 0px;
-    height: calc(100vh);
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
+/* Nuevos estilos para las publicaciones */
+.publication-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
 
+.publication-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
 
+.publication-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.publication-header .user {
+    font-weight: bold;
+    color: #333;
+}
+
+.publication-header .date {
+    font-size: 12px;
+    color: #999;
+}
+
+.publication-content {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.publication-footer {
+    text-align: right;
+    font-size: 12px;
+    color: #888;
+}

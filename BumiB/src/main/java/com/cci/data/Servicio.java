@@ -22,7 +22,7 @@ public class Servicio {
     private String puerto = "3306";
     private String sid = "bumib";
     private String usuario = "root";
-    private String clave = "123456";
+    private String clave = "vladimir746";
 
     public void conectar() throws ClassNotFoundException, SQLException {
 

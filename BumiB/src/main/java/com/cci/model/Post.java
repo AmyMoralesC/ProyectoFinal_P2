@@ -4,22 +4,32 @@
  */
 package com.cci.model;
 
-/**
- *
- * @author jared
- */
-public class Post {
+import java.util.Date;
 
-    private int Id;
+public class Post {
+    private int id;
     private String titulo;
     private String texto;
+    private Date fecha;
 
-    public int getId() {
-        return Id;
+   
+    public Post() {
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+  
+    public Post(int id, String titulo, String texto, Date fecha) {
+        this.id = id;
+        this.titulo = titulo;
+        this.texto = texto;
+        this.fecha = fecha;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -36,5 +46,24 @@ public class Post {
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    
+   
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", texto='" + texto + '\'' +
+                ", fecha=" + fecha +
+                '}';
     }
 }

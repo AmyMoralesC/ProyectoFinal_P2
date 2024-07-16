@@ -9,7 +9,10 @@ import com.cci.model.Usuario;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -26,6 +29,19 @@ public class LoginController implements Serializable {
 
     List<Usuario> listaUsuarioTO = new ArrayList<>();
     private Usuario usuario = new Usuario();
+    private Usuario selectedUsuario;
+
+    private boolean permisoActivo;
+    private boolean permisoSemiActivo;
+
+    public LoginController() {
+    }
+
+    public Boolean daPermiso() {
+
+        return true;
+
+    }
 
     public void ingresar() {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
@@ -33,15 +49,31 @@ public class LoginController implements Serializable {
         if (usuarioRetorno != null) {
             this.usuario = usuarioRetorno;
             this.listaUsuarioTO = servicioUsuario.buscarTodos();
+            String estado = this.usuario.getEstado();
+        switch (estado) {
+            case "Activo":
+                this.permisoActivo = true;
+                this.permisoSemiActivo = true;
+                break;
+            case "SemiActivo":
+                this.permisoActivo = false;
+                this.permisoSemiActivo = true;
+                break;
+            default:
+                this.permisoActivo = false;
+                this.permisoSemiActivo = false;
+                break;
+        }
             this.redireccionar("/paginaPrincipal.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campos inválidos", "La clave o correo no son correctos"));
         }
     }
-    
+
     public void ingresarRegistro() {
         this.redireccionar("/register.xhtml");
     }
+
     public void ingresarLogin() {
         this.redireccionar("/index.xhtml");
     }
@@ -53,6 +85,22 @@ public class LoginController implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + ruta);
         } catch (IOException e) {
         }
+    }
+
+    public void openNew() {
+
+    }
+
+    public void saveUser() {
+
+    }
+
+    public void deleteUser() {
+
+    }
+
+    public void editUser() {
+
     }
 
     public List<Usuario> getListaUsuarioTO() {
@@ -69,6 +117,30 @@ public class LoginController implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Usuario getSelectedUsuario() {
+        return selectedUsuario;
+    }
+
+    public void setSelectedUsuario(Usuario selectedUsuario) {
+        this.selectedUsuario = selectedUsuario;
+    }
+
+    public boolean isPermisoActivo() {
+        return permisoActivo;
+    }
+
+    public void setPermisoActivo(boolean permisoActivo) {
+        this.permisoActivo = permisoActivo;
+    }
+
+    public boolean isPermisoSemiActivo() {
+        return permisoSemiActivo;
+    }
+
+    public void setPermisoSemiActivo(boolean permisoSemiActivo) {
+        this.permisoSemiActivo = permisoSemiActivo;
     }
 
 }

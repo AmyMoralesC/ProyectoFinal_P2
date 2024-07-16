@@ -4,18 +4,18 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <h:head>
         <title>Buscar usuarios</title>
         <h:outputStylesheet library="css" name="style.css" />
     </h:head>
     <h:body>
-        
+
         <div class="container">
             <div class="menu-container">
-                <h:form>
+                <h:form id="menuForm">
                     <h5 class="mt-0" style="text-align: center;">BumiB</h5>
-                    <p:slideMenu style="border-radius: 0px; width:250px; border: none; background-color: #F8F9FA;">
+                    <p:slideMenu style="border-radius: 0px; width:250px; border: none; background-color: #F8F9FA">
                         <p:divider></p:divider>
                         <p:menuitem value="Perfil de usuario" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
                         <p:divider></p:divider>
@@ -30,39 +30,122 @@
                         </p:submenu>
                         <p:divider></p:divider>
                         <p:menuitem value="Inicio" url="paginaPrincipal.xhtml" icon="pi pi-fw pi-home"></p:menuitem>
-                        <p:divider></p:divider>
                     </p:slideMenu>
                 </h:form>
             </div>
-            <div class="content">
-                <div class="card">
-                    <h5 style="text-align: center; margin: 12px">Buscar usuario por nombre</h5>
-                    <p:divider/>
-                    <p:dataTable id="dt-usuario" var="usuario" value="#{menuController.listaUsuarioTO}"
-                             paginator="true" paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros">
-                    <f:facet name="header">
-                        <div class="products-table-header">
-                            <span style="font-weight: bold">Usuarios encontrados</span>
-                        </div>
-                    </f:facet>         
 
-                    <p:column headerText="Nombre" sortBy="#{usuario.nombre}" filterBy="#{usuario.nombre}" filterMatchMode="contains">
-                        <h:outputText value="#{usuario.nombre}" />
-                    </p:column>
+            <div class="card crud-demo">
+                <h:form id="form">
 
-                    <p:column headerText="Correo" sortBy="#{usuario.correo}" filterBy="#{usuario.correo}" filterMatchMode="contains">
-                        <h:outputText value="#{usuario.correo}" />
-                    </p:column>
+                    <p:growl id="messages" showDetail="true" />
 
-                    <p:column headerText="Carrera" sortBy="#{usuario.carrera}" filterBy="#{usuario.carrera}" filterMatchMode="contains">
-                        <h:outputText value="#{usuario.carrera}" />
-                    </p:column>
-                </p:dataTable>
-                </div>
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Nuevo" icon="pi pi-plus" actionListener="#{loginController.openNew}" disabled="#{!loginController.permisoActivo}"
+                                             update=":dialogs:manage-user-content" oncomplete="PF('manageUserDialog').show()"
+                                             styleClass="ui-button-success" style="margin-right: .5rem">
+                                <p:resetInput target=":dialogs:manage-user-content" />
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable id="dt-usuarios" var="usuario" value="#{loginController.listaUsuarioTO}"
+                                 paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                                 rowsPerPageTemplate="2,10,{ShowAll|'All'}" >
+
+                        <p:column headerText="Nombre" sortBy="#{usuario.nombre}" filterBy="#{usuario.nombre}" filterMatchMode="contains">
+                            <h:outputText value="#{usuario.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Carrera" sortBy="#{usuario.carrera}" filterBy="#{usuario.carrera}" filterMatchMode="contains">
+                            <h:outputText value="#{usuario.carrera}" />
+                        </p:column>
+
+                        <p:column headerText="Sede" sortBy="#{usuario.sede}" filterBy="#{usuario.sede}" filterMatchMode="contains">
+                            <h:outputText value="#{usuario.sede}" />
+                        </p:column>
+
+                        <p:column headerText="Rol de cuenta" sortBy="#{usuario.estado}" filterBy="#{usuario.estado}" filterMatchMode="contains">
+                            <h:outputText value="#{usuario.estado}" />
+                        </p:column>
+
+                        <p:column exportable="false" ariaHeaderText="Actions">
+                            <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-user-content" disabled="#{!loginController.permisoSemiActivo}"
+                                             oncomplete="PF('manageUserDialog').show()"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{usuario}" target="#{loginController.selectedUsuario}" />
+                                <p:resetInput target=":dialogs:manage-user-content" />
+                            </p:commandButton>
+
+                            <p:commandButton style="left: 10px" class="ui-button-warning rounded-button" icon="pi pi-trash" disabled="#{!loginController.permisoActivo}"
+                                             process="@this"
+                                             oncomplete="PF('deleteUserDialog').show()">
+                                <f:setPropertyActionListener value="#{usuario}" target="#{loginController.selectedUsuario}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+                <h:form id="dialogs">
+                    <p:dialog header="Datos del usuario" showEffect="fade" modal="true" widgetVar="manageUserDialog"
+                              responsive="true">
+                        <p:outputPanel id="manage-user-content" class="ui-fluid">
+
+                            <div class="field">
+                                <p:outputLabel for="name">Nombre</p:outputLabel>
+                                <p:inputText id="name" value="#{loginController.selectedUsuario.nombre}" required="true" requiredMessage="Nombre requerido"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="carrera">Carrera</p:outputLabel>
+                                <p:password id="carrera" value="#{loginController.selectedUsuario.carrera}" required="true" requiredMessage="Carrera requerido"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="sede">Sede</p:outputLabel>
+                                <p:inputText id="sede" value="#{loginController.selectedUsuario.sede}" required="true" requiredMessage="Sede requerido"/>
+                            </div>
+
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="estadoSelect" value="Rol de cuenta"/>
+                                <p:selectOneMenu id="estadoSelect" value="#{loginController.selectedUsuario.estado}" required="true" requiredMessage="Estado requerido">
+                                    <f:selectItem itemLabel="Seleccione un estado" itemValue=""/>
+                                    <f:selectItem itemLabel="Admin" itemValue="Activo"/>
+                                    <f:selectItem itemLabel="Asistente" itemValue="SemiActivo"/>
+                                    <f:selectItem itemLabel="Regular" itemValue="Inactivo"/>
+                                </p:selectOneMenu>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{loginController.saveUser()}"
+                                             update="manage-user-content" process="manage-user-content @this" />
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageUserDialog').hide()"
+                                             class="ui-button-secondary" type="button" />
+                            <p:commandButton value="Editar" icon="pi pi-pencil" actionListener="#{loginController.editUser}"
+                                             update="manage-user-content" process="manage-user-content @this" />                           
+                        </f:facet>
+
+                    </p:dialog>
+
+                    <p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300"
+                                     message="¿Desea eliminar a este usuario?" header="Confirmar" severity="warn">
+                        <p:commandButton value="Sí" icon="pi pi-check" actionListener="#{loginController.deleteUser()}"
+                                         process="@this"
+                                         oncomplete="PF('deleteUserDialog').hide()" />
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                         onclick="PF('deleteUserDialog').hide()" />
+                    </p:confirmDialog>
+
+                </h:form>
+
             </div>
+
         </div>
-        
+
+
+
     </h:body>
 </html>

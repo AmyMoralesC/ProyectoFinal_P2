@@ -1,11 +1,124 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Perfil de Usuario</title>
+        <h:outputStylesheet library="css" name="style.css" />
     </h:head>
     <h:body>
-        Hello from Facelets
+        <div class="container">
+            <div class="menu-container">
+                <h:form id="menuForm">
+                    <h5 class="mt-0" style="text-align: center;">BumiB</h5>
+                    <p:slideMenu style="border-radius: 0px; width:250px; border: none; background-color: #F8F9FA">
+                        <p:menuitem value="Inicio" url="paginaPrincipal.xhtml" icon="pi pi-fw pi-globe"></p:menuitem>
+                        <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
+                        <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
+                        <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
+                        <p:submenu label="Comunidades">
+                            <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                            <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                            <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                        </p:submenu>
+                        <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
+                    </p:slideMenu>
+                </h:form>
+            </div>
+            <div class="content">
+                <h:form id="perfilForm">
+                    <p:growl id="growl" life="3000" showDetail="false"/>
+                    <div class="profile-header">
+                        <div class="profile-card">
+                            <div class="profile-info">
+                                <h:graphicImage library="images" name="profile.jpg" class="profile-photo"/>
+                                <div class="profile-details">
+                                    <h3>#{perfilController.nombreUsuario}</h3>
+                                    <h4>#{not empty perfilController.usuario.sede ? perfilController.usuario.sede : ''}</h4>
+                                    <h4>#{not empty perfilController.usuario.carrera ? perfilController.usuario.carrera : ''}</h4>
+                                    <h4>#{not empty perfilController.usuario.biografia ? perfilController.usuario.biografia : ''}</h4>
+                                </div>
+                            </div>
+                            <p:commandButton value="Editar perfil" icon="pi pi-pencil" onclick="PF('dlgEditarPerfil').show()" process="@this"/>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <!-- Modal para editar perfil -->
+        <p:dialog header="Editar Perfil" widgetVar="dlgEditarPerfil" modal="true" width="400" draggable="false">
+            <h:form id="editarPerfilForm">
+                <p:growl id="growl" life="3000" showDetail="false"/>
+
+                <!-- Campo Nombre -->
+                <div class="ui-float-label">
+                    <p:inputText id="nombre" value="#{perfilController.usuario.nombre}" required="true" label="Nombre" autocomplete="off"
+                                 requiredMessage="Introduce tu nombre" validatorMessage="Nombre no válido" style=" width: 100%;">
+                        <f:validateLength minimum="2" maximum="50" />
+                    </p:inputText>
+                    <h:outputLabel for="nombre" value="Nombre" />
+                </div>
+
+                <!-- Campo Sede -->
+                <div class="ui-float-label">
+                    <p:selectOneMenu id="sede" value="#{perfilController.usuario.sede}" required="false" label="Sede"
+                                     requiredMessage="Introduce tu sede" style="width: 100%;" >
+                        <f:selectItem itemLabel="" itemValue="" />
+                        <f:selectItem itemLabel="San Pedro" itemValue="San Pedro"/>
+                        <f:selectItem itemLabel="Heredia" itemValue="Heredia"/>
+                        <f:selectItem itemLabel="Cañas" itemValue="Cañas"/>    
+                        <f:selectItem itemLabel="Santa Cruz" itemValue="Santa Cruz"/> 
+                        <f:selectItem itemLabel="Grecia" itemValue="Grecia"/> 
+                        <f:selectItem itemLabel="Pérez Zeledón" itemValue="Pérez Zeledón"/> 
+                        <f:selectItem itemLabel="Guápiles" itemValue="Guápiles"/>  
+                    </p:selectOneMenu>
+                    <h:outputLabel for="sede" value="Sede" />
+                </div>
+
+                <!-- Campo Facultad -->
+                <div class="ui-float-label">
+                    <p:selectOneMenu id="facultad" value="#{perfilController.usuario.facultad}" required="false" label="Facultad"
+                                     requiredMessage="Introduce tu facultad" style="width: 100%;" >
+                        <f:selectItem itemLabel="" itemValue="" />
+                        <f:selectItem itemLabel="Ingeniería" itemValue="Ingeniería"/>
+                        <f:selectItem itemLabel="Ciencias de la Salud" itemValue="Ciencias de la Salud"/>
+                        <f:selectItem itemLabel="Ciencias Empresariales" itemValue="Ciencias Empresariales"/>   
+                        <f:selectItem itemLabel="Arte, Diseño y Comunicación" itemValue="Arte, Diseño y Comunicación"/>   
+                        <f:selectItem itemLabel="Ciencias Sociales" itemValue="Ciencias Sociales"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel for="facultad" value="Facultad" />
+
+                </div>
+
+                <!-- Campo Carrera -->
+                <div class="ui-float-label">
+                    <p:inputText id="carrera" value="#{perfilController.usuario.carrera}" required="false" label="Carrera"
+                                 requiredMessage="Introduce tu carrera" validatorMessage="Carrera no válida" style="width: 100%;" autocomplete="off">
+                        <f:validateLength maximum="50" />
+                    </p:inputText>
+                    <h:outputLabel for="carrera" value="Carrera" />
+                </div>
+
+                <!-- Campo Biografía -->
+                <div class="ui-float-label">
+                    <p:inputTextarea id="biografia" value="#{perfilController.usuario.biografia}" rows="5" cols="40"
+                                     required="false" label="Biografía" style=" width: 100%;" maxlength="150"/>
+                    <h:outputLabel id="display" class="block" for="biografia" value="Biografía" />
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="commandButtonWrapper">
+                    <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil}"
+                                     update=":editarPerfilForm:growl"
+                                     oncomplete="if (!args.validationFailed) {PF('dlgEditarPerfil').hide();}" 
+                                     style="margin-left: auto;" />
+                </div>
+            </h:form>
+        </p:dialog>
+
     </h:body>
 </html>

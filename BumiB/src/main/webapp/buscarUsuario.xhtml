@@ -16,20 +16,17 @@
                 <h:form id="menuForm">
                     <h5 class="mt-0" style="text-align: center;">BumiB</h5>
                     <p:slideMenu style="border-radius: 0px; width:250px; border: none; background-color: #F8F9FA">
-                        <p:divider></p:divider>
-                        <p:menuitem value="Perfil de usuario" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
-                        <p:divider></p:divider>
+                        <p:menuitem value="Inicio" url="paginaPrincipal.xhtml" icon="pi pi-fw pi-globe"></p:menuitem>
+                        <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
+                        <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
+                        <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
                         <p:submenu label="Comunidades">
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                         </p:submenu>
-                        <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
-                        <p:menuitem value="Buscar usuario" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
-                        <p:submenu label="Notificaciones">
-                        </p:submenu>
-                        <p:divider></p:divider>
-                        <p:menuitem value="Inicio" url="paginaPrincipal.xhtml" icon="pi pi-fw pi-home"></p:menuitem>
+                        
+                        <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
                     </p:slideMenu>
                 </h:form>
             </div>

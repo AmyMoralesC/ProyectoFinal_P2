@@ -58,7 +58,7 @@
 
                     <div class="ui-float-label">
                         <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" label="Carnet" requiredMessage="Introduce un carnet"
-                                     validatorMessage="Carnet no válido">
+                                     validatorMessage="Carnet no válido" autocomplete="off">
                             <f:validateLength minimum="11" maximum="11" />
                         </p:inputText>
                         <h:outputLabel for="carnet" value="Carnet" />
@@ -66,14 +66,15 @@
 
                     <div class="ui-float-label">
                         <p:inputText id="nombre" value="#{registerController.usuario.nombre}" required="true" label="Nombre" requiredMessage="Introduce tu nombre"
-                                     validatorMessage="Nombre no válido">
+                                     validatorMessage="Nombre no válido" autocomplete="off">
                             <f:validateLength minimum="2" maximum="50" />
                         </p:inputText>
                         <h:outputLabel for="nombre" value="Nombre" />
                     </div>
 
                     <div class="ui-float-label">
-                        <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo">
+                        <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo"
+                                     autocomplete="off">
                             <f:validator validatorId="emailValidator" />
                         </p:inputText>
                         <h:outputLabel for="correo" value="Correo" />
@@ -81,7 +82,7 @@
 
                     <div class="ui-float-label">
                         <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
-                                    validatorMessage="Contraseña no válida">
+                                    validatorMessage="Contraseña no válida" autocomplete="off">
                             <f:validateLength minimum="8" />
                         </p:password>
                         <h:outputLabel for="clave" value="Contraseña" />
@@ -111,7 +112,7 @@
                     <h:form id="modalForm">
                         <div class="ui-float-label">
                             <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true"
-                                         requiredMessage="Ingrese el código de verificación"/>
+                                         requiredMessage="Ingrese el código de verificación" autocomplete="off"/>
                             <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación" />
 
                         </div>

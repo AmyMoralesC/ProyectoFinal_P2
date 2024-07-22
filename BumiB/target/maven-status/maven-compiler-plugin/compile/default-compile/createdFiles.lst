@@ -1,6 +1,7 @@
 com\cci\controller\EmailValidator.class
 com\cci\bumib\JakartaRestConfiguration.class
 com\cci\data\ServicioPost.class
+com\cci\controller\PerfilController.class
 com\cci\controller\EmailSender.class
 com\cci\data\ServicioUsuario.class
 com\cci\bumib\resources\JakartaEE8Resource.class

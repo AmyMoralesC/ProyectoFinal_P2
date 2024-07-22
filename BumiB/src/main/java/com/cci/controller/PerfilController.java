@@ -54,7 +54,19 @@ public class PerfilController implements Serializable {
     }
 
     public String getNombreUsuario() {
-        return usuario != null ? usuario.getNombre() : "Usuario no conectado";
+        return loginController.getUsuario() != null ? loginController.getUsuario().getNombre() : "Usuario no conectado";
+    }
+    
+    public String getSedeUsuario() {
+        return loginController.getUsuario() != null ? loginController.getUsuario().getSede() : "Sede no encontrada";
+    }
+    
+    public String getCarreraUsuario() {
+        return loginController.getUsuario() != null ? loginController.getUsuario().getCarrera(): "Sede no encontrada";
+    }
+    
+    public String getBiografiaUsuario() {
+        return loginController.getUsuario() != null ? loginController.getUsuario().getBiografia(): "Sede no encontrada";
     }
 
     public void guardarPerfil() {

@@ -37,9 +37,9 @@
                                 <h:graphicImage library="images" name="profile.jpg" class="profile-photo"/>
                                 <div class="profile-details">
                                     <h3>#{perfilController.nombreUsuario}</h3>
-                                    <h4>#{not empty perfilController.usuario.sede ? perfilController.usuario.sede : ''}</h4>
-                                    <h4>#{not empty perfilController.usuario.carrera ? perfilController.usuario.carrera : ''}</h4>
-                                    <h4>#{not empty perfilController.usuario.biografia ? perfilController.usuario.biografia : ''}</h4>
+                                    <h4>#{not empty perfilController.sedeUsuario ? perfilController.sedeUsuario : ''}</h4>
+                                    <h4>#{not empty perfilController.carreraUsuario ? perfilController.carreraUsuario : ''}</h4>
+                                    <h4>#{not empty perfilController.biografiaUsuario ? perfilController.biografiaUsuario : ''}</h4>
                                 </div>
                             </div>
                             <p:commandButton value="Editar perfil" icon="pi pi-pencil" onclick="PF('dlgEditarPerfil').show()" process="@this"/>

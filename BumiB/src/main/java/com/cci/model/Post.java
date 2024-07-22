@@ -4,24 +4,26 @@
  */
 package com.cci.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Post {
+public class Post implements Serializable {
     private int id;
     private String titulo;
     private String texto;
     private Date fecha;
+    private int notifi;
 
-   
-    public Post() {
-    }
-
-  
-    public Post(int id, String titulo, String texto, Date fecha) {
+    public Post(int id, String titulo, String texto, Date fecha, int notifi) {
         this.id = id;
         this.titulo = titulo;
         this.texto = texto;
         this.fecha = fecha;
+        this.notifi = notifi;
+    }
+
+   
+    public Post() {
     }
 
     public int getId() {
@@ -54,6 +56,14 @@ public class Post {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public int getNotifi() {
+        return notifi;
+    }
+
+    public void setNotifi(int notifi) {
+        this.notifi = notifi;
     }
     
    

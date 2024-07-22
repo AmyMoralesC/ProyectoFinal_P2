@@ -22,11 +22,12 @@ public class ServicioPost extends Servicio {
 
         try {
             conectar();
-            String sql = "INSERT INTO mensajes (titulo, texto, fecha) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO mensajes (titulo, texto, fecha, notificacion) VALUES (?, ?, ?, ?)";
             stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, post.getTitulo());
             stmt.setString(2, post.getTexto());
             stmt.setTimestamp(3, new java.sql.Timestamp(post.getFecha().getTime()));
+            stmt.setInt(4, post.getNotifi());
             int rows = stmt.executeUpdate();
             exito = (rows == 1);
         } catch (SQLException | ClassNotFoundException e) {

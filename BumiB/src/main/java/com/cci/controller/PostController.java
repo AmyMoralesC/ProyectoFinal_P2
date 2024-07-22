@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -32,14 +33,18 @@ public class PostController implements Serializable {
     public void crearPost() {
         post.setFecha(new Date());
         post.setTexto(nuevoTexto);
+        post.setNotifi(0);
         boolean exito = servicioPost.crearPost(post);
         if (exito) {
             posts.add(post);
             post = new Post();
             nuevoTexto = "";
+            post.setNotifi(1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación creada exitosamente"));
+            
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo crear la publicación"));
+            
         }
     }
 

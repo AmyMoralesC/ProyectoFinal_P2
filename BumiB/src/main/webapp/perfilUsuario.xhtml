@@ -45,6 +45,33 @@
                             <p:commandButton value="Editar perfil" icon="pi pi-pencil" onclick="PF('dlgEditarPerfil').show()" process="@this"/>
                         </div>
                     </div>
+
+                    <!-- Tabla de seguidores -->
+                    <div class="seguidores-section">
+                        <h3>Seguidores</h3>
+                        <p:dataTable value="#{perfilController.seguidores}" var="seguidor" id="seguidoresTable">
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{seguidor.nombre}" />
+                            </p:column>
+                            <p:column headerText="Sede">
+                                <h:outputText value="#{seguidor.sede}" />
+                            </p:column>
+                            <p:column headerText="Correo">
+                                <h:outputText value="#{seguidor.correo}" />
+                            </p:column>
+                            <p:column>
+                                
+                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                                 process="@this"
+                                                 actionListener="#{perfilController.eliminarUsuario()}"
+                                                 update=":perfilForm:growl, :perfilForm:seguidoresTable"
+                                                 oncomplete="PF('deleteUserDialog').show()">
+                                    <f:setPropertyActionListener value="#{seguidor}" target="#{perfilController.selectedUsuario}" />
+                                </p:commandButton>
+
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                 </h:form>
             </div>
         </div>
@@ -119,6 +146,18 @@
                 </div>
             </h:form>
         </p:dialog>
+
+        <!-- Diálogo de confirmación para eliminar seguidor -->
+        <h:form>
+            <p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300"
+                             message="¿Desea eliminar a este usuario?" header="Confirmar" severity="warn">
+                <p:commandButton value="Sí" icon="pi pi-check" actionListener="#{perfilController.eliminarUsuario()}"
+                                 process="@this"
+                                 oncomplete="PF('deleteUserDialog').hide()" />
+                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteUserDialog').hide()" />
+            </p:confirmDialog>
+        </h:form>
 
     </h:body>
 </html>

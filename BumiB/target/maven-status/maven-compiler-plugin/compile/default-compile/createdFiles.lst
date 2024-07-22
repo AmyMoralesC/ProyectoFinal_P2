@@ -1,4 +1,5 @@
 com\cci\controller\EmailValidator.class
+com\cci\controller\BandejaController.class
 com\cci\bumib\JakartaRestConfiguration.class
 com\cci\data\ServicioPost.class
 com\cci\controller\PerfilController.class
@@ -13,3 +14,5 @@ com\cci\controller\EmailSender$1.class
 com\cci\controller\PostController.class
 com\cci\model\Post.class
 com\cci\model\Usuario.class
+com\cci\data\ServicioNotificacion.class
+com\cci\model\Notificacion.class

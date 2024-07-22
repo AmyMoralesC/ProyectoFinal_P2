@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -33,6 +34,8 @@ public class LoginController implements Serializable {
 
     private boolean permisoActivo;
     private boolean permisoSemiActivo;
+
+    private int seguidorId;
 
     public LoginController() {
     }
@@ -50,24 +53,43 @@ public class LoginController implements Serializable {
             this.usuario = usuarioRetorno;
             this.listaUsuarioTO = servicioUsuario.buscarTodos();
             String estado = this.usuario.getEstado();
-        switch (estado) {
-            case "Activo":
-                this.permisoActivo = true;
-                this.permisoSemiActivo = true;
-                break;
-            case "SemiActivo":
-                this.permisoActivo = false;
-                this.permisoSemiActivo = true;
-                break;
-            default:
-                this.permisoActivo = false;
-                this.permisoSemiActivo = false;
-                break;
-        }
+            switch (estado) {
+                case "Activo":
+                    this.permisoActivo = true;
+                    this.permisoSemiActivo = true;
+                    break;
+                case "SemiActivo":
+                    this.permisoActivo = false;
+                    this.permisoSemiActivo = true;
+                    break;
+                default:
+                    this.permisoActivo = false;
+                    this.permisoSemiActivo = false;
+                    break;
+            }
             this.redireccionar("/paginaPrincipal.xhtml");
         } else {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campos inválidos", "La clave o correo no son correctos"));
         }
+    }
+
+    public void followUser() {
+
+        ServicioUsuario servicioUsuario = new ServicioUsuario();
+        int seguidoId = this.selectedUsuario.getId(); // ID del usuario que está siendo seguido
+        // `seguidorId` debe ser el ID del usuario actual logueado
+        int seguidorId = this.usuario.getId();
+
+        if (!servicioUsuario.seguirUsuario(seguidorId, seguidoId)) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se logró seguir al usuario", "No se logró seguir al usuario"));
+        } else {
+            // Actualiza la lista y mensajes
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario seguido"));
+        }
+
+        PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-usuarios");
+
     }
 
     public void ingresarRegistro() {
@@ -141,6 +163,14 @@ public class LoginController implements Serializable {
 
     public void setPermisoSemiActivo(boolean permisoSemiActivo) {
         this.permisoSemiActivo = permisoSemiActivo;
+    }
+
+    public int getSeguidorId() {
+        return seguidorId;
+    }
+
+    public void setSeguidorId(int seguidorId) {
+        this.seguidorId = seguidorId;
     }
 
 }

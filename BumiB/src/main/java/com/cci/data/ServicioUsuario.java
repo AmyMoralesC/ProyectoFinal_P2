@@ -228,7 +228,7 @@ public class ServicioUsuario extends Servicio {
 
             if (rs.next()) {
                 existe = rs.getInt(1) > 0;
-}
+            }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -240,4 +240,71 @@ public class ServicioUsuario extends Servicio {
         return existe;
     }
 
+    //Para seguir a un usuario
+    public boolean seguirUsuario(int seguidorId, int seguidoId) {
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        try {
+            con = getConexion();
+            String sql = "INSERT INTO seguidores (usuario_id, seguidor_id) VALUES (?, ?)";
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, seguidoId);
+            stmt.setInt(2, seguidorId);
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            // Si se insertaron filas, la operación fue exitosa
+            return filasAfectadas > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrarStatement(stmt);
+            desconectar();
+        }
+    }
+
+    // Método para obtener la lista de seguidores de un usuario
+    public List<Usuario> obtenerSeguidores(int usuarioId) {
+        List<Usuario> seguidores = new ArrayList<>();
+        String sql = "SELECT u.idusuario, u.nombre, u.sede, u.correo FROM seguidores s JOIN usuario u ON s.seguidor_id = u.idusuario WHERE s.usuario_id = ?";
+
+        try (Connection conn = this.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, usuarioId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Usuario seguidor = new Usuario();
+                    seguidor.setId(rs.getInt("idusuario"));
+                    seguidor.setNombre(rs.getString("nombre"));
+                    seguidor.setSede(rs.getString("sede"));
+                    seguidor.setCorreo(rs.getString("correo"));
+                    seguidores.add(seguidor);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return seguidores;
+    }
+
+    public boolean eliminarSeguidor(int usuarioId, int seguidorId) {
+        try {
+            conectar();
+            String sql = "DELETE FROM seguidores WHERE usuario_id = ? AND seguidor_id = ?";
+            PreparedStatement stmt = getConexion().prepareStatement(sql);
+            stmt.setInt(1, usuarioId);
+            stmt.setInt(2, seguidorId);
+            int cantidad = stmt.executeUpdate();
+            return cantidad > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            desconectar();
+        }
+
+    }
 }

@@ -20,8 +20,7 @@
                         <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
                         <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
                         <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
-                        <p:menuitem value="Bandeja de Entrada" url="bandejaDeEntrada.xhtml" icon="pi pi-fw pi-bell"></p:menuitem>
-                        <p:submenu label="Comunidades">
+                        <p:menuitem value="Submuros" url="submuros.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>                        <p:submenu label="Comunidades">
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
@@ -35,7 +34,6 @@
                 <h:form id="postForm">
                     <p:inputTextarea id="nuevoTexto" value="#{postController.nuevoTexto}" rows="6" cols="50" placeholder="Escribe tu publicación aquí..." />
                     <p:commandButton value="Publicar" action="#{postController.crearPost}" update=":postForm :postListForm" />
-                    #{bandejaController.crearNotificacionMensaje()}
                 </h:form>
 
                 <h:form id="postListForm">
@@ -43,7 +41,7 @@
                         <div class="publication-card">
                             <div class="publication-header">
                                 <span class="user">Publicado por Usuario</span>
-                                <span class="date">#{post.fecha}</span>
+                                <span class="date">#{postController.formatDate(post.fecha)}</span>
                             </div>
                             <div class="publication-content">
                                 #{post.texto}

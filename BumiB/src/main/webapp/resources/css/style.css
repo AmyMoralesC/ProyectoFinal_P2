@@ -38,8 +38,9 @@ body {
     flex: 1;
     overflow: auto;
     position: relative;
-    margin-left: 100px;
+    margin-left: 250px;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .card {
@@ -57,6 +58,9 @@ body {
     margin-bottom: 20px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* Asegura que el contenido no se desborde */
 }
 
 .publication-card:hover {
@@ -85,6 +89,8 @@ body {
     line-height: 1.5;
     color: #555;
     margin-bottom: 15px;
+    word-wrap: break-word; /* Ajusta el texto para que no se desborde */
+    white-space: normal; /* Permite que el texto se ajuste en varias líneas */
 }
 
 .publication-footer {
@@ -97,13 +103,11 @@ body {
     margin-top: 20px;
 }
 
-
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-
 }
 
 .profile-card {

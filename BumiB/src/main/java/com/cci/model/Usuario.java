@@ -24,11 +24,12 @@ public class Usuario implements Serializable {
     private String biografia;
     private String telefono;
     private String estado;
+    private String fotoPerfil;
 
     public Usuario() {
     }
 
-    public Usuario(int id, String carnet, String nombre, String correo, String clave, String facultad, String carrera, String sede, String biografia, String telefono, String estado) {
+    public Usuario(int id, String carnet, String nombre, String correo, String clave, String facultad, String carrera, String sede, String biografia, String telefono, String estado, String foto) {
         this.id = id;
         this.carnet = carnet;
         this.nombre = nombre;
@@ -40,6 +41,7 @@ public class Usuario implements Serializable {
         this.biografia = biografia;
         this.telefono = telefono;
         this.estado = estado;
+        this.fotoPerfil = foto;
     }
 
     public int getId() {
@@ -129,6 +131,14 @@ public class Usuario implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
 
     @Override
     public int hashCode() {
@@ -144,6 +154,7 @@ public class Usuario implements Serializable {
         hash = 79 * hash + Objects.hashCode(this.biografia);
         hash = 79 * hash + Objects.hashCode(this.telefono);
         hash = 79 * hash + Objects.hashCode(this.estado);
+        hash = 79 * hash + Objects.hashCode(this.fotoPerfil);
         return hash;
     }
 
@@ -187,6 +198,9 @@ public class Usuario implements Serializable {
             return false;
         }
         if (!Objects.equals(this.telefono, other.telefono)) {
+            return false;
+        }
+        if (!Objects.equals(this.fotoPerfil, other.fotoPerfil)) {
             return false;
         }
         return Objects.equals(this.estado, other.estado);

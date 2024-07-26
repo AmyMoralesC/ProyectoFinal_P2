@@ -58,7 +58,7 @@
 
                     <div class="ui-float-label">
                         <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" label="Carnet" requiredMessage="Introduce un carnet"
-                                     validatorMessage="Carnet no válido" autocomplete="off">
+                                     validatorMessage="Carnet no válido" autocomplete="off" maxlength="11">
                             <f:validateLength minimum="11" maximum="11" />
                         </p:inputText>
                         <h:outputLabel for="carnet" value="Carnet" />
@@ -82,7 +82,7 @@
 
                     <div class="ui-float-label">
                         <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
-                                    validatorMessage="Contraseña no válida" autocomplete="off">
+                                    validatorMessage="Contraseña no válida" autocomplete="off" >
                             <f:validateLength minimum="8" />
                         </p:password>
                         <h:outputLabel for="clave" value="Contraseña" />

@@ -25,7 +25,7 @@ public class ServicioUsuario extends Servicio {
 
         try {
             conectar();
-            String sql = "SELECT idUsuario, carnet, nombre, correo, contraseña, facultad, carrera, sede, biografia, telefono, estado FROM usuario";
+            String sql = "SELECT idUsuario, carnet, nombre, correo, contraseña, facultad, carrera, sede, biografia, telefono, estado, fotoperfil FROM usuario";
             stmt = getConexion().prepareStatement(sql);
             rs = stmt.executeQuery(sql);
 
@@ -41,9 +41,11 @@ public class ServicioUsuario extends Servicio {
                 String biografia = rs.getString("biografia");
                 String telefono = rs.getString("telefono");
                 String estado = rs.getString("estado");
+                String fotoPerfil = rs.getString("fotoperfil");
+
                 System.out.println("id: " + id + " carnet: " + carnet + " nombre: " + nombre + " correo: " + correo + "clave: "
                         + clave + "Facultad: " + facultad + "Carrera: " + carrera + "Sede: " + sede + "Biografia: "
-                        + biografia + "Telefono: " + telefono + "Estado: " + estado);
+                        + biografia + "Telefono: " + telefono + "Estado: " + estado + "FotoPerfil:" + fotoPerfil);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +80,8 @@ public class ServicioUsuario extends Servicio {
                 String biografia = rs.getString("biografia");
                 String telefono = rs.getString("telefono");
                 String estado = rs.getString("estado");
-                Usuario objUsuario = new Usuario(id, carnet, nombre, correo, clave, facultad, carrera, sede, biografia, telefono, estado);
+                String fotoPerfil = rs.getString("fotoperfil");
+                Usuario objUsuario = new Usuario(id, carnet, nombre, correo, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
                 listaRetorno.add(objUsuario);
             }
         } catch (Exception e) {
@@ -117,7 +120,8 @@ public class ServicioUsuario extends Servicio {
                 String biografia = rs.getString("biografia");
                 String telefono = rs.getString("telefono");
                 String estado = rs.getString("estado");
-                usuario = new Usuario(id, carnet, nombre, corre, clave, facultad, carrera, sede, biografia, telefono, estado);
+                String fotoPerfil = rs.getString("fotoperfil");
+                usuario = new Usuario(id, carnet, nombre, corre, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +138,7 @@ public class ServicioUsuario extends Servicio {
 
         try {
             conectar();
-            String sql = "INSERT INTO usuario (idUsuario, carnet, nombre, correo, contraseña, facultad, carrera, sede, biografia, telefono, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO usuario (idUsuario, carnet, nombre, correo, contraseña, facultad, carrera, sede, biografia, telefono, estado, fotoperfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = getConexion().prepareStatement(sql);
             stmt.setInt(1, usuario.getId());
             stmt.setString(2, usuario.getCarnet());
@@ -147,6 +151,7 @@ public class ServicioUsuario extends Servicio {
             stmt.setString(9, usuario.getBiografia());
             stmt.setString(10, usuario.getTelefono());
             stmt.setString(11, usuario.getEstado());
+            stmt.setString(12, usuario.getFotoPerfil());
             int cantidad = stmt.executeUpdate();
 
             if (cantidad == 0) {
@@ -165,7 +170,7 @@ public class ServicioUsuario extends Servicio {
         try {
             conectar();
             String sql = "UPDATE usuario SET carnet = ?, nombre = ?, correo = ?, contraseña = ?, facultad = ?,"
-                    + " carrera = ?, sede = ?, biografia = ?, telefono = ?, estado = ? WHERE idUsuario = ?";
+                    + " carrera = ?, sede = ?, biografia = ?, telefono = ?, estado = ?, fotoperfil = ? WHERE idUsuario = ?";
             PreparedStatement stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, usuario.getCarnet());
             stmt.setString(2, usuario.getNombre());
@@ -177,7 +182,8 @@ public class ServicioUsuario extends Servicio {
             stmt.setString(8, usuario.getBiografia());
             stmt.setString(9, usuario.getTelefono());
             stmt.setString(10, usuario.getEstado());
-            stmt.setInt(11, usuario.getId());
+            stmt.setString(11, usuario.getFotoPerfil());
+            stmt.setInt(12, usuario.getId());
             int cantidad = stmt.executeUpdate();
 
             if (cantidad == 0) {
@@ -305,6 +311,20 @@ public class ServicioUsuario extends Servicio {
         } finally {
             desconectar();
         }
-
     }
+
+    public int contarSeguidores(int idUsuario) {
+        String sql = "SELECT COUNT(*) FROM seguidores WHERE usuario_id = ?";
+        try (Connection conn = getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

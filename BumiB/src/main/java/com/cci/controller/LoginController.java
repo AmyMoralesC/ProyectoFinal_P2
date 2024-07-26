@@ -41,9 +41,7 @@ public class LoginController implements Serializable {
     }
 
     public Boolean daPermiso() {
-
         return true;
-
     }
 
     public void ingresar() {
@@ -79,7 +77,7 @@ public class LoginController implements Serializable {
         int seguidoId = this.selectedUsuario.getId(); // ID del usuario que está siendo seguido
         // `seguidorId` debe ser el ID del usuario actual logueado
         int seguidorId = this.usuario.getId();
-
+        
         if (!servicioUsuario.seguirUsuario(seguidorId, seguidoId)) {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se logró seguir al usuario", "No se logró seguir al usuario"));
         } else {
@@ -106,6 +104,17 @@ public class LoginController implements Serializable {
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + ruta);
         } catch (IOException e) {
+        }
+    }
+
+    public void logout() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        try {
+            facesContext.getExternalContext().invalidateSession();
+            facesContext.getExternalContext().redirect(request.getContextPath() + "/index.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

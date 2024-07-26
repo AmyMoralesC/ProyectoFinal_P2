@@ -86,6 +86,7 @@ public class RegisterController implements Serializable {
             if (isInserted) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Registro exitoso", "El usuario ha sido registrado correctamente."));
+                usuario = new Usuario();
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                         "Error en el registro", "No se pudo registrar el usuario. Inténtalo de nuevo."));

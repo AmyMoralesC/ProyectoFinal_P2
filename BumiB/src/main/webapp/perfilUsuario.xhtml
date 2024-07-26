@@ -19,12 +19,14 @@
                         <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
                         <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
                         <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
+                        <p:menuitem value="Submuros" url="submuros.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
                         <p:submenu label="Comunidades">
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                         </p:submenu>
                         <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
+                        <p:menuitem value="Cerrar sesión" onclick="PF('confirmLogout').show()" icon="pi pi-fw pi-power-off"></p:menuitem>
                     </p:slideMenu>
                 </h:form>
             </div>
@@ -34,12 +36,14 @@
                     <div class="profile-header">
                         <div class="profile-card">
                             <div class="profile-info">
-                                <h:graphicImage library="images" name="profile.jpg" class="profile-photo"/>
+                                <h:graphicImage value="#{perfilController.rutaFotoPerfil}" class="profile-photo"/>
                                 <div class="profile-details">
                                     <h3>#{perfilController.nombreUsuario}</h3>
                                     <h4>#{not empty perfilController.sedeUsuario ? perfilController.sedeUsuario : ''}</h4>
+                                    <h4>#{not empty perfilController.facultadUsuario ? perfilController.facultadUsuario : ''}</h4>
                                     <h4>#{not empty perfilController.carreraUsuario ? perfilController.carreraUsuario : ''}</h4>
-                                    <h4>#{not empty perfilController.biografiaUsuario ? perfilController.biografiaUsuario : ''}</h4>
+                                    <p>#{not empty perfilController.biografiaUsuario ? perfilController.biografiaUsuario : ''}</p>
+                                    <p>Seguidores #{perfilController.cantidadSeguidores}</p>
                                 </div>
                             </div>
                             <p:commandButton value="Editar perfil" icon="pi pi-pencil" onclick="PF('dlgEditarPerfil').show()" process="@this"/>
@@ -60,7 +64,6 @@
                                 <h:outputText value="#{seguidor.correo}" />
                             </p:column>
                             <p:column>
-                                
                                 <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
                                                  process="@this"
                                                  actionListener="#{perfilController.eliminarUsuario()}"
@@ -68,7 +71,6 @@
                                                  oncomplete="PF('deleteUserDialog').show()">
                                     <f:setPropertyActionListener value="#{seguidor}" target="#{perfilController.selectedUsuario}" />
                                 </p:commandButton>
-
                             </p:column>
                         </p:dataTable>
                     </div>
@@ -77,9 +79,19 @@
         </div>
 
         <!-- Modal para editar perfil -->
-        <p:dialog header="Editar Perfil" widgetVar="dlgEditarPerfil" modal="true" width="400" draggable="false">
+        <p:dialog header="Editar Perfil" widgetVar="dlgEditarPerfil" modal="true" width="400" draggable="false" style="border-radius: 10px">
             <h:form id="editarPerfilForm">
                 <p:growl id="growl" life="3000" showDetail="false"/>
+
+                <h:outputLabel for="fotoPerfil" value="Foto de Perfil"/>
+                <div>
+                    <p:fileUpload id="fotoPerfil" value="#{perfilController.file}" mode="simple" 
+                                  auto="true" skinSimple="true" 
+                                  allowTypes="/(\.|\/)(jpe?g|png)$/" 
+                                  invalidFileMessage="Solo se permiten archivos con extensión JPG, JPEG o PNG."
+                                  listener="#{perfilController.handleFileUpload}" 
+                                  update=":perfilForm:growl" style="margin-top: 10px;"/>
+                </div>
 
                 <!-- Campo Nombre -->
                 <div class="ui-float-label">
@@ -140,7 +152,7 @@
                 <!-- Botones de acción -->
                 <div class="commandButtonWrapper">
                     <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil}"
-                                     update=":editarPerfilForm:growl"
+                                     update=":perfilForm"
                                      oncomplete="if (!args.validationFailed) {PF('dlgEditarPerfil').hide();}" 
                                      style="margin-left: auto;" />
                 </div>
@@ -156,6 +168,13 @@
                                  oncomplete="PF('deleteUserDialog').hide()" />
                 <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                  onclick="PF('deleteUserDialog').hide()" />
+            </p:confirmDialog>
+        </h:form>
+
+        <h:form id="confirmLogoutForm">
+            <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">
+                <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@none" />
+                <p:commandButton value="No" onclick="PF('confirmLogout').hide()" type="button" />
             </p:confirmDialog>
         </h:form>
 

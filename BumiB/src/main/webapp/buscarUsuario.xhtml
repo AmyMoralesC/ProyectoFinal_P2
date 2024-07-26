@@ -20,13 +20,14 @@
                         <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
                         <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
                         <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
+                        <p:menuitem value="Submuros" url="submuros.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
                         <p:submenu label="Comunidades">
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                             <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
                         </p:submenu>
-
                         <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
+                        <p:menuitem value="Cerrar sesión" onclick="PF('confirmLogout').show()" icon="pi pi-fw pi-power-off"></p:menuitem>
                     </p:slideMenu>
                 </h:form>
             </div>
@@ -158,7 +159,12 @@
 
         </div>
 
-
+        <h:form id="confirmLogoutForm">
+            <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">
+                <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@none" />
+                <p:commandButton value="No" onclick="PF('confirmLogout').hide()" type="button" />
+            </p:confirmDialog>
+        </h:form>
 
     </h:body>
 </html>

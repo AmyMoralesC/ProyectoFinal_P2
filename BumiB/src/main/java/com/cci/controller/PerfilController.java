@@ -7,10 +7,16 @@ import javax.faces.bean.SessionScoped;
 import com.cci.model.Usuario;
 import com.cci.data.ServicioUsuario;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 @ManagedBean(name = "perfilController")
 @SessionScoped
@@ -24,15 +30,25 @@ public class PerfilController implements Serializable {
 
     private Usuario selectedUsuario;
 
+    private int cantidadSeguidores;
+
+    private UploadedFile file;
+
     public PerfilController() {
         servicioUsuario = new ServicioUsuario();
+    }
+
+    public UploadedFile getFile() {
+        return file;
     }
 
     public void init() {
         if (loginController != null && loginController.getUsuario() != null) {
             this.usuario = loginController.getUsuario();
+            this.cantidadSeguidores = servicioUsuario.contarSeguidores(usuario.getId());
         } else {
             this.usuario = new Usuario();
+            this.cantidadSeguidores = 0;
         }
     }
 
@@ -56,33 +72,34 @@ public class PerfilController implements Serializable {
     public String getNombreUsuario() {
         return loginController.getUsuario() != null ? loginController.getUsuario().getNombre() : "Usuario no conectado";
     }
-    
+
     public String getSedeUsuario() {
         return loginController.getUsuario() != null ? loginController.getUsuario().getSede() : "Sede no encontrada";
     }
     
-    public String getCarreraUsuario() {
-        return loginController.getUsuario() != null ? loginController.getUsuario().getCarrera(): "Sede no encontrada";
+    public String getFacultadUsuario() {
+        return loginController.getUsuario() != null ? loginController.getUsuario().getFacultad(): "Sede no encontrada";
     }
-    
+
+    public String getCarreraUsuario() {
+        return loginController.getUsuario() != null ? loginController.getUsuario().getCarrera() : "Sede no encontrada";
+    }
+
     public String getBiografiaUsuario() {
-        return loginController.getUsuario() != null ? loginController.getUsuario().getBiografia(): "Sede no encontrada";
+        return loginController.getUsuario() != null ? loginController.getUsuario().getBiografia() : "Sede no encontrada";
     }
 
     public void guardarPerfil() {
         if (usuario != null) {
             servicioUsuario.actualizar(usuario);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Perfil actualizado correctamente", ""));
-            // Actualiza la información del usuario en la sesión
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Perfil actualizado correctamente", ""));
             loginController.setUsuario(usuario);
         }
     }
 
-    // Método para obtener los seguidores del usuario
     public List<Usuario> getSeguidores() {
         if (usuario != null) {
-            return servicioUsuario.obtenerSeguidores(usuario.getId()); // Asegúrate de tener este método en tu ServicioUsuario
+            return servicioUsuario.obtenerSeguidores(usuario.getId());
         }
         return new ArrayList<>();
     }
@@ -92,12 +109,64 @@ public class PerfilController implements Serializable {
             boolean resultado = servicioUsuario.eliminarSeguidor(usuario.getId(), selectedUsuario.getId());
             if (resultado) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Seguidor eliminado correctamente", ""));
-                // Actualiza la lista de seguidores después de la eliminación
                 FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("perfilUsuario.xhtml");
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo eliminar el seguidor", ""));
             }
+        }
+    }
+
+    public void upload() {
+        if (file != null) {
+            try (InputStream input = file.getInputStream()) {
+                String fileName = usuario.getId() + "_" + file.getFileName();
+                String destination = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/uploads/") + fileName;
+                Files.copy(input, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+                usuario.setFotoPerfil(fileName);
+                guardarPerfil();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Foto subida correctamente"));
+            } catch (IOException e) {
+                e.printStackTrace();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al subir la foto", e.getMessage()));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione un archivo para subir", ""));
+        }
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        this.file = event.getFile();
+        if (file != null) {
+            try (InputStream input = file.getInputStream()) {
+                String fileName = usuario.getId() + "_" + file.getFileName();
+                String uploadsDir = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/uploads/");
+
+                // Verificar y crear directorio si no existe
+                if (uploadsDir != null) {
+                    Files.createDirectories(Paths.get(uploadsDir));
+                    String destination = uploadsDir + fileName;
+                    Files.copy(input, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+                    usuario.setFotoPerfil(fileName);
+                    guardarPerfil();
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Foto subida correctamente"));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al obtener la ruta de carga", ""));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al subir la foto", e.getMessage()));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione un archivo para subir", ""));
+        }
+    }
+
+    public String getRutaFotoPerfil() {
+        if (usuario != null && usuario.getFotoPerfil() != null) {
+            return "/resources/uploads/" + usuario.getFotoPerfil();
+        } else {
+            return "images/profile.jpg";
         }
     }
 
@@ -117,4 +186,15 @@ public class PerfilController implements Serializable {
         this.selectedUsuario = selectedUsuario;
     }
 
+    public int getCantidadSeguidores() {
+        return cantidadSeguidores;
+    }
+
+    public void setCantidadSeguidores(int cantidadSeguidores) {
+        this.cantidadSeguidores = cantidadSeguidores;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
 }

@@ -7,8 +7,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
-        <title>Página principal</title>
-        <h:outputStylesheet library="css" name="style.css" />
+        <title>Submuros</title>
+        <h:outputStylesheet library="css" name="SubMuros.css" />
     </h:head>
     <h:body>
         <div class="container">
@@ -27,23 +27,30 @@
                 </h:form>
             </div>
             <div class="content">
-                <h:form id="postForm">
-                    <p:inputTextarea id="nuevoTexto" value="#{postController.nuevoTexto}" rows="6" cols="50" placeholder="Escribe tu publicación aquí..." />
-                    <p:commandButton value="Publicar" action="#{postController.crearPost}" update=":postForm :postListForm" />
-                </h:form>
+                <h:form id="submurosForm">
+                    <h1>Submuros</h1>
+                    
+                    <p:dataTable var="submuro" value="#{subMuroController.subMurosList}" id="submurosTable">
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{submuro.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{submuro.descripcionCorta}"/>
+                        </p:column>
+                        <p:column headerText="Acciones">
+                            <p:commandButton value="Entrar" action="#{subMuroController.openDialog(submuro)}" update=":submurosForm:submuroDialog" oncomplete="PF('submuroDialog').show()"/>
+                        </p:column>
+                    </p:dataTable>
 
-                <h:form id="postListForm">
-                    <ui:repeat value="#{postController.posts}" var="post">
-                        <div class="publication-card">
-                            <div class="publication-header">
-                                <span class="user">Publicado por Usuario</span>
-                                <span class="date">#{postController.formatDate(post.fecha)}</span>
-                            </div>
-                            <div class="publication-content">
-                                #{post.texto}
-                            </div>
-                        </div>
-                    </ui:repeat>
+                    <!-- Dialog para mostrar detalles del SubMuro -->
+                    <p:dialog id="submuroDialog" widgetVar="submuroDialog" header="Bienvenido al Submuro de #{subMuroController.selectedSubMuro.nombre}!" modal="true" showEffect="fade" hideEffect="fade" width="600">
+                        <h:panelGroup>
+                           
+                       
+                            <p:commandButton value="Cerrar" onclick="PF('submuroDialog').hide()" type="button" styleClass="custom-margin-top"/>
+                        </h:panelGroup>
+                    </p:dialog>
+
                 </h:form>
             </div>
         </div>

@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+}
+
+.menu-container {
+    width: 250px;
+    background-color: #F8F9FA;
+    padding: 0;
+    position: fixed;
+    border-radius: 0;
+    height: calc(100vh);
+    top: 0;
+    left: 0;
+}
+
+.content {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    margin-left: 250px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.publication-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* Asegura que el contenido no se desborde */
+}
+
+.publication-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.publication-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.publication-header .user {
+    font-weight: bold;
+    color: #333;
+}
+
+.publication-header .date {
+    font-size: 12px;
+    color: #999;
+}
+
+.publication-content {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 15px;
+    word-wrap: break-word; /* Ajusta el texto para que no se desborde */
+    white-space: normal; /* Permite que el texto se ajuste en varias líneas */
+}
+
+.publication-footer {
+    text-align: right;
+    font-size: 12px;
+    color: #888;
+}
+
+.ui-float-label {
+    margin-top: 20px;
+}
+.custom-margin-top {
+    margin-top: 20px; /* Ajusta este valor según sea necesario */
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    width: 100%;
+    height: 950px;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.logout-button {
+    margin-top: auto;  /* Ocupa todo el espacio disponible, empujando el botón hacia abajo */
+    padding-top: 20px; /* Ajusta este valor para bajar más el botón */
+}
+.custom-margin {
+    margin-top: 20px; /* Ajusta este valor según sea necesario */
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-details h3, .profile-details h4 {
+    margin: 0;
+}
+
+.commandButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.commandButtonWrapper > .ui-button {
+    margin-left: 10px;
+}

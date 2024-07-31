@@ -4,111 +4,73 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Bienvenido</title>
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-                overflow: hidden;
-            }
-            .container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                background-color: #f5f5f5;
-                overflow: hidden;
-            }
-            .form-wrapper {
-                background-color: white;
-                padding: 50px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 100%;
-                max-width: 800px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            h2 {
-                text-align: center;
-                width: 100%;
-            }
-            .ui-float-label {
-                position: relative;
-                margin-top: 1.5em;
-                width: 100%;
-            }
-            .ui-float-label input {
-                padding: 0.5em 0.5em;
-                font-size: 16px;
-                width: 100%;
-                box-sizing: border-box;
-                margin-right: 75px;
-                
-            }
-            .commandButtonWrapper {
-                display: flex;
-                align-items: center;
-                width: 100%;
-                margin-top: 0.5em;
-                
-            }
-            .divider-container {
-                display: flex;
-                align-items: center;
-                margin: 0 1em;
-                height: 100%;
-            }
-            .divider-container p\\:divider {
-                margin: 0;
-            }
-            .login, .register {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            
-        </style>
+        <title>Login - BumiB</title>
+        <h:outputStylesheet library="css" name="styleLogin.css" />
     </h:head>
     <h:body>
         <div class="container">
+            <img src="#{resource['images/logo.png']}" alt="Logo Image" class="logo"/>
+            <span class="logo-name">BumiB</span>
             <div class="form-wrapper">
-                <h2>Bienvenido a la Plataforma de BumiB</h2>
+                <h3 class="h3-mini">¡Bienvenido de nuevo!</h3>
+                <h2>Inicia sesión en BumiB</h2>
                 <div class="commandButtonWrapper">
                     <div class="login">
                         <h:form id="loginForm">
                             <p:growl id="growl" life="3000"/>
 
-                            <div class="ui-float-label">
-                                <p:inputText id="correo" value="#{loginController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo"/>
-                                <h:outputLabel for="correo" value="Correo" />
-                            </div>
-
-                            <div class="ui-float-label">
-                                <p:password id="clave" value="#{loginController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña" 
-                                            toggleMask="true" redisplay="true" autocomplete="off"/>
-                                <h:outputLabel for="clave" value="Contraseña" />
-                            </div>
-
-                            <div class="login-button">
-                                <p:commandButton value="Login" actionListener="#{loginController.ingresar()}"
-                                                 update=":loginForm:growl"
-                                                 style="margin-top: 1em; width: 100%" />
+                            <div class="grid ui-fluid" style="position: relative; right: 5px; width: 320px">
+                                <div class="col-12 md:col-4">
+                                    <div class="ui-inputgroup" style="position: relative; top: 50px;">
+                                        <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                                        <p:inputText id="correo" value="#{loginController.usuario.correo}" required="true" placeholder="Correo"
+                                                     requiredMessage="Introduzca un correo válido de la Ulatina"/>
+                                    </div>
+                                    <div class="ui-inputgroup" style="position: relative; top: 60px">
+                                        <div class="ui-inputgroup-addon"><i class="pi pi-lock"></i></div>
+                                        <p:password id="clave" value="#{loginController.usuario.clave}" required="true" placeholder="Contraseña"
+                                                    requiredMessage="Introduzca su contraseña" toggleMask="true" redisplay="true" autocomplete="off"
+                                                    style="width: calc(100% - -10px); margin-left: -10px;"/>
+                                    </div>
+                                </div>
+                                <div class="login-button">
+                                    <p:commandButton value="Continuar" actionListener="#{loginController.ingresar()}"
+                                                     update=":loginForm:growl"
+                                                     style="margin-top: 1em; width: 100%; position: relative; top: 75px"/>
+                                </div>
+                                <!-- Separador y enlace para olvidé mi contraseña -->
+                                <div class="separator-container" style="text-align: center; margin-top: 20px; position: relative; top: 75px">
+                                    <span class="separator">o</span>
+                                    <br/>
+                                    <a href="forgot-password.xhtml" class="forgot-password-link">¡Olvidé mi contraseña!</a>
+                                    <span style="position: relative; top: 115px; font-size: 15px" class="separator">Ulatina - Proyecto II</span>
+                                </div>
                             </div>
                         </h:form>
                     </div>
                     <div class="divider-container">
                         <p:divider layout="vertical">
-                            <b>O</b>
                         </p:divider>
                     </div>
                     <div class="register">
-                        <h:form>
-                            <p:commandButton value="Sing Up" actionListener="#{loginController.ingresarRegistro()}" immediate="true" update=":loginForm:growl" icon="pi pi-user-plus" style="margin-top: auto;"/>
-                        </h:form>
+                        <div class="register-content">
+                            <div class="overlay-panel">
+                                <h:form>
+                                    <h2 style="z-index: 2; position: relative; top: -40px; color: whitesmoke; left: 27px"
+                                        >¿Eres nuevo aquí?</h2>
+                                    <p:commandButton value="¡Regístrate!" actionListener="#{loginController.ingresarRegistro()}" immediate="true" update=":loginForm:growl" icon="pi pi-user-plus" 
+                                                     style="margin-top: auto; z-index: 2; position: relative; top: -25px; left: 35px; width: 200px"/>
+                                    <h2 style="z-index: 2; position: relative; top: -5px; color: whitesmoke; left: 125px"
+                                        >o</h2>
+                                    <h2 style="z-index: 2; position: relative; top: 2px; color: whitesmoke; left: 0px;"
+                                        >¿Quieres conocer más?</h2>
+                                    <p:commandButton value="¡Mira nuestro video!" actionListener="#{loginController.ingresarRegistro()}" immediate="true" update=":loginForm:growl" icon="pi pi-video" 
+                                                     style="margin-top: auto; z-index: 2; position: relative; top: 10px; left: 35px; width: 200px"/>
+                                </h:form>
+                            </div>
+                            <!-- Imagen detrás del botón -->
+                            <img src="#{resource['images/login.png']}" alt="Background Image" class="background-image"/>
+                        </div>
                     </div>
                 </div>
             </div>

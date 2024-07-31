@@ -13,6 +13,7 @@ public class Post implements Serializable {
     private String texto;
     private Date fecha;
     private int notifi;
+    
 
     public Post(int id, String titulo, String texto, Date fecha, int notifi) {
         this.id = id;

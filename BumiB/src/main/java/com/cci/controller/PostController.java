@@ -36,11 +36,13 @@ public class PostController implements Serializable {
     public void crearPost() {
         post.setFecha(new Timestamp(System.currentTimeMillis()));
         post.setTexto(nuevoTexto);
+        
         boolean exito = servicioPost.crearPost(post);
         if (exito) {
             posts.add(post);
             post = new Post();
             nuevoTexto = "";
+            post.setNotifi(1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación creada exitosamente"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo crear la publicación"));

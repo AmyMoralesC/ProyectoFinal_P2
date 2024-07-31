@@ -20,7 +20,8 @@
                         <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
                         <p:menuitem value="Mensajes" url="perfilUsuario.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
                         <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
-                        <p:menuitem value="Submuros" url="Submuros.xhtml" icon="pi pi-fw pi-list"></p:menuitem>                    
+                        <p:menuitem value="Submuros" url="Submuros.xhtml" icon="pi pi-fw pi-list"></p:menuitem>
+                        <p:menuitem value="Bandeja de entrada" url="bandejaDeEntrada.xhtml" icon="pi pi-fw pi-bell"></p:menuitem>
                         <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
                         <p:menuitem value="Cerrar sesión" onclick="PF('confirmLogout').show()" icon="pi pi-fw pi-power-off" style="margin-top: auto;"></p:menuitem>
                     </p:slideMenu>
@@ -30,6 +31,7 @@
                 <h:form id="postForm">
                     <p:inputTextarea id="nuevoTexto" value="#{postController.nuevoTexto}" rows="6" cols="50" placeholder="Escribe tu publicación aquí..." />
                     <p:commandButton value="Publicar" action="#{postController.crearPost}" update=":postForm :postListForm" />
+                    #{bandejaController.crearNotificacionMensaje()}
                 </h:form>
 
                 <h:form id="postListForm">

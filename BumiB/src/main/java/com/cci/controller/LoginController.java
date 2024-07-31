@@ -97,6 +97,7 @@ public class LoginController implements Serializable {
     public void ingresarLogin() {
         this.redireccionar("/index.xhtml");
     }
+    
 
     public void redireccionar(String ruta) {
         HttpServletRequest request;

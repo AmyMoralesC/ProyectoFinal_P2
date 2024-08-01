@@ -54,8 +54,6 @@ public class RegisterController implements Serializable {
                 "Verificación requerida", "Se ha enviado un código de verificación a su correo."));
         mostrarDialogo = true;
     }
-    
-    
 
     public void generarCodigo() {
         Random random = new Random();

@@ -5,13 +5,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Login - BumiB</title>
-        <h:outputStylesheet library="css" name="styleLogin.css" />
+        <h:outputStylesheet library="css" name="styleLogin.css"/>
     </h:head>
     <h:body>
-        <div class="container">
-            <img src="#{resource['images/logo.png']}" alt="Logo Image" class="logo"/>
-            <span class="logo-name">BumiB</span>
+        <div class="container">     
             <div class="form-wrapper">
+                <span class="logo-name">BumiB</span>
+                <img src="#{resource['images/logo.png']}" alt="Logo Image" class="logo"/>
                 <h3 class="h3-mini">¡Bienvenido de nuevo!</h3>
                 <h2>Inicia sesión en BumiB</h2>
                 <div class="commandButtonWrapper">
@@ -19,14 +19,14 @@
                         <h:form id="loginForm">
                             <p:growl id="growl" life="3000"/>
 
-                            <div class="grid ui-fluid" style="position: relative; right: 5px; width: 320px">
+                            <div class="grid ui-fluid" style="position: relative; right: 32px; width: 320px">
                                 <div class="col-12 md:col-4">
-                                    <div class="ui-inputgroup" style="position: relative; top: 50px;">
+                                    <div class="ui-inputgroup" style="position: relative; top: 35px;">
                                         <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
                                         <p:inputText id="correo" value="#{loginController.usuario.correo}" required="true" placeholder="Correo"
                                                      requiredMessage="Introduzca un correo válido de la Ulatina"/>
                                     </div>
-                                    <div class="ui-inputgroup" style="position: relative; top: 60px">
+                                    <div class="ui-inputgroup" style="position: relative; top: 45px">
                                         <div class="ui-inputgroup-addon"><i class="pi pi-lock"></i></div>
                                         <p:password id="clave" value="#{loginController.usuario.clave}" required="true" placeholder="Contraseña"
                                                     requiredMessage="Introduzca su contraseña" toggleMask="true" redisplay="true" autocomplete="off"
@@ -36,14 +36,14 @@
                                 <div class="login-button">
                                     <p:commandButton value="Continuar" actionListener="#{loginController.ingresar()}"
                                                      update=":loginForm:growl"
-                                                     style="margin-top: 1em; width: 100%; position: relative; top: 75px"/>
+                                                     style="margin-top: 1em; width: 100%; position: relative; top: 60px"/>
                                 </div>
                                 <!-- Separador y enlace para olvidé mi contraseña -->
-                                <div class="separator-container" style="text-align: center; margin-top: 20px; position: relative; top: 75px">
+                                <div class="separator-container" style="text-align: center; margin-top: 20px; position: relative; top: 65px">
                                     <span class="separator">o</span>
                                     <br/>
                                     <a href="forgot-password.xhtml" class="forgot-password-link">¡Olvidé mi contraseña!</a>
-                                    <span style="position: relative; top: 115px; font-size: 15px" class="separator">Ulatina - Proyecto II</span>
+                                    <span style="position: relative; top: 70px; font-size: 15px" class="separator">Ulatina - Proyecto II</span>
                                 </div>
                             </div>
                         </h:form>
@@ -56,11 +56,11 @@
                         <div class="register-content">
                             <div class="overlay-panel">
                                 <h:form>
-                                    <h2 style="z-index: 2; position: relative; top: -40px; color: whitesmoke; left: 27px"
+                                    <h2 style="z-index: 2; position: relative; top: -37px; color: whitesmoke; left: 27px"
                                         >¿Eres nuevo aquí?</h2>
                                     <p:commandButton value="¡Regístrate!" actionListener="#{loginController.ingresarRegistro()}" immediate="true" update=":loginForm:growl" icon="pi pi-user-plus" 
-                                                     style="margin-top: auto; z-index: 2; position: relative; top: -25px; left: 35px; width: 200px"/>
-                                    <h2 style="z-index: 2; position: relative; top: -5px; color: whitesmoke; left: 125px"
+                                                     style="margin-top: auto; z-index: 2; position: relative; top: -30px; left: 35px; width: 200px"/>
+                                    <h2 style="z-index: 2; position: relative; top: -10px; color: whitesmoke; left: 125px"
                                         >o</h2>
                                     <h2 style="z-index: 2; position: relative; top: 2px; color: whitesmoke; left: 0px;"
                                         >¿Quieres conocer más?</h2>
@@ -68,11 +68,12 @@
                                                      style="margin-top: auto; z-index: 2; position: relative; top: 10px; left: 35px; width: 200px"/>
                                 </h:form>
                             </div>
-                            <!-- Imagen detrás del botón -->
-                            <img src="#{resource['images/login.png']}" alt="Background Image" class="background-image"/>
+
                         </div>
                     </div>
                 </div>
+                <!-- Imagen detrás del botón -->
+                <img src="#{resource['images/login.png']}" alt="Background Image" class="background-image"/>
             </div>
         </div>
     </h:body>

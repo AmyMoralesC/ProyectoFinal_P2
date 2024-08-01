@@ -1,0 +1,95 @@
+/*Body*/
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/*Contenedor - No cambiar*/
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgb(4,0,66);
+    background: linear-gradient(25deg, rgba(4,0,66,1) 0%, rgba(120,38,136,1) 49%, rgba(24,129,205,1) 98%);
+    overflow: hidden;
+}
+
+/*Form/Div - No cambiar*/
+.form-wrapper {
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    max-width: 900px;
+    height: 550px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*Área de h2-h3*/
+h2 {
+    position: relative;
+    width: 100%;
+    left: 516.5px;
+    top: -15px;
+    color: #24201F;
+}
+
+.h3-mini {
+    position: relative;
+    margin-bottom: -10px;
+    left: 581px;
+    width: 100%;
+    top: -50px;
+    color: #433E3D;
+}
+
+.h3-mini-descrip {
+    position: relative;
+    margin-bottom: -10px;
+    width: 100%;
+    z-index: 2;
+    top: -360px;
+    color: whitesmoke;
+    left: -230px;
+    line-height: 1.5em;
+}
+
+/*Arreglar - se va a quitar*/
+.ui-float-label {
+    position: relative;
+    margin-top: 1.5em;
+    width: 100%;
+}
+.ui-float-label input {
+    padding: 0.5em 0.5em;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/*No cambiar*/
+.commandButtonWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6.5em;
+}
+
+.background-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: calc(100% - 100px);
+    height: 550px;
+    width: 440px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    z-index: 1;
+}
+

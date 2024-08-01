@@ -4,109 +4,69 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Registro de Usuario</title>
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-                overflow: hidden;
-            }
-            .container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                background-color: #f5f5f5;
-                overflow: hidden;
-            }
-            .form-wrapper {
-                background-color: white;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 100%;
-                max-width: 500px;
-            }
-            h2 {
-                text-align: center;
-            }
-            .ui-float-label {
-                position: relative;
-                margin-top: 1.5em;
-                width: 100%;
-            }
-            .ui-float-label input {
-                padding: 0.5em 0.5em;
-                font-size: 16px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .commandButtonWrapper {
-                display: flex;
-                justify-content: space-between;
-                margin-top: 1.5em;
-            }
-        </style>
+        <title>Registro - BumiB</title>
+        <h:outputStylesheet library="css" name="styleRegister.css"/>
     </h:head>
     <h:body>
         <div class="container">
             <div class="form-wrapper">
-                <h2>Registro</h2>
-                <h:form id="registerForm">
+                <h2>¡Crea una cuenta!</h2>
+                <h3 class="h3-mini">¿eres..?</h3>
+                <h:form id="registerForm" style="position: relative; left: 220px; top: -10px">
                     <p:growl id="growl" life="3000" showDetail="false"/>
 
-                    <div class="ui-float-label">
-                        <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" label="Carnet" requiredMessage="Introduce un carnet"
-                                     validatorMessage="Carnet no válido" autocomplete="off" maxlength="11">
-                            <f:validateLength minimum="11" maximum="11" />
-                        </p:inputText>
-                        <h:outputLabel for="carnet" value="Carnet" />
-                    </div>
-
-                    <div class="ui-float-label">
-                        <p:inputText id="nombre" value="#{registerController.usuario.nombre}" required="true" label="Nombre" requiredMessage="Introduce tu nombre"
-                                     validatorMessage="Nombre no válido" autocomplete="off">
-                            <f:validateLength minimum="2" maximum="50" />
-                        </p:inputText>
-                        <h:outputLabel for="nombre" value="Nombre" />
-                    </div>
-
-                    <div class="ui-float-label">
-                        <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" label="Correo" requiredMessage="Introduce tu correo"
-                                     autocomplete="off">
-                            <f:validator validatorId="emailValidator" />
-                        </p:inputText>
-                        <h:outputLabel for="correo" value="Correo" />
-                    </div>
-
-                    <div class="ui-float-label">
-                        <p:password id="clave" value="#{registerController.usuario.clave}" required="true" label="Contraseña" requiredMessage="Introduce tu contraseña"
-                                    validatorMessage="Contraseña no válida" autocomplete="off" >
-                            <f:validateLength minimum="8" />
-                        </p:password>
-                        <h:outputLabel for="clave" value="Contraseña" />
-                    </div>
-
-                    <div class="ui-float-label">
-                        <p:selectOneMenu id="estado" value="#{registerController.usuario.estado}" required="true" 
-                                         requiredMessage="Introduzca un estado válido para su cuenta">
-                            <f:selectItem itemLabel="Seleccione un estado para su cuenta" itemValue="#{null}"/>
-                            <f:selectItem itemLabel="Admin" itemValue="Activo"/>
+                    <div style="width: 350px; position: relative; left: 33px;" class="role-selection">
+                        <p:selectOneButton value="#{registerController.usuario.estado}" required="true" requiredMessage="Seleccione su rol">
+                            <f:selectItem itemLabel="Profesor" itemValue="Activo"/>
+                            <f:selectItem itemLabel="Alumno" itemValue="Inactivo"/>
                             <f:selectItem itemLabel="Asistente" itemValue="SemiActivo"/>
-                            <f:selectItem itemLabel="Regular" itemValue="Inactivo"/>
-                        </p:selectOneMenu>
+                        </p:selectOneButton>
                     </div>
 
-                    <div class="commandButtonWrapper">
-                        <p:commandButton value="Regresar" actionListener="#{loginController.ingresarLogin()}" immediate="true" style="margin-right: auto;" />
-                        <p:commandButton value="Registrarse" actionListener="#{registerController.verificarUsuario()}"
-                                         update=":registerForm:growl"
-                                         oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').show();" style="margin-left: auto;" />
-                    </div>
+                    <div class="grid ui-fluid" style="position: relative; right: -14.2px; width: 320px">
+                        <div class="col-12 md:col-4">
+                            <div class="ui-inputgroup" style="position: relative; top: 30px;">
+                                <div class="ui-inputgroup-addon"><i class="pi pi-id-card"></i></div>
+                                <p:inputText id="carnet" value="#{registerController.usuario.carnet}" required="true" placeholder="Carnet" 
+                                             requiredMessage="Introduzca un carnet válido de la Ulatina"
+                                             validatorMessage="Carnet no válido" autocomplete="off" maxlength="11"/>
+                            </div>
 
+                            <div class="ui-inputgroup" style="position: relative; top: 40px;">
+                                <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                                <p:inputText id="nombre" value="#{registerController.usuario.nombre}" required="true" placeholder="Nombre" 
+                                             requiredMessage="Introduzca su nombre"
+                                             validatorMessage="Nombre no válido" autocomplete="off" maxlength="50"/>
+                            </div>
+
+                            <div class="ui-inputgroup" style="position: relative; top: 50px;">
+                                <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                                <p:inputText id="correo" value="#{registerController.usuario.correo}" required="true" placeholder="Correo" 
+                                             requiredMessage="Introduzca su correo de la Ulatina"
+                                             autocomplete="off">
+                                    <f:validator validatorId="emailValidator" />
+                                </p:inputText>
+                            </div>
+
+                            <div class="ui-inputgroup" style="position: relative; top: 60px">
+                                <div class="ui-inputgroup-addon"><i class="pi pi-lock"></i></div>
+                                <p:password id="clave" value="#{registerController.usuario.clave}" required="true" placeholder="Contraseña" 
+                                            requiredMessage="Introduzca una contraseña" validatorMessage="Contraseña no válida" 
+                                            toggleMask="true" redisplay="true" autocomplete="off"
+                                            style="width: calc(100% - -10px); margin-left: -10px;">
+                                    <f:validateLength minimum="8" />
+                                </p:password>
+                            </div>
+
+                        </div>
+                        <div class="commandButtonWrapper">
+                            <p:commandButton value="Regresar" actionListener="#{loginController.ingresarLogin()}" immediate="true" style="margin-right: auto; width: 150px"/>
+                            <p:commandButton value="Registrarse" actionListener="#{registerController.verificarUsuario()}"
+                                             update=":registerForm:growl"
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').show();" style="margin-left: auto; width: 150px"/>
+                        </div>
+                    </div>
                 </h:form>
-
                 <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false"
                           width="500" height="150" closeOnEscape="true">
                     <h:form id="modalForm">
@@ -116,7 +76,6 @@
                             <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación" />
 
                         </div>
-
                         <div class="commandButtonWrapper">
                             <p:commandButton value="Verificar Código" actionListener="#{registerController.registrarUsuario()}" 
                                              update=":registerForm:growl :registerForm"
@@ -125,6 +84,24 @@
                         </div>
                     </h:form>
                 </p:dialog>
+                
+                <div class="register">
+                    <div class="register-content">
+                            <h:form>
+                                <h2 style="z-index: 2; position: relative; top: -380px; color: whitesmoke; left: -245px"
+                                    >¡Bienvenido!</h2>
+                                <h3 class="h3-mini-descrip"
+                                    >¡Hola! Está es una red social académica <br></br> para los estudiantes de la Ulatina,
+                                    sirve <br></br> para compartir archivos, mensajes y <br></br> mucho más con otros 
+                                    estudiantes <br></br> y profesores.</h3>
+                                <h4 style="z-index: 2; position: relative; top: -200px; color: whitesmoke; left: -85px"
+                                    >~ BumiB 
+                                </h4>
+                            </h:form>
+                        <img src="#{resource['images/register.png']}" alt="Background Image" class="background-image"/>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </h:body>

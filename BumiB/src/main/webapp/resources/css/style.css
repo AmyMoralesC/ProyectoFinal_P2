@@ -148,3 +148,42 @@ body {
 .commandButtonWrapper > .ui-button {
     margin-left: 10px;
 }
+
+.chat-container {
+    height: 400px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto; /* Añade un scrollbar cuando el contenido excede la altura */
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.chat-message {
+    margin: 10px 0;
+}
+
+.message-content {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+.message-sender {
+    font-weight: bold;
+}
+
+.message-text {
+    margin: 5px 0;
+}
+
+.message-date {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.message-content {
+    background-color: #F1F0F0;
+}
+
+.chat-message[style*="text-align: right;"] .message-content {
+    background-color: #DCF8C6;
+}

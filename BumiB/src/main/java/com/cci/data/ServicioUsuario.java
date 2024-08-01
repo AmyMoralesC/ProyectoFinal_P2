@@ -327,4 +327,67 @@ public class ServicioUsuario extends Servicio {
         return 0;
     }
 
+    public List<Usuario> obtenerUsuariosSeguidos(int usuarioId) {
+
+        PreparedStatement stmt = null;
+        List<Usuario> seguidos = new ArrayList<>();
+        try {
+            conectar();
+            String sql = "SELECT u.idusuario, u.nombre, u.sede, u.correo, u.fotoperfil FROM seguidores s JOIN usuario u ON s.usuario_id = u.idusuario WHERE s.seguidor_id = ?";
+            stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, usuarioId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Usuario seguido = new Usuario();
+                    seguido.setId(rs.getInt("idusuario"));
+                    seguido.setNombre(rs.getString("nombre"));
+                    seguido.setSede(rs.getString("sede"));
+                    seguido.setCorreo(rs.getString("correo"));
+                    seguido.setFotoPerfil(rs.getString("fotoperfil"));
+                    seguidos.add(seguido);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return seguidos;
+    }
+
+    public Usuario buscarPorId(int idUsuario) {
+        Usuario usuario = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conectar();
+            String sql = "SELECT * FROM usuario WHERE idUsuario = ?";
+            stmt = getConexion().prepareStatement(sql);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String carnet = rs.getString("carnet");
+                String nombre = rs.getString("nombre");
+                String correo = rs.getString("correo");
+                String clave = rs.getString("contraseña");
+                String facultad = rs.getString("facultad");
+                String carrera = rs.getString("carrera");
+                String sede = rs.getString("sede");
+                String biografia = rs.getString("biografia");
+                String telefono = rs.getString("telefono");
+                String estado = rs.getString("estado");
+                String fotoPerfil = rs.getString("fotoperfil");
+                usuario = new Usuario(idUsuario, carnet, nombre, correo, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+
+        return usuario;
+    }
+
 }

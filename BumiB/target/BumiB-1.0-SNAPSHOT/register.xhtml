@@ -67,41 +67,47 @@
                         </div>
                     </div>
                 </h:form>
-                <p:dialog header="Código de Verificación Enviado a su Correo" widgetVar="modalDialog" modal="true" resizable="false"
-                          width="500" height="150" closeOnEscape="true">
+                <p:dialog widgetVar="modalDialog" modal="true" resizable="false"
+                          width="490" height="183" closeOnEscape="true">
+                    <f:facet name="header">
+                        <h:panelGroup>
+                            El código de verificación fue enviado 
+                            <br/>
+                            a su correo académico.
+                        </h:panelGroup>
+                    </f:facet>
                     <h:form id="modalForm">
-                        <div class="ui-float-label">
-                            <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true"
-                                         requiredMessage="Ingrese el código de verificación" autocomplete="off"/>
-                            <h:outputLabel for="codigoVerificacion" value="Ingresa el código de verificación" />
-
+                        <div class="ui-inputgroup" style="position: relative; top: 30px;">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                            <p:inputText id="codigoVerificacion" value="#{registerController.codigoIngresado}" required="true" placeholder="Código de verificación" 
+                                         requiredMessage="Ingrese el código de verificación"
+                                         validatorMessage="Código no válido" autocomplete="off"/>
                         </div>
                         <div class="commandButtonWrapper">
-                            <p:commandButton value="Verificar Código" actionListener="#{registerController.registrarUsuario()}" 
+                            <p:commandButton style="position: relative; top: -10px; width: 450px" value="Verificar código" actionListener="#{registerController.registrarUsuario()}" 
                                              update=":registerForm:growl :registerForm"
                                              process="@this codigoVerificacion"
                                              oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();"  />
                         </div>
                     </h:form>
                 </p:dialog>
-                
                 <div class="register">
                     <div class="register-content">
-                            <h:form>
-                                <h2 style="z-index: 2; position: relative; top: -380px; color: whitesmoke; left: -245px"
-                                    >¡Bienvenido!</h2>
-                                <h3 class="h3-mini-descrip"
-                                    >¡Hola! Está es una red social académica <br></br> para los estudiantes de la Ulatina,
-                                    sirve <br></br> para compartir archivos, mensajes y <br></br> mucho más con otros 
-                                    estudiantes <br></br> y profesores.</h3>
-                                <h4 style="z-index: 2; position: relative; top: -200px; color: whitesmoke; left: -85px"
-                                    >~ BumiB 
-                                </h4>
-                            </h:form>
+                        <h:form>
+                            <h2 style="z-index: 2; position: relative; top: -380px; color: whitesmoke; left: -245px"
+                                >¡Bienvenido!</h2>
+                            <h3 class="h3-mini-descrip"
+                                >¡Hola! Está es una red social académica <br></br> para los estudiantes de la Ulatina,
+                                sirve <br></br> para compartir archivos, mensajes y <br></br> mucho más con otros 
+                                estudiantes <br></br> y profesores.</h3>
+                            <h4 style="z-index: 2; position: relative; top: -200px; color: whitesmoke; left: -85px"
+                                >~ BumiB 
+                            </h4>
+                        </h:form>
                         <img src="#{resource['images/register.png']}" alt="Background Image" class="background-image"/>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </h:body>

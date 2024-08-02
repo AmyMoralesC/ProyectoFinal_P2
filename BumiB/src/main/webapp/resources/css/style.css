@@ -1,11 +1,3 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 1 jul 2024, 7:05:35 p.m.
-    Author     : Amy
-*/
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -16,11 +8,76 @@ body {
     min-height: 100vh;
 }
 
+.h2-sub {
+    color: #24201F;
+    font-size: 18px;
+    position: relative;
+    top: -10px;
+}
+
 .container {
     display: flex;
-    width: 70%;
-    max-width: 1200px;
+    width: 100%;
+    max-width: 1000px;
     min-height: 100vh;
+    position: relative;
+    left: -126px;
+}
+
+.top-menu {
+    width: 100%;
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    height: 70px;
+}
+
+.top-menu .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-menu .logo img {
+    height: 40px;
+}
+
+.top-menu .search-bar {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.top-menu .logout-button {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.vertical-separator {
+    width: 1px;
+    height: 40px;
+    background-color: #878787;
+    margin: 0 20px;
+    position: relative;
+    left: 120px;
+    top: -1px;
 }
 
 .menu-container {
@@ -28,9 +85,9 @@ body {
     background-color: #F8F9FA;
     padding: 0;
     position: fixed;
+    top: 60px;
     border-radius: 0;
-    height: calc(100vh);
-    top: 0;
+    height: calc(100vh - 60px);
     left: 0;
 }
 
@@ -39,7 +96,19 @@ body {
     overflow: auto;
     position: relative;
     margin-left: 250px;
+    margin-top: 60px; 
     padding: 20px;
+    box-sizing: border-box;
+}
+
+.right-column {
+    width: 250px;
+    background-color: #F8F9FA;
+    padding: 20px;
+    position: fixed;
+    top: 70px;
+    right: 0;
+    height: calc(100vh - 70px);
     box-sizing: border-box;
 }
 

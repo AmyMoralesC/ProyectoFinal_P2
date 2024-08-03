@@ -1,11 +1,12 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
+    background: rgb(4,0,66);
+    background: linear-gradient(25deg, rgba(4,0,66,1) 0%, rgba(120,38,136,1) 49%, rgba(24,129,205,1) 98%);
 }
 
 .h2-sub {
@@ -21,7 +22,6 @@ body {
     max-width: 1000px;
     min-height: 100vh;
     position: relative;
-    left: -126px;
 }
 
 .top-menu {
@@ -70,13 +70,23 @@ body {
     border-radius: 4px;
 }
 
-.vertical-separator {
+.vertical-separator-left {
     width: 1px;
     height: 40px;
     background-color: #878787;
     margin: 0 20px;
     position: relative;
     left: 120px;
+    top: -1px;
+}
+
+.vertical-separator-right {
+    width: 1px;
+    height: 40px;
+    background-color: #878787;
+    margin: 0 20px;
+    position: relative;
+    right: -522px;
     top: -1px;
 }
 
@@ -92,14 +102,24 @@ body {
 }
 
 .content {
-    flex: 1;
-    overflow: auto;
     position: relative;
-    margin-left: 250px;
-    margin-top: 60px; 
-    padding: 20px;
+    margin-top: 40px;
+    padding: 50px;
     box-sizing: border-box;
+    left: 175px;
+    background-color: #F8F9FA;
+    box-shadow: 0 0 1px;
 }
+
+.divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+    width: 100%;
+    position: relative;
+    top: -10px;
+}
+
 
 .right-column {
     width: 250px;
@@ -129,7 +149,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* Asegura que el contenido no se desborde */
+    overflow: hidden;
 }
 
 .publication-card:hover {
@@ -158,8 +178,8 @@ body {
     line-height: 1.5;
     color: #555;
     margin-bottom: 15px;
-    word-wrap: break-word; /* Ajusta el texto para que no se desborde */
-    white-space: normal; /* Permite que el texto se ajuste en varias líneas */
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .publication-footer {
@@ -219,8 +239,8 @@ body {
 }
 
 .chat-container {
-    height: 400px; /* Ajusta esta altura según tus necesidades */
-    overflow-y: auto; /* Añade un scrollbar cuando el contenido excede la altura */
+    height: 400px;
+    overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
 }

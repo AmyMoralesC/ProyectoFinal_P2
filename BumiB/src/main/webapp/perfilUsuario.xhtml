@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Perfil de Usuario</title>
+        <title>Perfil de usuario</title>
         <h:outputStylesheet library="css" name="stylePerfil.css" />
     </h:head>
     <h:body>
@@ -28,7 +28,9 @@
                 </h:form>
             </div>
             <div style="position: relative; right: 35px;" class="logout-button">
-                <p:commandButton value="Cerrar sesión" onclick="PF('confirmLogout').show()" icon="pi pi-fw pi-power-off"/>
+                <h:form id="logoutForm">
+                    <p:commandButton value="Cerrar sesión" onclick="PF('confirmLogout').show()" icon="pi pi-fw pi-power-off"/>
+                </h:form>
             </div>
         </div>
 
@@ -41,7 +43,7 @@
                         <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
                         <p:menuitem value="Mensajes" url="mensajesPrivados.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
                         <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
-                        <p:menuitem value="Submuros" url="Submuros.xhtml" icon="pi pi-fw pi-list"></p:menuitem>
+                        <p:menuitem value="Sub-Muros" url="subMuros.xhtml" icon="pi pi-fw pi-list"></p:menuitem>
                         <p:menuitem value="Bandeja de entrada" url="bandejaDeEntrada.xhtml" icon="pi pi-fw pi-bell"></p:menuitem>
                         <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
                     </p:slideMenu>
@@ -141,60 +143,57 @@
                     <p:selectOneMenu id="facultad" value="#{perfilController.usuario.facultad}" required="false" label="Facultad"
                                      requiredMessage="Introduce tu facultad" style="width: 100%;" >
                         <f:selectItem itemLabel="" itemValue="" />
-                        <f:selectItem itemLabel="Ingeniería" itemValue="Ingeniería"/>
-                        <f:selectItem itemLabel="Ciencias de la Salud" itemValue="Ciencias de la Salud"/>
-                        <f:selectItem itemLabel="Ciencias Empresariales" itemValue="Ciencias Empresariales"/>   
-                        <f:selectItem itemLabel="Arte, Diseño y Comunicación" itemValue="Arte, Diseño y Comunicación"/>   
-                        <f:selectItem itemLabel="Ciencias Sociales" itemValue="Ciencias Sociales"/>
+                        <f:selectItem itemLabel="Facultad de Ingeniería" itemValue="Facultad de Ingeniería"/>
+                        <f:selectItem itemLabel="Facultad de Ciencias Económicas" itemValue="Facultad de Ciencias Económicas"/>
+                        <f:selectItem itemLabel="Facultad de Ciencias Sociales" itemValue="Facultad de Ciencias Sociales"/>    
+                        <f:selectItem itemLabel="Facultad de Ciencias de la Salud" itemValue="Facultad de Ciencias de la Salud"/> 
+                        <f:selectItem itemLabel="Facultad de Ciencias de la Tierra y el Mar" itemValue="Facultad de Ciencias de la Tierra y el Mar"/> 
+                        <f:selectItem itemLabel="Facultad de Ciencias Agroalimentarias" itemValue="Facultad de Ciencias Agroalimentarias"/> 
+                        <f:selectItem itemLabel="Facultad de Ciencias Básicas" itemValue="Facultad de Ciencias Básicas"/> 
                     </p:selectOneMenu>
                     <h:outputLabel for="facultad" value="Facultad" />
-
                 </div>
 
                 <!-- Campo Carrera -->
                 <div class="ui-float-label">
-                    <p:inputText id="carrera" value="#{perfilController.usuario.carrera}" required="false" label="Carrera"
-                                 requiredMessage="Introduce tu carrera" validatorMessage="Carrera no válida" style="width: 100%;" autocomplete="off">
-                        <f:validateLength maximum="50" />
-                    </p:inputText>
+                    <p:selectOneMenu id="carrera" value="#{perfilController.usuario.carrera}" required="false" label="Carrera"
+                                     requiredMessage="Introduce tu carrera" style="width: 100%;" >
+                        <f:selectItem itemLabel="" itemValue="" />
+                        <f:selectItem itemLabel="Ingeniería en Computación" itemValue="Ingeniería en Computación"/>
+                        <f:selectItem itemLabel="Administración de Empresas" itemValue="Administración de Empresas"/>
+                        <f:selectItem itemLabel="Psicología" itemValue="Psicología"/>    
+                        <f:selectItem itemLabel="Medicina" itemValue="Medicina"/> 
+                        <f:selectItem itemLabel="Ingeniería Agronómica" itemValue="Ingeniería Agronómica"/> 
+                        <f:selectItem itemLabel="Arquitectura" itemValue="Arquitectura"/> 
+                    </p:selectOneMenu>
                     <h:outputLabel for="carrera" value="Carrera" />
                 </div>
 
                 <!-- Campo Biografía -->
                 <div class="ui-float-label">
-                    <p:inputTextarea id="biografia" value="#{perfilController.usuario.biografia}" rows="5" cols="40"
-                                     required="false" label="Biografía" style=" width: 100%;" maxlength="150"/>
-                    <h:outputLabel id="display" class="block" for="biografia" value="Biografía" />
+                    <p:inputTextarea id="biografia" value="#{perfilController.usuario.biografia}" rows="3" required="false"
+                                     style="width: 100%;" autoResize="false" label="Biografía" placeholder="Biografía">
+                        <f:validateLength maximum="255" />
+                    </p:inputTextarea>
+                    <h:outputLabel for="biografia" value="Biografía" />
                 </div>
 
-                <!-- Botones de acción -->
-                <div class="commandButtonWrapper">
-                    <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil}"
-                                     update=":perfilForm"
-                                     oncomplete="if (!args.validationFailed) {PF('dlgEditarPerfil').hide();}" 
-                                     style="margin-left: auto;" />
+                <!-- Botón Guardar -->
+                <div class="ui-float-label">
+                    <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil()}"
+                                     update=":perfilForm:growl, :perfilForm" process="@this" oncomplete="PF('dlgEditarPerfil').hide()"/>
                 </div>
             </h:form>
         </p:dialog>
 
-        <!-- Diálogo de confirmación para eliminar seguidor -->
-        <h:form>
-            <p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300"
-                             message="¿Desea eliminar a este usuario?" header="Confirmar" severity="warn">
-                <p:commandButton value="Sí" icon="pi pi-check" actionListener="#{perfilController.eliminarUsuario()}"
-                                 process="@this"
-                                 oncomplete="PF('deleteUserDialog').hide()" />
-                <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-                                 onclick="PF('deleteUserDialog').hide()" />
-            </p:confirmDialog>
-        </h:form>
-
-        <h:form id="confirmLogoutForm">
-            <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">
-                <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@none" />
-                <p:commandButton value="No" onclick="PF('confirmLogout').hide()" type="button" />
-            </p:confirmDialog>
-        </h:form>
-
+        <!-- Modal para eliminar usuario -->
+        <p:dialog header="Confirmar Eliminación" widgetVar="deleteUserDialog" modal="true" showEffect="fade" hideEffect="fade" draggable="false" closable="false" resizable="false">
+            <h:form id="deleteUserForm">
+                <h:outputText value="¿Estás seguro de que deseas eliminar este seguidor?" />
+                <p:commandButton value="Sí" action="#{perfilController.eliminarSeguidor()}" process="@this"
+                                 update=":perfilForm:growl, :perfilForm:seguidoresTable" oncomplete="PF('deleteUserDialog').hide()"/>
+                <p:commandButton value="No" onclick="PF('deleteUserDialog').hide()" type="button"/>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>

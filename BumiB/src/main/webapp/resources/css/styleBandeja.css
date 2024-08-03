@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: rgb(4,0,66);
+    background: linear-gradient(25deg, rgba(4,0,66,1) 0%, rgba(120,38,136,1) 49%, rgba(24,129,205,1) 98%);
+}
+
+.h2 {
+    color: #24201F;
+    font-size: 21px;
+    position: relative;
+    top: -10px;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.top-menu {
+    width: 100%;
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    height: 70px;
+}
+
+.top-menu .logo {
+    display: flex;
+    align-items: center;
+}
+
+.top-menu .logo img {
+    height: 40px;
+}
+
+.top-menu .search-bar {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.top-menu .logout-button {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.vertical-separator-left {
+    width: 1px;
+    height: 40px;
+    background-color: #878787;
+    margin: 0 20px;
+    position: relative;
+    left: 120px;
+    top: -1px;
+}
+
+.vertical-separator-right {
+    width: 1px;
+    height: 40px;
+    background-color: #878787;
+    margin: 0 20px;
+    position: relative;
+    right: -522px;
+    top: -1px;
+}
+
+.menu-container {
+    width: 250px;
+    background-color: #F8F9FA;
+    padding: 0;
+    position: fixed;
+    top: 60px;
+    border-radius: 0;
+    height: calc(100vh - 60px);
+    left: 0;
+}
+
+.content {
+    position: relative;
+    margin-top: 40px;
+    padding: 50px;
+    box-sizing: border-box;
+    left: 190px;
+    background-color: #F8F9FA;
+    box-shadow: 0 0 1px;
+    width: 870px;
+}
+
+.divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+    width: 100%;
+    position: relative;
+    top: -10px;
+}
+

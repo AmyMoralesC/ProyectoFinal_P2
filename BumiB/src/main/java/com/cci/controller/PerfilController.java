@@ -76,9 +76,9 @@ public class PerfilController implements Serializable {
     public String getSedeUsuario() {
         return loginController.getUsuario() != null ? loginController.getUsuario().getSede() : "Sede no encontrada";
     }
-    
+
     public String getFacultadUsuario() {
-        return loginController.getUsuario() != null ? loginController.getUsuario().getFacultad(): "Sede no encontrada";
+        return loginController.getUsuario() != null ? loginController.getUsuario().getFacultad() : "Sede no encontrada";
     }
 
     public String getCarreraUsuario() {
@@ -121,7 +121,11 @@ public class PerfilController implements Serializable {
         if (file != null) {
             try (InputStream input = file.getInputStream()) {
                 String fileName = usuario.getId() + "_" + file.getFileName();
-                String destination = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/uploads/") + fileName;
+                String uploadsDir = getUploadsDirectory();
+
+                // Verificar y crear directorio si no existe
+                Files.createDirectories(Paths.get(uploadsDir));
+                String destination = Paths.get(uploadsDir, fileName).toString();
                 Files.copy(input, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
                 usuario.setFotoPerfil(fileName);
                 guardarPerfil();
@@ -140,19 +144,15 @@ public class PerfilController implements Serializable {
         if (file != null) {
             try (InputStream input = file.getInputStream()) {
                 String fileName = usuario.getId() + "_" + file.getFileName();
-                String uploadsDir = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/uploads/");
+                String uploadsDir = getUploadsDirectory();
 
                 // Verificar y crear directorio si no existe
-                if (uploadsDir != null) {
-                    Files.createDirectories(Paths.get(uploadsDir));
-                    String destination = uploadsDir + fileName;
-                    Files.copy(input, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
-                    usuario.setFotoPerfil(fileName);
-                    guardarPerfil();
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Foto subida correctamente"));
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al obtener la ruta de carga", ""));
-                }
+                Files.createDirectories(Paths.get(uploadsDir));
+                String destination = Paths.get(uploadsDir, fileName).toString();
+                Files.copy(input, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+                usuario.setFotoPerfil(fileName);
+                guardarPerfil();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Foto subida correctamente"));
             } catch (IOException e) {
                 e.printStackTrace();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al subir la foto", e.getMessage()));
@@ -160,6 +160,13 @@ public class PerfilController implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Seleccione un archivo para subir", ""));
         }
+    }
+
+    private String getUploadsDirectory() {
+        String projectPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+        // Navegar desde el directorio de destino hasta el directorio de cargas en src/main/webapp
+        String uploadsPath = Paths.get(projectPath, "..", "..", "src", "main", "webapp", "resources", "uploads").normalize().toAbsolutePath().toString();
+        return uploadsPath;
     }
 
     public String getRutaFotoPerfil() {

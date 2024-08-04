@@ -172,7 +172,7 @@
                 <!-- Campo Biografía -->
                 <div class="ui-float-label">
                     <p:inputTextarea id="biografia" value="#{perfilController.usuario.biografia}" rows="3" required="false"
-                                     style="width: 100%;" autoResize="false" label="Biografía" placeholder="Biografía">
+                                     style="width: 100%;" label="Biografía" maxlength="255">
                         <f:validateLength maximum="255" />
                     </p:inputTextarea>
                     <h:outputLabel for="biografia" value="Biografía" />

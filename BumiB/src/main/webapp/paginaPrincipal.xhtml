@@ -21,11 +21,12 @@
                 <h:form id="searchForm">
                     <div style="position: relative; top: 39px; height: 40px; width: calc(100% - -320px); left: -160px" class="ui-inputgroup">
                         <div class="ui-inputgroup-addon"><i class="pi pi-search"></i></div>
-                        <p:inputText id="searchInput" placeholder="Buscar usuarios..." styleClass="search-input"/>
+                        <p:inputText id="searchInput" value="#{perfilController.nombreUsuarioBuscado}" placeholder="Buscar usuarios..." styleClass="search-input"/>
                     </div>
                     <div class="vertical-separator-right"></div>
                     <p:commandButton style="position: relative; left: 285px; bottom: 41px; width: 110px" 
-                                     value="Buscar" action="#{searchController.buscar}" update=":searchForm"/>
+                                     value="Buscar" action="#{perfilController.verPerfil}" update=":searchForm"/>
+
                 </h:form>
             </div>
             <div style="position: relative; right: 35px;" class="logout-button">

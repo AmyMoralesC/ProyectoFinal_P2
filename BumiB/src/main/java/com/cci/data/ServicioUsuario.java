@@ -390,10 +390,11 @@ public class ServicioUsuario extends Servicio {
         return usuario;
     }
 
-    public List<Usuario> buscarPorNombre(String nombre) {
+    public Usuario buscarPorNombre(String nombre) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Usuario> listaUsuarios = new ArrayList<>();
+        Usuario usuario = null;
 
         try {
             conectar();
@@ -415,7 +416,7 @@ public class ServicioUsuario extends Servicio {
                 String telefono = rs.getString("telefono");
                 String estado = rs.getString("estado");
                 String fotoPerfil = rs.getString("fotoperfil");
-                Usuario usuario = new Usuario(id, carnet, nombreUsuario, correo, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
+                usuario = new Usuario(id, carnet, nombreUsuario, correo, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
                 listaUsuarios.add(usuario);
             }
         } catch (Exception e) {
@@ -426,7 +427,7 @@ public class ServicioUsuario extends Servicio {
             desconectar();
         }
 
-        return listaUsuarios;
+        return usuario;
     }
 
 }

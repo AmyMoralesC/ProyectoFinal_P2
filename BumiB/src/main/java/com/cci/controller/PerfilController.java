@@ -27,14 +27,12 @@ public class PerfilController implements Serializable {
 
     private Usuario usuario;
     private ServicioUsuario servicioUsuario;
-
     private Usuario selectedUsuario;
-
     private int cantidadSeguidores;
-
     private Usuario perfilVisualizado;
-
     private UploadedFile file;
+
+    private String nombreUsuarioBuscado;
 
     public PerfilController() {
         servicioUsuario = new ServicioUsuario();
@@ -183,10 +181,16 @@ public class PerfilController implements Serializable {
         perfilVisualizado = servicioUsuario.buscarPorId(usuarioId);
     }
 
-    // Método para redirigir y ver el perfil del usuario
-    public String verPerfil(Usuario usuario) {
-        this.perfilVisualizado = usuario;
-        return "verPerfilUsuario.xhtml?faces-redirect=true";
+    public String verPerfil() {
+        perfilVisualizado = servicioUsuario.buscarPorNombre(nombreUsuarioBuscado);
+        if (perfilVisualizado != null) {
+            nombreUsuarioBuscado = null;
+            return "verPerfilUsuario.xhtml?faces-redirect=true";
+            
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario no encontrado", ""));
+            return null;
+        }
     }
 
     public ServicioUsuario getServicioUsuario() {
@@ -223,6 +227,14 @@ public class PerfilController implements Serializable {
 
     public void setPerfilVisualizado(Usuario perfilVisualizado) {
         this.perfilVisualizado = perfilVisualizado;
+    }
+
+    public String getNombreUsuarioBuscado() {
+        return nombreUsuarioBuscado;
+    }
+
+    public void setNombreUsuarioBuscado(String nombreUsuarioBuscado) {
+        this.nombreUsuarioBuscado = nombreUsuarioBuscado;
     }
 
 }

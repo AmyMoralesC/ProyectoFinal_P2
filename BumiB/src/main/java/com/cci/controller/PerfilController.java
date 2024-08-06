@@ -32,6 +32,8 @@ public class PerfilController implements Serializable {
 
     private int cantidadSeguidores;
 
+    private Usuario perfilVisualizado;
+
     private UploadedFile file;
 
     public PerfilController() {
@@ -177,6 +179,16 @@ public class PerfilController implements Serializable {
         }
     }
 
+    public void cargarPerfil(int usuarioId) {
+        perfilVisualizado = servicioUsuario.buscarPorId(usuarioId);
+    }
+
+    // Método para redirigir y ver el perfil del usuario
+    public String verPerfil(Usuario usuario) {
+        this.perfilVisualizado = usuario;
+        return "verPerfilUsuario.xhtml?faces-redirect=true";
+    }
+
     public ServicioUsuario getServicioUsuario() {
         return servicioUsuario;
     }
@@ -204,4 +216,13 @@ public class PerfilController implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
+
+    public Usuario getPerfilVisualizado() {
+        return perfilVisualizado;
+    }
+
+    public void setPerfilVisualizado(Usuario perfilVisualizado) {
+        this.perfilVisualizado = perfilVisualizado;
+    }
+
 }

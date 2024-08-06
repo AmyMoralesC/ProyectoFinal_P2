@@ -50,7 +50,7 @@
                     </p:slideMenu>
                 </h:form>
             </div>
-            
+
             <div class="card crud-demo">
                 <h:form id="form">
 
@@ -110,7 +110,11 @@
                             </p:commandButton>
 
                         </p:column>
+                        <p:column headerText="Ver Perfil">
+                            <p:commandButton value="Ver Perfil" action="#{perfilController.verPerfil(usuario)}" />
+                        </p:column>
                     </p:dataTable>
+
                 </h:form>
 
 

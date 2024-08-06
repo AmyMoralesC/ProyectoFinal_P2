@@ -177,11 +177,12 @@
                     </p:inputTextarea>
                     <h:outputLabel for="biografia" value="Biografía" />
                 </div>
-
-                <!-- Botón Guardar -->
-                <div class="ui-float-label">
-                    <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil()}"
-                                     update=":perfilForm:growl, :perfilForm" process="@this" oncomplete="PF('dlgEditarPerfil').hide()"/>
+                
+                <div class="commandButtonWrapper">
+                    <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil}"
+                                     update=":perfilForm:growl, :perfilForm"
+                                     oncomplete="if (!args.validationFailed) {PF('dlgEditarPerfil').hide();}" 
+                                     style="margin-left: auto;" />
                 </div>
             </h:form>
         </p:dialog>
@@ -195,5 +196,12 @@
                 <p:commandButton value="No" onclick="PF('deleteUserDialog').hide()" type="button"/>
             </h:form>
         </p:dialog>
+
+        <h:form id="confirmLogoutForm">
+            <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">
+                <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@none" />
+                <p:commandButton value="No" onclick="PF('confirmLogout').hide()" type="button" />
+            </p:confirmDialog>
+        </h:form>
     </h:body>
 </html>

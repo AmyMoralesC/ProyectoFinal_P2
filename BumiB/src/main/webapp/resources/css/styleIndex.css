@@ -147,9 +147,9 @@ body {
     margin-bottom: 20px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    width: 100%; /* Asegúrate de que el contenedor ocupe el ancho completo disponible */
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: hidden; /* Oculta cualquier desbordamiento no deseado */
 }
 
 .publication-card:hover {
@@ -178,9 +178,14 @@ body {
     line-height: 1.5;
     color: #555;
     margin-bottom: 15px;
-    word-wrap: break-word;
-    white-space: normal;
+    word-wrap: break-word; /* Permite romper palabras largas en la línea */
+    word-break: break-all; 
+    white-space: pre-wrap; /* Respetar los saltos de línea */
+    max-height: 10000px; /* Ajusta la altura */
 }
+
+
+
 
 .publication-footer {
     text-align: right;

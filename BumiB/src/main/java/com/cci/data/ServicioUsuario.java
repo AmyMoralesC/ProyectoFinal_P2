@@ -390,4 +390,43 @@ public class ServicioUsuario extends Servicio {
         return usuario;
     }
 
+    public List<Usuario> buscarPorNombre(String nombre) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Usuario> listaUsuarios = new ArrayList<>();
+
+        try {
+            conectar();
+            String sql = "SELECT * FROM usuario WHERE nombre LIKE ?";
+            stmt = getConexion().prepareStatement(sql);
+            stmt.setString(1, "%" + nombre + "%");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("idUsuario");
+                String carnet = rs.getString("carnet");
+                String nombreUsuario = rs.getString("nombre");
+                String correo = rs.getString("correo");
+                String clave = rs.getString("contraseña");
+                String facultad = rs.getString("facultad");
+                String carrera = rs.getString("carrera");
+                String sede = rs.getString("sede");
+                String biografia = rs.getString("biografia");
+                String telefono = rs.getString("telefono");
+                String estado = rs.getString("estado");
+                String fotoPerfil = rs.getString("fotoperfil");
+                Usuario usuario = new Usuario(id, carnet, nombreUsuario, correo, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
+                listaUsuarios.add(usuario);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+
+        return listaUsuarios;
+    }
+
 }

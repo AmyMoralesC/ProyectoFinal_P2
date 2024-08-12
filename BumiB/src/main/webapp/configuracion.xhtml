@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Configuracion</title>
+        <h:outputStylesheet library="css" name="styleConficguracion.css" />
+    </h:head>
+    <h:body>
+
+        <div class="container">
+            <div class="menu-container">
+                <h:form id="menuForm">
+                    <p:slideMenu style="border-radius: 0px; width:250px; border: none; background-color: #F8F9FA; position: relative;
+                                 top: 20px">
+                        <p:menuitem value="Inicio" url="paginaPrincipal.xhtml" icon="pi pi-fw pi-globe"></p:menuitem>
+                        <p:menuitem value="Explorar" url="buscarUsuario.xhtml" icon="pi pi-fw pi-search"></p:menuitem>
+                        <p:menuitem value="Mensajes" url="mensajesPrivados.xhtml" icon="pi pi-fw pi-envelope"></p:menuitem>
+                        <p:menuitem value="Perfil" url="perfilUsuario.xhtml" icon="pi pi-fw pi-user"></p:menuitem>
+                        <p:menuitem value="Sub-Muros" url="subMuros.xhtml" icon="pi pi-fw pi-list"></p:menuitem> 
+                        <p:menuitem value="Bandeja de entrada" url="bandejaDeEntrada.xhtml" icon="pi pi-fw pi-bell"></p:menuitem>
+                        <p:menuitem value="Configuración" url="configuracion.xhtml" icon="pi pi-fw pi-cog"></p:menuitem>
+                    </p:slideMenu>
+                </h:form>
+            </div>
+            <div>
+                <p:commandButton value="ELIMINAR CUENTA?" />
+                <p:commandButton value="Cambiar Contraseña?" />
+            </div>
+            <!--Cambiar contraseña-->
+            <h:form id="formChangePassword">
+                <p:dialog header="Cambiar Contraseña" widgetVar="changePasswordDialog" modal="true" closable="true" draggable="false" resizable="false" width="400">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="currentPassword" value="Contraseña Actual:" />
+                        <p:password id="currentPassword" value="#{configuracionController.usuario.claveActual}" required="true" label="Contraseña Actual" />
+
+                        <h:outputLabel for="newPassword" value="Nueva Contraseña:" />
+                        <p:password id="newPassword" value="#{configuracionController.usuario.nuevaClave}" required="true" label="Nueva Contraseña" />
+
+                        <h:outputLabel for="confirmPassword" value="Confirmar Nueva Contraseña:" />
+                        <p:password id="confirmPassword" value="#{configuracionController.usuario.confirmarClave}" required="true" label="Confirmar Nueva Contraseña" />
+                    </h:panelGrid>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Cambiar" icon="pi pi-check" action="#{configuracionController.cambiarContraseña}" 
+                                         oncomplete="PF('changePasswordDialog').hide()" update=":formChangePassword" />
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('changePasswordDialog').hide();" type="button" />
+                    </f:facet>
+                </p:dialog>
+
+                <p:commandButton value="Cambiar Contraseña" icon="pi pi-lock" onclick="PF('changePasswordDialog').show();" type="button" />
+            </h:form>
+        </div>
+
+    </h:body>
+</html>

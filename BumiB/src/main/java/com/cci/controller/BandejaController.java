@@ -10,10 +10,12 @@ import com.cci.model.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -31,19 +33,17 @@ public class BandejaController implements Serializable {
     private Notificacion notificacion;
     private Notificacion selectedNotificacion;
     private List<Notificacion> notificaciones;
-    
-    
+
     public void avisoPost() {
- 
-        if (postController.getPost().getNotifi() == 1 ) {
+
+        if (postController.getPost().getNotifi() == 1) {
             System.out.println("Se notifico post");
-            
+
         } else {
             System.out.println("No se notifico post");
         }
 
     }
-
 
     // Método para crear una notificación de mensaje
     public void crearNotificacionMensaje() {
@@ -69,8 +69,21 @@ public class BandejaController implements Serializable {
         }
         return notificaciones;
     }
-    
-    
+
+    public void deleteNotif() {
+       if (selectedNotificacion != null) {
+            boolean exito = servicioNot.eliminarNot(selectedNotificacion.getId());
+            
+            if (exito) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Notificación eliminada exitosamente"));
+                cargarNotificaciones(); // Recargar la lista después de eliminar
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar la notificación"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "No hay notificación seleccionada para eliminar"));
+        }
+    }
 
     public Notificacion getNotificacion() {
         return notificacion;

@@ -66,6 +66,7 @@ public class LoginController implements Serializable {
                     break;
             }
             this.redireccionar("/paginaPrincipal.xhtml");
+            System.out.println("Usuario en loginController: " + usuario.getNombre());
         } else {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Campos inválidos", "La clave o correo no son correctos"));
         }
@@ -124,7 +125,7 @@ public class LoginController implements Serializable {
     }
 
     public void saveUser() {
-
+        
     }
 
     public void deleteUser() {

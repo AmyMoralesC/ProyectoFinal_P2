@@ -50,22 +50,30 @@
                     </p:slideMenu>
                 </h:form>
             </div>
-            <div class="content">
-                <h2 class="h2">Notificaciones</h2>
-                <div class="divider"></div>
-                <p:dataTable var="notificacion" value="#{bandejaController.notificaciones}">
-                    <p:column headerText="¿Dónde?">
-                        <h:outputText value="#{notificacion.donde}" />
-                    </p:column>
+            <h:form>
+                <div class="content">
+                    <h2 class="h2">Notificaciones</h2>
+                    <div class="divider"></div>
+                    <p:dataTable var="notificacion" value="#{bandejaController.notificaciones}" selectionMode="single"
+                                 selection="#{bandejaController.selectedNotificacion}"  rowKey="#{notificacion.id}">>
+                        <p:column headerText="¿Dónde?">
+                            <h:outputText value="#{notificacion.donde}" />
+                        </p:column>
 
-                    <p:column headerText="¿De qué tipo fue?">
-                        <h:outputText value="#{notificacion.tipo}" />
-                    </p:column>
-
-                </p:dataTable>
-
-            </div>
+                        <p:column headerText="¿De qué tipo fue?">
+                            <h:outputText value="#{notificacion.tipo}" />
+                        </p:column>
+                        <p:column headerText="Eliminar">
+                            <p:commandButton icon="pi pi-check" styleClass="rounded-button" actionListener="#{bandejaController.deleteNotif}" update="@form">
+                                <f:setPropertyActionListener target="#{bandejaController.selectedNotificacion}" value="#{notificacion}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
         </div>
+
+
 
         <h:form id="confirmLogoutForm">
             <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">

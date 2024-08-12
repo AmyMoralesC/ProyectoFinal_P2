@@ -77,4 +77,26 @@ public class ServicioNotificacion extends Servicio {
         return listaNotificacion;
     }
 
+    public boolean eliminarNot(int id) {
+
+        try {
+            conectar();
+            String sql = "DELETE FROM notificaciones WHERE id = ?";
+            PreparedStatement stmt = getConexion().prepareStatement(sql);
+            stmt.setInt(1, id);
+            int cantidad = stmt.executeUpdate();
+
+            if (cantidad == 0) {
+                throw new SQLException("No se logró eliminar la notificacion con ID: " + id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            desconectar();
+        }
+        return true;
+
+    }
+    
 }

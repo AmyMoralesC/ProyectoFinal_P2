@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 /**
@@ -21,9 +22,11 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class MenuController implements Serializable {
 
-    private Usuario usuarioTO = new Usuario();
-    private List<Usuario> listaUsuarioTO = new ArrayList<>();
+    private Usuario usuario = new Usuario();
+    private List<Usuario> listaUsuario = new ArrayList<>();
     private Usuario selectedUsuario;
+    @ManagedProperty(value = "#{loginController}")
+    private LoginController loginController;
 
     public MenuController() {
     }
@@ -31,24 +34,36 @@ public class MenuController implements Serializable {
     @PostConstruct
     public void init() {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
-        this.listaUsuarioTO = servicioUsuario.buscarTodos();
+        this.listaUsuario = servicioUsuario.buscarTodos();
 
     }
 
-    public Usuario getUsuarioTO() {
-        return usuarioTO;
+    public void UsuarioMenu() {
+        System.out.println("Inicio de UsuarioMenu()");
+        Usuario usuarioDesdeLogin = loginController.getUsuario();
+        this.usuario = usuarioDesdeLogin;
+        if (usuarioDesdeLogin != null) {
+            System.out.println("Usuario en loginController: " + usuarioDesdeLogin.getNombre());
+            System.out.println("Usuario en menuController: " + this.usuario.getNombre());
+        } else {
+            System.out.println("usuarioDesdeLogin es nulo.");
+        }
     }
 
-    public void setUsuarioTO(Usuario usuarioTO) {
-        this.usuarioTO = usuarioTO;
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuarioTO(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public List<Usuario> getListaUsuarioTO() {
-        return listaUsuarioTO;
+        return listaUsuario;
     }
 
-    public void setListaUsuarioTO(List<Usuario> listaUsuarioTO) {
-        this.listaUsuarioTO = listaUsuarioTO;
+    public void setListaUsuario(List<Usuario> listaUsuario) {
+        this.listaUsuario = listaUsuario;
     }
 
     public Usuario getSelectedUsuario() {
@@ -58,6 +73,13 @@ public class MenuController implements Serializable {
     public void setSelectedUsuario(Usuario selectedUsuario) {
         this.selectedUsuario = selectedUsuario;
     }
-    
-    
+
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
+    }
+
 }

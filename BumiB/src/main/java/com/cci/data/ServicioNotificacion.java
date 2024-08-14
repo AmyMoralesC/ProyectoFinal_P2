@@ -29,10 +29,11 @@ public class ServicioNotificacion extends Servicio {
 
         try {
             conectar();
-            String sql = "INSERT INTO notificaciones (tipo, donde) VALUES (?, ?)";
+            String sql = "INSERT INTO notificaciones (tipo, donde, de) VALUES (?, ?, ?)";
             stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, notificacion.getTipo());
             stmt.setString(2, notificacion.getDonde());
+            stmt.setString(3, notificacion.getDe());
             int rows = stmt.executeUpdate();
             exito = (rows == 1);
         } catch (SQLException | ClassNotFoundException e) {
@@ -52,7 +53,7 @@ public class ServicioNotificacion extends Servicio {
 
         try {
             conectar();
-            String sql = "SELECT id, tipo, donde FROM notificaciones";
+            String sql = "SELECT id, tipo, donde, de FROM notificaciones";
             stmt = getConexion().prepareStatement(sql);
             rs = stmt.executeQuery();
 
@@ -60,10 +61,12 @@ public class ServicioNotificacion extends Servicio {
                 int id = rs.getInt("id");
                 String tipo = rs.getString("tipo");
                 String donde = rs.getString("donde");
+                String de = rs.getString("de");
                 Notificacion notificacion = new Notificacion();
                 notificacion.setId(id);
                 notificacion.setTipo(tipo);
                 notificacion.setDonde(donde);
+                notificacion.setDe(de);
                 listaNotificacion.add(notificacion);
             }
         } catch (SQLException | ClassNotFoundException e) {

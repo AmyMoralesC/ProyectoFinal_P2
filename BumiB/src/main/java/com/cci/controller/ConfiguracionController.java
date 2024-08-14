@@ -27,6 +27,8 @@ public class ConfiguracionController {
     @ManagedProperty(value = "#{servicioUsuario}")
     private ServicioUsuario servicioUsuario;
 
+    private Usuario usuario;
+
     public void eliminarCuenta() throws IOException {
         Usuario usuarioActual = loginController.getUsuario();
         if (usuarioActual != null) {
@@ -52,8 +54,16 @@ public class ConfiguracionController {
         }
     }
 
-    public void UsuarioConfiguracion(){
-        System.out.println("Usuario en configuracionController: " + loginController.getUsuario());
+    public void init() {
+        if (loginController != null && loginController.getUsuario() != null) {
+            this.usuario = loginController.getUsuario();
+        } else {
+            this.usuario = new Usuario();
+        }
+    }
+
+    public void UsuarioConfiguracion() {
+        System.out.println("Usuario en configuracionController: " + loginController.getUsuario().getNombre());
     }
     // Getters y Setters
 
@@ -63,6 +73,7 @@ public class ConfiguracionController {
 
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
+        init();
     }
 
     public ServicioUsuario getServicioUsuario() {

@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
  * @author jared
  */
 @ManagedBean(name = "bandejaController")
-@ViewScoped
+@SessionScoped
 public class BandejaController implements Serializable {
 
     @ManagedProperty(value = "#{postController}")
@@ -49,8 +49,9 @@ public class BandejaController implements Serializable {
     public void crearNotificacionMensaje() {
         if (postController.getPost().getNotifi() == 1) {
             notificacion = new Notificacion();
-            notificacion.setTipo("M");
-            notificacion.setDonde("Muro");
+            notificacion.setTipo("Mensaje");
+            notificacion.setDonde("Muro general");
+            notificacion.setDe(postController.getPost().getCreador());
             servicioNot.crearNotif(notificacion);
         }
     }

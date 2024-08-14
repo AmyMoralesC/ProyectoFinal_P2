@@ -14,11 +14,13 @@ public class Notificacion implements Serializable{
     private int id;
     private String tipo;
     private String donde;
+    private String de;
 
-    public Notificacion(int id, String tipo, String donde) {
+    public Notificacion(int id, String tipo, String donde, String de) {
         this.id = id;
         this.tipo = tipo;
         this.donde = donde;
+        this.de = de;
     }
 
     public Notificacion() {
@@ -48,6 +50,14 @@ public class Notificacion implements Serializable{
 
     public void setDonde(String donde) {
         this.donde = donde;
+    }
+
+    public String getDe() {
+        return de;
+    }
+
+    public void setDe(String de) {
+        this.de = de;
     }
     
     

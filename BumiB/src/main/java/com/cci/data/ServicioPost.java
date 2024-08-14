@@ -22,12 +22,13 @@ public class ServicioPost extends Servicio {
 
         try {
             conectar();
-            String sql = "INSERT INTO mensajes (titulo, texto, fecha, notificacion) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO mensajes (titulo, creador, texto, fecha, notificacion) VALUES (?, ?, ?, ?, ?)";
             stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, post.getTitulo());
-            stmt.setString(2, post.getTexto());
-            stmt.setTimestamp(3, new java.sql.Timestamp(post.getFecha().getTime()));
-            stmt.setInt(4, post.getNotifi());
+            stmt.setString(2, post.getCreador());
+            stmt.setString(3, post.getTexto());
+            stmt.setTimestamp(4, new java.sql.Timestamp(post.getFecha().getTime()));
+            stmt.setInt(5, post.getNotifi());
             int rows = stmt.executeUpdate();
             exito = (rows == 1);
         } catch (SQLException | ClassNotFoundException e) {
@@ -48,18 +49,20 @@ public class ServicioPost extends Servicio {
 
         try {
             conectar();
-            String sql = "SELECT idmensajes, titulo, texto, fecha FROM mensajes";
+            String sql = "SELECT idmensajes, titulo, creador, texto, fecha FROM mensajes";
             stmt = getConexion().prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("idmensajes");
                 String titulo = rs.getString("titulo");
+                String creador = rs.getString("creador");
                 String texto = rs.getString("texto");
                 Date fecha = rs.getTimestamp("fecha");
                 Post post = new Post();
                 post.setId(id);
                 post.setTitulo(titulo);
+                post.setCreador(creador);
                 post.setTexto(texto);
                 post.setFecha(fecha);
                 listaPosts.add(post);
@@ -82,12 +85,13 @@ public class ServicioPost extends Servicio {
 
         try {
             conectar();
-            String sql = "UPDATE mensajes SET titulo = ?, texto = ?, fecha = ? WHERE idmensajes = ?";
+            String sql = "UPDATE mensajes SET titulo = ?, creador= ?, texto = ?, fecha = ? WHERE idmensajes = ?";
             stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, post.getTitulo());
-            stmt.setString(2, post.getTexto());
-            stmt.setTimestamp(3, new java.sql.Timestamp(post.getFecha().getTime()));
-            stmt.setInt(4, post.getId());
+            stmt.setString(2, post.getCreador());
+            stmt.setString(3, post.getTexto());
+            stmt.setTimestamp(4, new java.sql.Timestamp(post.getFecha().getTime()));
+            stmt.setInt(5, post.getId());
             int rows = stmt.executeUpdate();
             exito = (rows == 1);
         } catch (SQLException | ClassNotFoundException e) {

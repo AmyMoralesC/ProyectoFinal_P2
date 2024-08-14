@@ -10,14 +10,16 @@ import java.util.Date;
 public class Post implements Serializable {
     private int id;
     private String titulo;
+    private String creador;
     private String texto;
     private Date fecha;
     private int notifi;
     
 
-    public Post(int id, String titulo, String texto, Date fecha, int notifi) {
+    public Post(int id, String titulo, String creador, String texto, Date fecha, int notifi) {
         this.id = id;
         this.titulo = titulo;
+        this.creador = creador;
         this.texto = texto;
         this.fecha = fecha;
         this.notifi = notifi;
@@ -41,6 +43,14 @@ public class Post implements Serializable {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getCreador() {
+        return creador;
+    }
+
+    public void setCreador(String creador) {
+        this.creador = creador;
     }
 
     public String getTexto() {

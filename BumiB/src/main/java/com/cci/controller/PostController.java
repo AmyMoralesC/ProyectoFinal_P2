@@ -43,12 +43,11 @@ public class PostController implements Serializable {
     public void crearPost() {
         post.setFecha(new Timestamp(System.currentTimeMillis()));
         post.setTexto(nuevoTexto);
-        
+        post.setCreador(logingController.getUsuario().getNombre());
         boolean exito = servicioPost.crearPost(post);
         if (exito) {
             posts.add(post);
-            post = new Post();
-            post.setCreador(logingController.getUsuario().getNombre());
+            post = new Post(); 
             nuevoTexto = "";
             post.setNotifi(1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación creada exitosamente"));
@@ -89,7 +88,7 @@ public class PostController implements Serializable {
     public void setPost(Post post) {
         this.post = post;
     }
-
+    
     public List<Post> getPosts() {
         return posts;
     }

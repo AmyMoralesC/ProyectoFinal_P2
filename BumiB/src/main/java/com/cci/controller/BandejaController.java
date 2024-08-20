@@ -29,7 +29,8 @@ public class BandejaController implements Serializable {
     private PostController postController;
     @ManagedProperty(value = "#{servicioNotificacion}")
     private ServicioNotificacion servicioNot;
-
+    @ManagedProperty(value = "#{loginController}")
+    private LoginController loginController;
     private Notificacion notificacion;
     private Notificacion selectedNotificacion;
     private List<Notificacion> notificaciones;
@@ -49,9 +50,11 @@ public class BandejaController implements Serializable {
     public void crearNotificacionMensaje() {
         if (postController.getPost().getNotifi() == 1) {
             notificacion = new Notificacion();
+            String creador = loginController.getUsuario().getNombre();
+            System.out.println("Valor de creador en Notificación: " + creador);
             notificacion.setTipo("Mensaje");
             notificacion.setDonde("Muro general");
-            notificacion.setDe(postController.getPost().getCreador());
+            notificacion.setDe(creador);
             servicioNot.crearNotif(notificacion);
         }
     }
@@ -116,6 +119,14 @@ public class BandejaController implements Serializable {
 
     public void setPostController(PostController postController) {
         this.postController = postController;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
     }
 
 }

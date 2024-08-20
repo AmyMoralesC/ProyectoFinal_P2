@@ -3,6 +3,10 @@ package com.cci.controller;
 import com.cci.data.ServicioPost;
 import com.cci.model.Post;
 import com.cci.model.Usuario;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -15,18 +19,18 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
 
 @ManagedBean(name = "postController")
 @SessionScoped
 public class PostController implements Serializable {
-   
+
     private static final long serialVersionUID = 1L;
 
     @ManagedProperty(value = "#{loginController}")
     private LoginController logingController;
-    
+
     private ServicioPost servicioPost;
     private Post post;
     private List<Post> posts;
@@ -41,13 +45,19 @@ public class PostController implements Serializable {
     }
 
     public void crearPost() {
+        if (nuevoTexto == null || nuevoTexto.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El campo de publicación no puede estar vacío"));
+            return;
+        }
+
         post.setFecha(new Timestamp(System.currentTimeMillis()));
         post.setTexto(nuevoTexto);
         post.setCreador(logingController.getUsuario().getNombre());
+
         boolean exito = servicioPost.crearPost(post);
         if (exito) {
-            posts.add(post);
-            post = new Post(); 
+            posts = servicioPost.buscarTodosLosPosts();
+            post = new Post();
             nuevoTexto = "";
             post.setNotifi(1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación creada exitosamente"));
@@ -56,7 +66,6 @@ public class PostController implements Serializable {
         }
     }
 
-    // Método para formatear la fecha en español
     public String formatDate(Timestamp timestamp) {
         Date date = new Date(timestamp.getTime());
         DateFormat df = new SimpleDateFormat("dd MMMM yyyy", new Locale("es", "ES"));
@@ -72,7 +81,7 @@ public class PostController implements Serializable {
     public void setLogingController(LoginController logingController) {
         this.logingController = logingController;
     }
-       
+
     public ServicioPost getServicioPost() {
         return servicioPost;
     }
@@ -88,7 +97,7 @@ public class PostController implements Serializable {
     public void setPost(Post post) {
         this.post = post;
     }
-    
+
     public List<Post> getPosts() {
         return posts;
     }
@@ -112,5 +121,4 @@ public class PostController implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
 }

@@ -42,41 +42,43 @@ public class ServicioPost extends Servicio {
     }
 
     // Método para buscar todas las publicaciones
-    public List<Post> buscarTodosLosPosts() {
-        List<Post> listaPosts = new ArrayList<>();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+public List<Post> buscarTodosLosPosts() {
+    List<Post> listaPosts = new ArrayList<>();
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
 
-        try {
-            conectar();
-            String sql = "SELECT idmensajes, titulo, creador, texto, fecha FROM mensajes";
-            stmt = getConexion().prepareStatement(sql);
-            rs = stmt.executeQuery();
+    try {
+        conectar();
+        // Modifica la consulta para ordenar por fecha en orden descendente
+        String sql = "SELECT idmensajes, titulo, creador, texto, fecha FROM mensajes ORDER BY fecha DESC";
+        stmt = getConexion().prepareStatement(sql);
+        rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                int id = rs.getInt("idmensajes");
-                String titulo = rs.getString("titulo");
-                String creador = rs.getString("creador");
-                String texto = rs.getString("texto");
-                Date fecha = rs.getTimestamp("fecha");
-                Post post = new Post();
-                post.setId(id);
-                post.setTitulo(titulo);
-                post.setCreador(creador);
-                post.setTexto(texto);
-                post.setFecha(fecha);
-                listaPosts.add(post);
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            cerrarResultSet(rs);
-            cerrarStatement(stmt);
-            desconectar();
+        while (rs.next()) {
+            int id = rs.getInt("idmensajes");
+            String titulo = rs.getString("titulo");
+            String creador = rs.getString("creador");
+            String texto = rs.getString("texto");
+            Date fecha = rs.getTimestamp("fecha");
+            Post post = new Post();
+            post.setId(id);
+            post.setTitulo(titulo);
+            post.setCreador(creador);
+            post.setTexto(texto);
+            post.setFecha(fecha);
+            listaPosts.add(post);
         }
-
-        return listaPosts;
+    } catch (SQLException | ClassNotFoundException e) {
+        e.printStackTrace();
+    } finally {
+        cerrarResultSet(rs);
+        cerrarStatement(stmt);
+        desconectar();
     }
+
+    return listaPosts;
+}
+
 
     // Método para actualizar una publicación
     public boolean actualizarPost(Post post) {

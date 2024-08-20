@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Olvidé Contraseña - BumiB</title>
+        <h:outputStylesheet library="css" name="styleOlvideContra.css"/>
+    </h:head>
+    <h:body>
+        <div class="container">     
+            <div class="form-wrapper">
+                <span class="logo-name">BumiB</span>
+                <img src="#{resource['images/logo.jpg']}" alt="Logo Image" class="logo" draggable="false"/>
+                <h2>Olvidé Contraseña</h2>
+                <h3 class="h3-mini">¡Recuperá tu Cuenta!</h3>
+                <div class="commandButtonWrapper">
+                    <div class="contra">
+                        <h:form id="OlvideContraForm">
+                            <p:growl id="growl" life="3000"/>
+
+                            <div class="grid ui-fluid" style="position: relative; right: 32px; width: 320px">
+                                <div class="col-12 md:col-4">
+                                    <div class="ui-inputgroup" style="position: relative; top: 35px;">
+                                        <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                                        <p:inputText id="correo" value="#{olvideContraController.correo}" required="true" 
+                                                     requiredMessage="El correo electrónico es obligatorio" placeholder="Correo"/>
+                                    </div>
+                                </div>
+                                <div class="Button-Enviar">
+                                    <p:commandButton value="Enviar correo" action="#{olvideContraController.enviarCorreoRestablecimiento}"
+                                                     update=":OlvideContraForm:growl" style="margin-top: 1em; width: 100%; position: relative; top: 60px"/>
+                                </div>
+                                <div class="Button-Regresar">
+                                    <p:commandButton value="Regresar" actionListener="#{loginController.ingresarLogin()}" immediate="true" style="margin-top: 5em"/>
+                                </div>
+
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

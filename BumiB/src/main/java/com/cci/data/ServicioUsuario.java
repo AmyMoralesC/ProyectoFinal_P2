@@ -430,4 +430,74 @@ public class ServicioUsuario extends Servicio {
         return usuario;
     }
 
+    public Usuario buscarPorCorreo(String correo) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Usuario usuario = null;
+
+        try {
+            conectar();
+            String sql = "SELECT * FROM usuario WHERE correo = ?";
+            stmt = getConexion().prepareStatement(sql);
+            stmt.setString(1, correo);  // Uso del parámetro directamente, sin comodines
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {  // Suponiendo que solo habrá un resultado
+                int id = rs.getInt("idUsuario");
+                String carnet = rs.getString("carnet");
+                String nombreUsuario = rs.getString("nombre");
+                String clave = rs.getString("contraseña");
+                String facultad = rs.getString("facultad");
+                String carrera = rs.getString("carrera");
+                String sede = rs.getString("sede");
+                String biografia = rs.getString("biografia");
+                String telefono = rs.getString("telefono");
+                String estado = rs.getString("estado");
+                String fotoPerfil = rs.getString("fotoperfil");
+                usuario = new Usuario(id, carnet, nombreUsuario, correo, clave, facultad, carrera, sede, biografia, telefono, estado, fotoPerfil);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  // Mejorar el manejo de excepciones en producción
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+
+        return usuario;
+    }
+
+    public void guardarToken(String correo, String token) {
+        try {
+            conectar();
+            // Establece la fecha de expiración a 1 hora a partir de ahora
+            String sql = "INSERT INTO tokens (correo, token, fecha_expiracion) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR))";
+            PreparedStatement stmt = getConexion().prepareStatement(sql);
+            stmt.setString(1, correo);
+            stmt.setString(2, token);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            desconectar();
+        }
+    }
+
+    public boolean validarToken(String correo, String token) {
+        try {
+            conectar();
+            String sql = "SELECT * FROM tokens WHERE correo = ? AND token = ? AND fecha_expiracion > NOW()";
+            PreparedStatement stmt = getConexion().prepareStatement(sql);
+            stmt.setString(1, correo);
+            stmt.setString(2, token);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // Retorna true si se encuentra el token y no ha expirado
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            desconectar();
+        }
+    }
+
 }

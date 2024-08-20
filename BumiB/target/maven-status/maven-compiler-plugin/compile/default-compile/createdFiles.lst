@@ -4,6 +4,7 @@ com\cci\controller\BandejaController.class
 com\cci\data\ServicioPost.class
 com\cci\model\MensajePrivado.class
 com\cci\data\ServicioUsuario.class
+com\cci\controller\EmailSender$2.class
 com\cci\controller\LoginController.class
 com\cci\controller\RegisterController.class
 com\cci\controller\MenuController.class
@@ -21,4 +22,5 @@ com\cci\bumib\resources\JakartaEE8Resource.class
 com\cci\data\Servicio.class
 com\cci\controller\ConfiguracionController.class
 com\cci\controller\EmailSender$1.class
+com\cci\controller\OlvideClaveController.class
 com\cci\controller\SubMuroController.class

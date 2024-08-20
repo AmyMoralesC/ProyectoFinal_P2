@@ -173,7 +173,15 @@ public class PerfilController implements Serializable {
         if (usuario != null && usuario.getFotoPerfil() != null) {
             return "/resources/uploads/" + usuario.getFotoPerfil();
         } else {
-            return "images/profile.jpg";
+            return "/resources/images/profile.jpg";
+        }
+    }
+
+    public String getFotoPerfil() {
+        if (perfilVisualizado != null && perfilVisualizado.getFotoPerfil() != null) {
+            return "/resources/uploads/" + perfilVisualizado.getFotoPerfil();
+        } else {
+            return "/resources/images/profile.jpg"; // Imagen por defecto si no tiene foto
         }
     }
 
@@ -185,8 +193,9 @@ public class PerfilController implements Serializable {
         perfilVisualizado = servicioUsuario.buscarPorNombre(nombreUsuarioBuscado);
         if (perfilVisualizado != null) {
             nombreUsuarioBuscado = null;
+            System.out.println("Ruta de la imagen de perfil: " + this.perfilVisualizado.getFotoPerfil());
             return "verPerfilUsuario.xhtml?faces-redirect=true";
-            
+
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario no encontrado", ""));
             return null;

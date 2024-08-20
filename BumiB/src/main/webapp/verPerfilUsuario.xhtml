@@ -56,9 +56,14 @@
                     <div class="profile-header">
                         <div class="profile-card">
                             <div class="profile-info">
-                                <h:graphicImage value="#{perfilController.perfilVisualizado.fotoPerfil}" class="profile-photo"/>
+                                <h:graphicImage value="#{perfilController.fotoPerfil}" class="profile-photo"/>
                                 <div class="profile-details">
-                                    <h3>#{perfilController.perfilVisualizado.nombre}</h3>
+                                    <h3>
+                                        #{perfilController.perfilVisualizado.nombre}
+                                        <h:panelGroup rendered="#{perfilController.perfilVisualizado.estado eq 'Activo'}">
+                                            <i class="pi pi-check" style="color: green; font-size: 20px; margin-left: 5px;"></i>
+                                        </h:panelGroup>
+                                    </h3>
                                     <h4>#{not empty perfilController.perfilVisualizado.sede ? perfilController.perfilVisualizado.sede : ''}</h4>
                                     <h4>#{not empty perfilController.perfilVisualizado.facultad ? perfilController.perfilVisualizado.facultad : ''}</h4>
                                     <h4>#{not empty perfilController.perfilVisualizado.carrera ? perfilController.perfilVisualizado.carrera : ''}</h4>
@@ -72,13 +77,13 @@
                 </h:form>
             </div>
         </div>
-        
+
         <h:form id="confirmLogoutForm">
             <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">
                 <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@none" />
                 <p:commandButton value="No" onclick="PF('confirmLogout').hide()" type="button" />
             </p:confirmDialog>
         </h:form>
-        
+
     </h:body>
 </html>

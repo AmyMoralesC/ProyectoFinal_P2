@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Olvidé Contraseña - BumiB</title>
+        <h:outputStylesheet library="css" name="styleOlvideContra.css"/>
+    </h:head>
+    <h:body>
+        <div class="container">     
+            <div class="form-wrapper">
+                <span class="logo-name">BumiB</span>
+                <img src="#{resource['images/logo.jpg']}" alt="Logo Image" class="logo" draggable="false"/>
+                <h2>Olvidé Contraseña</h2>
+                <h3 class="h3-mini">¡Ingresa tu nueva Contraseña!</h3>
+                <div class="commandButtonWrapper">
+                    <div class="contra">
+                        <h:form id="OlvideContraForm">
+                            <p:growl id="growl" life="3000"/>
+                            <div class="grid ui-fluid" style="position: relative; right: 32px; width: 320px">
+                                <div class="col-12 md:col-4">
+                                    <div class="ui-inputgroup" style="position: relative; top: 35px;">
+                                        <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                                        <p:inputText id="correo" value="#{olvideContraController.correo}" placeholder="Correo" 
+                                                     autocomplete="off" disabled="true"/>
+                                    </div>
+                                    <div class="ui-inputgroup" style="position: relative; top: 45px"> 
+                                        <div class="ui-inputgroup-addon"><i class="pi pi-lock"></i></div>
+                                        <p:password id="nuevaContraseña" value="#{olvideContraController.nuevaContraseña}" placeholder="Nueva Contraseña" 
+                                                    required="true" requiredMessage="Introduzca una contraseña" validatorMessage="Contraseña no válida" 
+                                                    toggleMask="true" redisplay="true" autocomplete="off"
+                                                    style="width: calc(100% - -10px); margin-left: -10px;">
+                                            <f:validateLength minimum="8" />
+                                        </p:password>
+                                    </div>
+                                </div>
+                                <div class="enviar-Button">
+                                    <p:commandButton value="Cambiar Contraseña" action="#{olvideContraController.restablecerContraseña}" update=":OlvideContraForm:growl" 
+                                                     style="margin-top: 1em; width: 100%; position: relative; top: 60px"
+                                                     oncomplete="if (!args.validationFailed) setTimeout(function() { window.location.href='index.xhtml'; }, 3000);" />
+                                </div>
+
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

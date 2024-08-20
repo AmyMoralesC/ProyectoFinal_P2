@@ -87,7 +87,7 @@
                             <p:commandButton style="position: relative; top: -10px; width: 450px" value="Verificar código" actionListener="#{registerController.registrarUsuario()}" 
                                              update=":registerForm:growl :registerForm"
                                              process="@this codigoVerificacion"
-                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide();"  />
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modalDialog').hide(); setTimeout(function() { window.location.href='index.xhtml'; }, 2000);"  />
                         </div>
                     </h:form>
                 </p:dialog>

@@ -58,7 +58,13 @@
                             <div class="profile-info">
                                 <h:graphicImage value="#{perfilController.rutaFotoPerfil}" class="profile-photo"/>
                                 <div class="profile-details">
-                                    <h3>#{perfilController.nombreUsuario}</h3>
+                                    <h3>
+                                        #{perfilController.nombreUsuario}
+                                        <h:panelGroup rendered="#{perfilController.usuario.estado eq 'Activo'}">
+                                            <i class="pi pi-check" style="color: green; font-size: 20px; margin-left: 5px;"
+                                               title="Este usuario es profesor"></i>
+                                        </h:panelGroup>
+                                    </h3>
                                     <h4>#{not empty perfilController.sedeUsuario ? perfilController.sedeUsuario : ''}</h4>
                                     <h4>#{not empty perfilController.facultadUsuario ? perfilController.facultadUsuario : ''}</h4>
                                     <h4>#{not empty perfilController.carreraUsuario ? perfilController.carreraUsuario : ''}</h4>
@@ -144,28 +150,20 @@
                                      requiredMessage="Introduce tu facultad" style="width: 100%;" >
                         <f:selectItem itemLabel="" itemValue="" />
                         <f:selectItem itemLabel="Facultad de Ingeniería" itemValue="Facultad de Ingeniería"/>
-                        <f:selectItem itemLabel="Facultad de Ciencias Económicas" itemValue="Facultad de Ciencias Económicas"/>
-                        <f:selectItem itemLabel="Facultad de Ciencias Sociales" itemValue="Facultad de Ciencias Sociales"/>    
-                        <f:selectItem itemLabel="Facultad de Ciencias de la Salud" itemValue="Facultad de Ciencias de la Salud"/> 
-                        <f:selectItem itemLabel="Facultad de Ciencias de la Tierra y el Mar" itemValue="Facultad de Ciencias de la Tierra y el Mar"/> 
-                        <f:selectItem itemLabel="Facultad de Ciencias Agroalimentarias" itemValue="Facultad de Ciencias Agroalimentarias"/> 
-                        <f:selectItem itemLabel="Facultad de Ciencias Básicas" itemValue="Facultad de Ciencias Básicas"/> 
+                        <f:selectItem itemLabel="Facultad de Ciencas de la Salud" itemValue="Facultad de Ciencas de la Salud"/>
+                        <f:selectItem itemLabel="Facultad de Ciencias Empresariales" itemValue="Facultad de Ciencias Empresariales"/>    
+                        <f:selectItem itemLabel="Facultad de Arte y Diseño" itemValue="Facultad de Arte y Diseño"/> 
+                        <f:selectItem itemLabel="Facultad de Ciencias Sociales" itemValue="Facultad de Ciencias Sociales"/> 
                     </p:selectOneMenu>
                     <h:outputLabel for="facultad" value="Facultad" />
                 </div>
 
                 <!-- Campo Carrera -->
                 <div class="ui-float-label">
-                    <p:selectOneMenu id="carrera" value="#{perfilController.usuario.carrera}" required="false" label="Carrera"
-                                     requiredMessage="Introduce tu carrera" style="width: 100%;" >
-                        <f:selectItem itemLabel="" itemValue="" />
-                        <f:selectItem itemLabel="Ingeniería en Computación" itemValue="Ingeniería en Computación"/>
-                        <f:selectItem itemLabel="Administración de Empresas" itemValue="Administración de Empresas"/>
-                        <f:selectItem itemLabel="Psicología" itemValue="Psicología"/>    
-                        <f:selectItem itemLabel="Medicina" itemValue="Medicina"/> 
-                        <f:selectItem itemLabel="Ingeniería Agronómica" itemValue="Ingeniería Agronómica"/> 
-                        <f:selectItem itemLabel="Arquitectura" itemValue="Arquitectura"/> 
-                    </p:selectOneMenu>
+                    <p:inputText id="carrera" value="#{perfilController.usuario.carrera}" required="false" label="Carrera"
+                                 requiredMessage="Introduce tu carrera" validatorMessage="Carrera no válida" style="width: 100%;" autocomplete="off">
+                        <f:validateLength maximum="50" />
+                    </p:inputText>
                     <h:outputLabel for="carrera" value="Carrera" />
                 </div>
 
@@ -177,7 +175,7 @@
                     </p:inputTextarea>
                     <h:outputLabel for="biografia" value="Biografía" />
                 </div>
-                
+
                 <div class="commandButtonWrapper">
                     <p:commandButton value="Guardar" action="#{perfilController.guardarPerfil}"
                                      update=":perfilForm:growl, :perfilForm"

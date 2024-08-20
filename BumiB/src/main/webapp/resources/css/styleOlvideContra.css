@@ -1,0 +1,152 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 19 ago 2024, 17:52:43
+    Author     : maule
+*/
+
+/*Body*/
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/*Contenedor - No cambiar*/
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgb(4,0,66);
+    background: linear-gradient(25deg, rgba(4,0,66,1) 0%, rgba(120,38,136,1) 49%, rgba(24,129,205,1) 98%);
+    overflow: hidden;
+}
+
+/*Form/Div - No cambiar*/
+.form-wrapper {
+    position: relative;
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    max-width: 900px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*Área del logo*/
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    height: 40px;
+    width: 40px;
+    z-index: 1;
+}
+
+.logo-name {
+    position: absolute;
+    top: 27px;
+    left: 60px;
+    height: 40px;
+    width: 40px;
+    z-index: 1;
+    font-weight: bold;
+}
+
+/*Área de los h2-h3*/
+h2 {
+    position: relative;
+    width: 100%;
+    left: 10px;
+    top: 30px;
+    color: #24201F;
+}
+
+.h3-mini {
+    position: relative;
+    margin-bottom: -10px;
+    left: 15px;
+    width: 100%;
+    top: 35px;
+    color: #433E3D;
+}
+
+/*No cambiar*/
+.commandButtonWrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.5em;
+}
+
+.login, .register {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.separator-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.separator {
+    font-size: 18px;
+    color: #666; 
+}
+
+/*Área del link del olvido de contra*/
+.forgot-password-link {
+    font-size: 15px;
+    color: #3791C4; 
+    text-decoration: none;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+/*Área del lado derecho del Form*/
+.register-content {
+    position: relative;
+    display: inline-block;
+    width: 100%; 
+}
+
+.background-image {
+    position: absolute;
+    top: -0px;
+    right: -0px;
+    width: calc(100% - 420px);
+    height: 550px;
+    border-top-right-radius: 7px; 
+    border-bottom-right-radius: 7px; 
+    z-index: 1; 
+}
+
+.overlay-panel {
+    position: absolute;
+    top: -243px;
+    left: -18.5px;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2; 
+    padding: 20px;
+    height: 498px;
+    width: 425px;
+    border-radius: 10px;
+}

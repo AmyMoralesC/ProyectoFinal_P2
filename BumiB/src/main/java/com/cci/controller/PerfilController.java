@@ -1,10 +1,12 @@
 package com.cci.controller;
 
+import com.cci.data.ServicioPost;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import com.cci.model.Usuario;
+import com.cci.model.Post;
 import com.cci.data.ServicioUsuario;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,9 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -31,11 +35,17 @@ public class PerfilController implements Serializable {
     private int cantidadSeguidores;
     private Usuario perfilVisualizado;
     private UploadedFile file;
+    private int cantidadSeguidoresPerfil;
 
     private String nombreUsuarioBuscado;
+    private boolean usuarioSiguiendo;
+
+    private ServicioPost servicioPost;
+    private List<Post> postsDelUsuario;
 
     public PerfilController() {
         servicioUsuario = new ServicioUsuario();
+        servicioPost = new ServicioPost();
     }
 
     public UploadedFile getFile() {
@@ -170,6 +180,13 @@ public class PerfilController implements Serializable {
         return uploadsPath;
     }
 
+    public List<Usuario> getSeguidoresPerfilVisualizado() {
+        if (perfilVisualizado != null) {
+            return servicioUsuario.obtenerSeguidores(perfilVisualizado.getId());
+        }
+        return new ArrayList<>();
+    }
+
     public String getRutaFotoPerfil() {
         if (usuario != null && usuario.getFotoPerfil() != null) {
             return "/resources/uploads/" + usuario.getFotoPerfil();
@@ -196,19 +213,111 @@ public class PerfilController implements Serializable {
 
     public void cargarPerfil(int usuarioId) {
         perfilVisualizado = servicioUsuario.buscarPorId(usuarioId);
+        if (perfilVisualizado != null) {
+            cantidadSeguidoresPerfil = servicioUsuario.contarSeguidores(perfilVisualizado.getId());
+        }
     }
 
     public String verPerfil() {
         perfilVisualizado = servicioUsuario.buscarPorNombre(nombreUsuarioBuscado);
         if (perfilVisualizado != null) {
+            cantidadSeguidoresPerfil = servicioUsuario.contarSeguidores(perfilVisualizado.getId());
             nombreUsuarioBuscado = null;
             System.out.println("Ruta de la imagen de perfil: " + this.perfilVisualizado.getFotoPerfil());
             return "verPerfilUsuario.xhtml?faces-redirect=true";
-
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario no encontrado", ""));
             return null;
         }
+    }
+
+    public void followUser() {
+        ServicioUsuario servicioUsuario = new ServicioUsuario();
+        int seguidoId = this.perfilVisualizado.getId(); // ID del usuario que está siendo seguido
+        int seguidorId = this.usuario.getId(); // ID del usuario actual logueado
+
+        if (!servicioUsuario.seguirUsuario(seguidorId, seguidoId)) {
+            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se logró seguir al usuario", "No se logró seguir al usuario"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario seguido", "Ahora sigues a este usuario"));
+        }
+    }
+
+    public void unfollowUser() {
+        ServicioUsuario servicioUsuario = new ServicioUsuario();
+        int seguidoId = this.perfilVisualizado.getId(); // ID del usuario que está siendo dejado de seguir
+        int seguidorId = this.usuario.getId(); // ID del usuario actual logueado
+
+        if (!servicioUsuario.dejarDeSeguirUsuario(seguidorId, seguidoId)) {
+            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se logró dejar de seguir al usuario", "No se logró dejar de seguir al usuario"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Dejado de seguir", "Ya no sigues a este usuario"));
+            // Actualizar el estado del botón
+            this.usuarioSiguiendo = false;
+        }
+    }
+
+    public boolean isUsuarioSiguiendo() {
+        if (perfilVisualizado != null && usuario != null) {
+            int seguidorId = usuario.getId(); // ID del usuario actual
+            int seguidoId = perfilVisualizado.getId(); // ID del usuario visualizado
+            this.usuarioSiguiendo = servicioUsuario.yaSigueUsuario(seguidorId, seguidoId);
+        } else {
+            this.usuarioSiguiendo = false;
+        }
+        return usuarioSiguiendo;
+    }
+
+    public void toggleFollow(ActionEvent event) {
+        if (isUsuarioSiguiendo()) {
+            unfollowUser();
+        } else {
+            followUser();
+        }
+    }
+
+    public List<Post> getPostsDelUsuario() {
+        if (perfilVisualizado != null) {
+            return servicioPost.buscarPostsPorUsuario(perfilVisualizado.getId());
+        }
+        return new ArrayList<>();
+    }
+
+    public void crearPost(String titulo, String texto) {
+        if (usuario != null && titulo != null && !titulo.isEmpty() && texto != null && !texto.isEmpty()) {
+            Post newPost = new Post();
+            newPost.setTitulo(titulo);
+            newPost.setTexto(texto);
+            newPost.setCreador(usuario.getNombre());
+            newPost.setFecha(new Date());
+            newPost.setCreadorId(usuario.getId());
+            newPost.setNotifi(0);  // Asume 0 como valor predeterminado para notificación
+
+            if (servicioPost.crearPost(newPost)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación creada correctamente"));
+                // Actualiza la lista de publicaciones del usuario
+                postsDelUsuario = servicioPost.buscarPostsPorUsuario(usuario.getId());
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear la publicación", ""));
+            }
+        }
+    }
+
+    public void eliminarPost(int postId) {
+        if (servicioPost.eliminarPost(postId)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación eliminada correctamente"));
+            // Actualiza la lista de publicaciones del usuario
+            postsDelUsuario = servicioPost.buscarPostsPorUsuario(usuario.getId());
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar la publicación", ""));
+        }
+    }
+
+    public List<Post> getPostsDelPerfilVisualizado() {
+        if (perfilVisualizado != null) {
+            return servicioPost.buscarPostsPorUsuario(perfilVisualizado.getId());
+        }
+        return new ArrayList<>();
     }
 
     public ServicioUsuario getServicioUsuario() {
@@ -253,6 +362,18 @@ public class PerfilController implements Serializable {
 
     public void setNombreUsuarioBuscado(String nombreUsuarioBuscado) {
         this.nombreUsuarioBuscado = nombreUsuarioBuscado;
+    }
+
+    public int getCantidadSeguidoresPerfil() {
+        return cantidadSeguidoresPerfil;
+    }
+
+    public void setCantidadSeguidoresPerfil(int cantidadSeguidoresPerfil) {
+        this.cantidadSeguidoresPerfil = cantidadSeguidoresPerfil;
+    }
+
+    public void setUsuarioSiguiendo(boolean usuarioSiguiendo) {
+        this.usuarioSiguiendo = usuarioSiguiendo;
     }
 
 }

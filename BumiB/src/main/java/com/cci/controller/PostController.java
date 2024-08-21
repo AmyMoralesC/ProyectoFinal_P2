@@ -53,6 +53,7 @@ public class PostController implements Serializable {
         post.setFecha(new Timestamp(System.currentTimeMillis()));
         post.setTexto(nuevoTexto);
         post.setCreador(logingController.getUsuario().getNombre());
+        post.setCreadorId(logingController.getUsuario().getId()); // Asigna el idusuario al idCreador
 
         boolean exito = servicioPost.crearPost(post);
         if (exito) {
@@ -73,7 +74,6 @@ public class PostController implements Serializable {
     }
 
     // Getters y Setters
-
     public LoginController getLogingController() {
         return logingController;
     }

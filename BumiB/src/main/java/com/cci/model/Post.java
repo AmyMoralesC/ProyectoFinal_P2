@@ -14,15 +14,17 @@ public class Post implements Serializable {
     private String texto;
     private Date fecha;
     private int notifi;
+    private int creadorId;
     
 
-    public Post(int id, String titulo, String creador, String texto, Date fecha, int notifi) {
+    public Post(int id, String titulo, String creador, String texto, Date fecha, int notifi, int creadorId) {
         this.id = id;
         this.titulo = titulo;
         this.creador = creador;
         this.texto = texto;
         this.fecha = fecha;
         this.notifi = notifi;
+        this.creadorId = creadorId;
     }
 
    
@@ -77,6 +79,13 @@ public class Post implements Serializable {
         this.notifi = notifi;
     }
     
+    public int getCreadorId() {
+        return creadorId;
+    }
+
+    public void setCreadorId(int creadorId) {
+        this.creadorId = creadorId;
+    }
    
     @Override
     public String toString() {
@@ -84,7 +93,7 @@ public class Post implements Serializable {
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", texto='" + texto + '\'' +
-                ", fecha=" + fecha +
+                ", fecha=" + fecha + ", creadorId" + creadorId +
                 '}';
     }
 }

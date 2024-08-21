@@ -15,6 +15,10 @@ body {
     position: relative;
     top: -10px;
 }
+.publication-content img {
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
 
 .container {
     display: flex;
@@ -175,9 +179,6 @@ body {
     max-height: 10000px; 
 }
 
-
-
-
 .publication-footer {
     text-align: right;
     font-size: 12px;
@@ -272,3 +273,13 @@ body {
 .chat-message[style*="text-align: right;"] .message-content {
     background-color: #DCF8C6;
 }
+.like-button {
+    font-size: 1.5em;
+    color: #d9534f; /* Color rojo para el ícono de corazón */
+    cursor: pointer;
+}
+
+.like-button.ui-state-active {
+    color: #d9534f; /* Color rojo cuando el botón está activo (like dado) */
+}
+

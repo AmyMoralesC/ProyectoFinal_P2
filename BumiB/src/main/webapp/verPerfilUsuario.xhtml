@@ -8,6 +8,28 @@
     <h:head>
         <title>Perfil de Usuario</title>
         <h:outputStylesheet library="css" name="stylePerfilBuscado.css" />
+        <script>
+            function changeButtonToUnfollowIcon(button) {
+                const iconElement = button.querySelector('.ui-button-icon-left');
+                if (iconElement) {
+                    iconElement.classList.remove('pi-user-minus');
+                    iconElement.classList.add('pi-user-minus'); // Icono para dejar de seguir
+                }
+                button.classList.remove('ui-button-secondary');
+                button.classList.add('ui-button-danger');
+            }
+
+            function resetButtonToFollowingIcon(button) {
+                const iconElement = button.querySelector('.ui-button-icon-left');
+                if (iconElement) {
+                    iconElement.classList.remove('pi-user-times');
+                    iconElement.classList.add('pi-user-minus'); // Icono para siguiendo
+                }
+                button.classList.remove('ui-button-danger');
+                button.classList.add('ui-button-secondary');
+            }
+
+        </script>
     </h:head>
     <h:body>
         <div class="top-menu">
@@ -67,22 +89,87 @@
                                     <h4>#{not empty perfilController.perfilVisualizado.facultad ? perfilController.perfilVisualizado.facultad : ''}</h4>
                                     <h4>#{not empty perfilController.perfilVisualizado.carrera ? perfilController.perfilVisualizado.carrera : ''}</h4>
                                     <p>#{not empty perfilController.perfilVisualizado.biografia ? perfilController.perfilVisualizado.biografia : ''}</p>
+                                    <h:commandLink id="contadorSeguidores" value="Seguidores: #{perfilController.cantidadSeguidoresPerfil}" 
+                                                   style="text-decoration: underline; color: black; cursor: pointer;" 
+                                                   onclick="PF('dlgSeguidores').show();
+                                                           return false;">
+                                    </h:commandLink>
+                                    <div class="profile-actions">
+                                        <p:commandButton id="followButton" 
+                                                         value="#{perfilController.isUsuarioSiguiendo() ? 'Dejar de Seguir' : 'Seguir'}" 
+                                                         icon="#{perfilController.isUsuarioSiguiendo() ? 'pi pi-user-minus' : 'pi pi-user-plus'}" 
+                                                         actionListener="#{perfilController.toggleFollow}" 
+                                                         update=":perfilUsuarioForm" 
+                                                         styleClass="#{perfilController.isUsuarioSiguiendo() ? 'ui-button-secondary' : 'ui-button-success'}"
+                                                         style="position: relative;"
+                                                         onmouseover="if (#{perfilController.isUsuarioSiguiendo()}) {
+                                                                     changeButtonToUnfollowIcon(this);
+                                                                 }"
+                                                         onmouseout="if (#{perfilController.isUsuarioSiguiendo()}) {
+                                                                     resetButtonToFollowingIcon(this);
+                                                                 }"
+                                                         />
+                                    </div>
+
+                                    <p:confirmDialog widgetVar="dlgConfirmFollow" message="¿Está seguro que desea seguir a este usuario?" header="Confirmación">
+                                        <p:commandButton value="Sí" action="#{perfilController.followUser}" 
+                                                         oncomplete="PF('dlgConfirmFollow').hide()" update="@this" />
+                                        <p:commandButton value="No" onclick="PF('dlgConfirmFollow').hide()" type="button" />
+                                    </p:confirmDialog>
                                 </div>
                             </div>
+
+                            <div class="divider"></div>
+
+                            <div class="posts-section">
+                                <h3>Publicaciones</h3>
+                                <h:panelGroup id="postsContainer">
+                                    <ui:repeat value="#{perfilController.getPostsDelUsuario()}" var="post">
+                                        <div class="post-card">
+                                            <div class="post-header">
+                                                <span class="user">#{post.creador}</span>
+                                                <span class="date">#{post.fecha}</span>
+                                            </div>
+                                            <div class="post-content">
+                                                <h:outputText value="#{post.texto}" escape="false" />
+                                            </div>
+                                            <div class="post-actions">
+                                                <p:commandButton value="Me gusta" icon="pi pi-thumbs-up" />
+                                                <p:commandButton value="Comentar" icon="pi pi-comment" />
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+
+                                </h:panelGroup>
+                            </div>
+
                         </div>
+
                     </div>
-                    <div class="divider"></div>
-                    <!-- Otros detalles del perfil -->
+                    <p:dialog header="Lista de Seguidores" widgetVar="dlgSeguidores" modal="true" width="400" resizable="false">
+                        <h:panelGrid columns="1" cellpadding="10" style="width: 100%;">
+                            <ui:repeat value="#{perfilController.seguidoresPerfilVisualizado}" var="seguidor">
+                                <div class="follower-item">
+                                    <!-- Foto de perfil del seguidor -->
+                                    <h:graphicImage value="#{perfilController.getFotoPerfilSeguidor(seguidor)}" 
+                                                    class="follower-photo"/>
+
+                                    <!-- Nombre del seguidor -->
+                                    <h:outputText value="#{seguidor.nombre}" class="follower-name"/>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </p:dialog>
+
                 </h:form>
             </div>
         </div>
 
         <h:form id="confirmLogoutForm">
             <p:confirmDialog widgetVar="confirmLogout" message="¿Está seguro que desea cerrar sesión?" header="Confirmación">
-                <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@none" />
+                <p:commandButton value="Sí" action="#{loginController.logout}" onclick="PF('confirmLogout').hide()" update="@all" />
                 <p:commandButton value="No" onclick="PF('confirmLogout').hide()" type="button" />
             </p:confirmDialog>
         </h:form>
-
     </h:body>
 </html>

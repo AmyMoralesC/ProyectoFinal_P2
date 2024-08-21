@@ -22,13 +22,14 @@ public class ServicioPost extends Servicio {
 
         try {
             conectar();
-            String sql = "INSERT INTO mensajes (titulo, creador, texto, fecha, notificacion) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO mensajes (titulo, creador, texto, fecha, notificacion, idCreador) VALUES (?, ?, ?, ?, ?, ?)";
             stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, post.getTitulo());
             stmt.setString(2, post.getCreador());
             stmt.setString(3, post.getTexto());
             stmt.setTimestamp(4, new java.sql.Timestamp(post.getFecha().getTime()));
             stmt.setInt(5, post.getNotifi());
+            stmt.setInt(6, post.getCreadorId());
             int rows = stmt.executeUpdate();
             exito = (rows == 1);
         } catch (SQLException | ClassNotFoundException e) {
@@ -42,43 +43,44 @@ public class ServicioPost extends Servicio {
     }
 
     // Método para buscar todas las publicaciones
-public List<Post> buscarTodosLosPosts() {
-    List<Post> listaPosts = new ArrayList<>();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+    public List<Post> buscarTodosLosPosts() {
+        List<Post> listaPosts = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-    try {
-        conectar();
-        // Modifica la consulta para ordenar por fecha en orden descendente
-        String sql = "SELECT idmensajes, titulo, creador, texto, fecha FROM mensajes ORDER BY fecha DESC";
-        stmt = getConexion().prepareStatement(sql);
-        rs = stmt.executeQuery();
+        try {
+            conectar();
+            // Modifica la consulta para ordenar por fecha en orden descendente
+            String sql = "SELECT idmensajes, titulo, creador, texto, fecha, idCreador FROM mensajes ORDER BY fecha DESC";
+            stmt = getConexion().prepareStatement(sql);
+            rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            int id = rs.getInt("idmensajes");
-            String titulo = rs.getString("titulo");
-            String creador = rs.getString("creador");
-            String texto = rs.getString("texto");
-            Date fecha = rs.getTimestamp("fecha");
-            Post post = new Post();
-            post.setId(id);
-            post.setTitulo(titulo);
-            post.setCreador(creador);
-            post.setTexto(texto);
-            post.setFecha(fecha);
-            listaPosts.add(post);
+            while (rs.next()) {
+                int id = rs.getInt("idmensajes");
+                String titulo = rs.getString("titulo");
+                String creador = rs.getString("creador");
+                String texto = rs.getString("texto");
+                Date fecha = rs.getTimestamp("fecha");
+                int creadorId = rs.getInt("idCreador");
+                Post post = new Post();
+                post.setId(id);
+                post.setTitulo(titulo);
+                post.setCreador(creador);
+                post.setTexto(texto);
+                post.setFecha(fecha);
+                post.setCreadorId(creadorId);
+                listaPosts.add(post);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
         }
-    } catch (SQLException | ClassNotFoundException e) {
-        e.printStackTrace();
-    } finally {
-        cerrarResultSet(rs);
-        cerrarStatement(stmt);
-        desconectar();
+
+        return listaPosts;
     }
-
-    return listaPosts;
-}
-
 
     // Método para actualizar una publicación
     public boolean actualizarPost(Post post) {
@@ -87,13 +89,14 @@ public List<Post> buscarTodosLosPosts() {
 
         try {
             conectar();
-            String sql = "UPDATE mensajes SET titulo = ?, creador= ?, texto = ?, fecha = ? WHERE idmensajes = ?";
+            String sql = "UPDATE mensajes SET titulo = ?, creador= ?, texto = ?, fecha = ?, idCreador = ? WHERE idmensajes = ?";
             stmt = getConexion().prepareStatement(sql);
             stmt.setString(1, post.getTitulo());
             stmt.setString(2, post.getCreador());
             stmt.setString(3, post.getTexto());
             stmt.setTimestamp(4, new java.sql.Timestamp(post.getFecha().getTime()));
-            stmt.setInt(5, post.getId());
+            stmt.setInt(5, post.getCreadorId());
+            stmt.setInt(6, post.getId());
             int rows = stmt.executeUpdate();
             exito = (rows == 1);
         } catch (SQLException | ClassNotFoundException e) {
@@ -127,4 +130,43 @@ public List<Post> buscarTodosLosPosts() {
 
         return exito;
     }
+
+    public List<Post> buscarPostsPorUsuario(int idCreador) {
+        List<Post> listaPosts = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conectar();
+            String sql = "SELECT idmensajes, titulo, creador, texto, fecha, idCreador FROM mensajes WHERE idCreador = ? ORDER BY fecha DESC";
+            stmt = getConexion().prepareStatement(sql);
+            stmt.setInt(1, idCreador);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("idmensajes");
+                String titulo = rs.getString("titulo");
+                String creador = rs.getString("creador");
+                String texto = rs.getString("texto");
+                Date fecha = rs.getTimestamp("fecha");
+                Post post = new Post();
+                post.setId(id);
+                post.setTitulo(titulo);
+                post.setCreador(creador);
+                post.setTexto(texto);
+                post.setFecha(fecha);
+                post.setCreadorId(idCreador);
+                listaPosts.add(post);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+
+        return listaPosts;
+    }
+
 }

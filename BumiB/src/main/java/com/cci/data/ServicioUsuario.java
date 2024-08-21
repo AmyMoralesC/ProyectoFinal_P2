@@ -271,6 +271,55 @@ public class ServicioUsuario extends Servicio {
         }
     }
 
+    public boolean yaSigueUsuario(int seguidorId, int seguidoId) {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            con = getConexion();
+            String sql = "SELECT COUNT(*) FROM seguidores WHERE usuario_id = ? AND seguidor_id = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, seguidoId);
+            stmt.setInt(2, seguidorId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarResultSet(rs);
+            cerrarStatement(stmt);
+            desconectar();
+        }
+        return false;
+    }
+
+    // Método para dejar de seguir a un usuario
+    public boolean dejarDeSeguirUsuario(int seguidorId, int seguidoId) {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        try {
+            con = getConexion();
+            String sql = "DELETE FROM seguidores WHERE usuario_id = ? AND seguidor_id = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, seguidoId);
+            stmt.setInt(2, seguidorId);
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            // Si se eliminaron filas, la operación fue exitosa
+            return filasAfectadas > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrarStatement(stmt);
+            desconectar();
+        }
+    }
+
     // Método para obtener la lista de seguidores de un usuario
     public List<Usuario> obtenerSeguidores(int usuarioId) {
         List<Usuario> seguidores = new ArrayList<>();
@@ -282,7 +331,7 @@ public class ServicioUsuario extends Servicio {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Usuario seguidor = new Usuario();
-                    
+
                     seguidor.setId(rs.getInt("idusuario"));
                     seguidor.setNombre(rs.getString("nombre"));
                     seguidor.setSede(rs.getString("sede"));

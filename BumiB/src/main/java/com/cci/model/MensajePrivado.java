@@ -4,13 +4,14 @@
  */
 package com.cci.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  *
  * @author maule
  */
-public class MensajePrivado {
+public class MensajePrivado implements Serializable{
     
     private int id;
     private int remitenteId;

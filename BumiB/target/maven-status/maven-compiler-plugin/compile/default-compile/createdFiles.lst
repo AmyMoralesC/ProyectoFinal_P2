@@ -1,3 +1,4 @@
+com\cci\model\Comentario.class
 com\cci\controller\MensajePrivadoController.class
 com\cci\model\SubMuro.class
 com\cci\controller\BandejaController.class
@@ -14,8 +15,10 @@ com\cci\model\Usuario.class
 com\cci\data\ServicioNotificacion.class
 com\cci\data\ServicioMensajePrivado.class
 com\cci\model\Notificacion.class
+com\cci\data\ServicioComentario.class
 com\cci\controller\EmailValidator.class
 com\cci\bumib\JakartaRestConfiguration.class
+com\cci\controller\ComentarioController.class
 com\cci\controller\PerfilController.class
 com\cci\controller\EmailSender.class
 com\cci\bumib\resources\JakartaEE8Resource.class

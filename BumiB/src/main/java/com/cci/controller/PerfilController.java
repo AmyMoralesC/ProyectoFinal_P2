@@ -277,12 +277,12 @@ public class PerfilController implements Serializable {
     }
 
     public List<Post> getPostsDelUsuario() {
-        if (perfilVisualizado != null) {
-            return servicioPost.buscarPostsPorUsuario(perfilVisualizado.getId());
+        if (usuario != null) {
+            return servicioPost.buscarPostsPorUsuario(usuario.getId());
         }
         return new ArrayList<>();
     }
-
+    
     public void crearPost(String titulo, String texto) {
         if (usuario != null && titulo != null && !titulo.isEmpty() && texto != null && !texto.isEmpty()) {
             Post newPost = new Post();

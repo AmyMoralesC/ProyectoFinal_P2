@@ -87,6 +87,4 @@ public class ServicioMensajePrivado extends Servicio {
         }
         return mensajes;
     }
-    // Método para obtener la lista de usuarios seguidos por un usuario
-
 }

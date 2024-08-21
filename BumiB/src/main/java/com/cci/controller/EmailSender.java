@@ -24,8 +24,8 @@ public class EmailSender {
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
 
-        final String username = "mauriciolj128@gmail.com"; // correo electronico que se usara para enviar
-        final String password = "phfh amgo gezt fapj"; // contraseña o clave generada para aplicacion
+        final String username = "bbumibb@gmail.com"; // correo electronico que se usara para enviar
+        final String password = "pijf xbgu tbiu uuhz"; // contraseña o clave generada para aplicacion
 
         // Crear una sesión de correo
         Session session = Session.getInstance(properties, new Authenticator() {
@@ -61,8 +61,8 @@ public class EmailSender {
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
 
-        final String username = "mauriciolj128@gmail.com"; // correo electronico que se usara para enviar
-        final String password = "phfh amgo gezt fapj"; // contraseña o clave generada para aplicacion
+        final String username = "bbumibb@gmail.com"; // correo electronico que se usara para enviar
+        final String password = "pijf xbgu tbiu uuhz"; // contraseña o clave generada para aplicacion
         
         // Crear una sesión de correo
         Session session = Session.getInstance(properties, new Authenticator() {

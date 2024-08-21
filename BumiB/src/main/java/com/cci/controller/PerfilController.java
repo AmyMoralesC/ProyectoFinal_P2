@@ -104,16 +104,17 @@ public class PerfilController implements Serializable {
         return new ArrayList<>();
     }
 
-    public void eliminarUsuario() throws IOException {
+    public void eliminarUsuario() {
         if (selectedUsuario != null) {
             boolean resultado = servicioUsuario.eliminarSeguidor(usuario.getId(), selectedUsuario.getId());
             if (resultado) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Seguidor eliminado correctamente", ""));
                 FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("perfilUsuario.xhtml");
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se pudo eliminar el seguidor", ""));
             }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se seleccionó ningún seguidor", ""));
         }
     }
 
@@ -181,7 +182,15 @@ public class PerfilController implements Serializable {
         if (perfilVisualizado != null && perfilVisualizado.getFotoPerfil() != null) {
             return "/resources/uploads/" + perfilVisualizado.getFotoPerfil();
         } else {
-            return "/resources/images/profile.jpg"; // Imagen por defecto si no tiene foto
+            return "/resources/images/profile.jpg";
+        }
+    }
+
+    public String getFotoPerfilSeguidor(Usuario seguidor) {
+        if (seguidor != null && seguidor.getFotoPerfil() != null) {
+            return "/resources/uploads/" + seguidor.getFotoPerfil();
+        } else {
+            return "/resources/images/profile.jpg";
         }
     }
 

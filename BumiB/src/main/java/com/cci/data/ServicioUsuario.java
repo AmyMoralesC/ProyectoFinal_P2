@@ -274,7 +274,7 @@ public class ServicioUsuario extends Servicio {
     // Método para obtener la lista de seguidores de un usuario
     public List<Usuario> obtenerSeguidores(int usuarioId) {
         List<Usuario> seguidores = new ArrayList<>();
-        String sql = "SELECT u.idusuario, u.nombre, u.sede, u.correo FROM seguidores s JOIN usuario u ON s.seguidor_id = u.idusuario WHERE s.usuario_id = ?";
+        String sql = "SELECT u.idusuario, u.nombre, u.sede, u.correo, u.fotoperfil FROM seguidores s JOIN usuario u ON s.seguidor_id = u.idusuario WHERE s.usuario_id = ?";
 
         try (Connection conn = this.getConexion(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -282,10 +282,12 @@ public class ServicioUsuario extends Servicio {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Usuario seguidor = new Usuario();
+                    
                     seguidor.setId(rs.getInt("idusuario"));
                     seguidor.setNombre(rs.getString("nombre"));
                     seguidor.setSede(rs.getString("sede"));
                     seguidor.setCorreo(rs.getString("correo"));
+                    seguidor.setFotoPerfil(rs.getString("fotoperfil"));
                     seguidores.add(seguidor);
                 }
             }

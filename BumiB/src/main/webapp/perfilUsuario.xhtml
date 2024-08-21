@@ -68,38 +68,43 @@
                                     <h4>#{not empty perfilController.facultadUsuario ? perfilController.facultadUsuario : ''}</h4>
                                     <h4>#{not empty perfilController.carreraUsuario ? perfilController.carreraUsuario : ''}</h4>
                                     <p>#{not empty perfilController.biografiaUsuario ? perfilController.biografiaUsuario : ''}</p>
-                                    <p>Seguidores #{perfilController.cantidadSeguidores}</p>
+                                    <h:commandLink id="contadorSeguidores" value="Seguidores: #{perfilController.cantidadSeguidores}" 
+                                                   style="text-decoration: underline; color: black; cursor: pointer;" 
+                                                   onclick="PF('dlgSeguidores').show(); return false;">
+                                    </h:commandLink>
                                 </div>
                             </div>
                             <p:commandButton value="Editar perfil" icon="pi pi-pencil" onclick="PF('dlgEditarPerfil').show()" process="@this"/>
                         </div>
                     </div>
-                    <div class="divider"></div>
-                    <!-- Tabla de seguidores -->
-                    <div class="seguidores-section">
-                        <h3>Lista de seguidores</h3>
-                        <p:dataTable value="#{perfilController.seguidores}" var="seguidor" id="seguidoresTable">
-                            <p:column headerText="Nombre">
-                                <h:outputText value="#{seguidor.nombre}" />
-                            </p:column>
-                            <p:column headerText="Sede">
-                                <h:outputText value="#{seguidor.sede}" />
-                            </p:column>
-                            <p:column headerText="Correo">
-                                <h:outputText value="#{seguidor.correo}" />
-                            </p:column>
-                            <p:column>
-                                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
-                                                 process="@this"
-                                                 actionListener="#{perfilController.eliminarUsuario()}"
-                                                 update=":perfilForm:growl, :perfilForm:seguidoresTable"
-                                                 oncomplete="PF('deleteUserDialog').show()">
-                                    <f:setPropertyActionListener value="#{seguidor}" target="#{perfilController.selectedUsuario}" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </div>
+                    <p:dialog header="Lista de Seguidores" widgetVar="dlgSeguidores" modal="true" 
+                              width="400" resizable="false">
+                        <h:panelGrid columns="1" cellpadding="10" style="width: 100%;">
+                            <ui:repeat value="#{perfilController.seguidores}" var="seguidor">
+                                <div class="follower-item">
+                                    <!-- Foto de perfil del seguidor -->
+                                    <h:graphicImage value="#{perfilController.getFotoPerfilSeguidor(seguidor)}" 
+                                                    class="follower-photo"/>
+
+                                    <!-- Nombre del seguidor -->
+                                    <h:outputText value="#{seguidor.nombre}" class="follower-name"/>
+
+                                    <!-- Botón de eliminar -->
+                                    <p:commandButton value="Remove" 
+                                                     styleClass="remove-button" 
+                                                     action="#{perfilController.eliminarUsuario()}"
+                                                     update=":perfilForm:growl, :perfilForm" 
+                                                     process="@this">
+                                        <f:setPropertyActionListener target="#{perfilController.selectedUsuario}" value="#{seguidor}" />
+                                        <f:ajax render="contadorSeguidores"/>
+                                    </p:commandButton>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </p:dialog>
+
                 </h:form>
+
             </div>
         </div>
 
@@ -188,8 +193,8 @@
         <p:dialog header="Confirmar Eliminación" widgetVar="deleteUserDialog" modal="true" showEffect="fade" hideEffect="fade" draggable="false" closable="false" resizable="false">
             <h:form id="deleteUserForm">
                 <h:outputText value="¿Estás seguro de que deseas eliminar este seguidor?" />
-                <p:commandButton value="Sí" action="#{perfilController.eliminarSeguidor()}" process="@this"
-                                 update=":perfilForm:growl, :perfilForm:seguidoresTable" oncomplete="PF('deleteUserDialog').hide()"/>
+                <p:commandButton value="Sí" action="#{perfilController.eliminarUsuario()}" process="@this"
+                                 update=":perfilForm:growl" oncomplete="PF('deleteUserDialog').hide()"/>
                 <p:commandButton value="No" onclick="PF('deleteUserDialog').hide()" type="button"/>
             </h:form>
         </p:dialog>

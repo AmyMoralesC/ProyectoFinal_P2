@@ -107,10 +107,12 @@ body {
 .divider {
     height: 1px;
     background-color: #ddd;
-    margin: 20px 0;
-    width: 100%;
+    margin: 15px 0;
+    margin-left: -35%;
+    margin-right: -29%;
+    width: 120%;
     position: relative;
-    top: 0px;
+    top: 210px;
 }
 
 .profile-header {
@@ -127,7 +129,7 @@ body {
     padding: 20px;
     display: flex;
     width: 100%;
-    height: 600px;
+    height: 2000px;
     justify-content: space-between;
     align-items: flex-start;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -139,10 +141,13 @@ body {
 }
 
 .profile-photo {
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
     border-radius: 50%;
-    margin-right: 20px;
+    margin-right: 10px;
+    position: relative;
+    top: -50px;
+    left: 5px; 
 }
 
 .profile-details h3, .profile-details h4 {
@@ -151,8 +156,11 @@ body {
 
 .profile-actions button {
     width: 100%;
-    white-space: nowrap; /* Evita el cambio de línea en el texto */
-    padding: 10px 20px; /* Ajusta según sea necesario */
+    white-space: nowrap; 
+    padding: 5px 10px; 
+    position: relative;
+    top: -175px;
+    left: 500px;
 }
 
 .ui-button-secondary, .ui-button-danger {
@@ -213,9 +221,9 @@ body {
     margin-bottom: 20px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Asegúrate de que el contenedor ocupe el ancho completo disponible */
+    width: 320%; 
     box-sizing: border-box;
-    overflow: hidden; /* Oculta cualquier desbordamiento no deseado */
+    overflow: hidden; 
 }
 
 .post-card:hover {
@@ -253,4 +261,12 @@ body {
 .post-actions {
     display: flex;
     gap: 10px;
+}
+
+.posts-section {
+ 
+    position: relative;
+    top: 250px;
+    left: -585px;
+    
 }

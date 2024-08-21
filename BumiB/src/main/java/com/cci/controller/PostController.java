@@ -3,10 +3,12 @@ package com.cci.controller;
 import com.cci.data.ServicioPost;
 import com.cci.model.Post;
 import com.cci.model.Usuario;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -14,13 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import org.primefaces.event.FileUploadEvent;
 
 @ManagedBean(name = "postController")
 @SessionScoped
@@ -53,17 +48,42 @@ public class PostController implements Serializable {
         post.setFecha(new Timestamp(System.currentTimeMillis()));
         post.setTexto(nuevoTexto);
         post.setCreador(logingController.getUsuario().getNombre());
-        post.setCreadorId(logingController.getUsuario().getId()); // Asigna el idusuario al idCreador
+        post.setCreadorId(logingController.getUsuario().getId());
+        post.setNotifi(1);
 
         boolean exito = servicioPost.crearPost(post);
         if (exito) {
             posts = servicioPost.buscarTodosLosPosts();
             post = new Post();
             nuevoTexto = "";
-            post.setNotifi(1);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Publicación creada exitosamente"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo crear la publicación"));
+        }
+    }
+
+    public void darLike(int postId) {
+        // * Registra un "like" para una publicación específica si el usuario actual aún no ha dado "like" a la publicación.
+        Usuario usuarioActual = logingController.getUsuario();
+        if (usuarioActual == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Debes estar logueado para dar like."));
+            return;
+        }
+
+        if (!servicioPost.usuarioYaDioLike(postId, usuarioActual.getId())) {
+            boolean exito = servicioPost.agregarLike(postId, usuarioActual.getId());
+            if (exito) {
+                Post postActualizado = posts.stream().filter(p -> p.getId() == postId).findFirst().orElse(null);
+                if (postActualizado != null) {
+                    postActualizado.setLikesCount(postActualizado.getLikesCount() + 1);
+                    servicioPost.actualizarLikes(postId, postActualizado.getLikesCount());
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Like registrado exitosamente"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo registrar el like"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Ya has dado like a esta publicación."));
         }
     }
 

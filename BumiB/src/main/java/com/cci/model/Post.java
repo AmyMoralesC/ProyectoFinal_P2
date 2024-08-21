@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Post implements Serializable {
+    //Atributos
     private int id;
     private String titulo;
     private String creador;
@@ -15,6 +16,22 @@ public class Post implements Serializable {
     private Date fecha;
     private int notifi;
     private int creadorId;
+    private int likesCount; 
+
+  
+    
+
+
+// Getters y setters para todos los atributos
+    // ...
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
     
 
     public Post(int id, String titulo, String creador, String texto, Date fecha, int notifi, int creadorId) {

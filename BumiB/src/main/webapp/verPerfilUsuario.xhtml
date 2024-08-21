@@ -126,7 +126,7 @@
                             <div class="posts-section">
                                 <h3>Publicaciones</h3>
                                 <h:panelGroup id="postsContainer">
-                                    <ui:repeat value="#{perfilController.getPostsDelUsuario()}" var="post">
+                                    <ui:repeat value="#{perfilController.postsDelPerfilVisualizado}" var="post">
                                         <div class="post-card">
                                             <div class="post-header">
                                                 <span class="user">#{post.creador}</span>

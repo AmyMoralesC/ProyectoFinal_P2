@@ -13,19 +13,19 @@
             <div class="form-wrapper">
                 <span class="logo-name">BumiB</span>
                 <img src="#{resource['images/logo.jpg']}" alt="Logo Image" class="logo" draggable="false"/>
-                <h2>Olvidé Contraseña</h2>
-                <h3 class="h3-mini">¡Recuperá tu Cuenta!</h3>
+                <h2>¿Olvidaste tu Contraseña?</h2>
+                <h3 class="h3-mini">¡Recupera tu cuenta!</h3>
                 <div class="commandButtonWrapper">
                     <div class="contra">
                         <h:form id="OlvideContraForm">
                             <p:growl id="growl" life="3000"/>
 
-                            <div class="grid ui-fluid" style="position: relative; right: 32px; width: 320px">
+                            <div class="grid ui-fluid" style="position: relative; right: 0px; top: 40px; width: 320px">
                                 <div class="col-12 md:col-4">
                                     <div class="ui-inputgroup" style="position: relative; top: 35px;">
                                         <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
                                         <p:inputText id="correo" value="#{olvideContraController.correo}" required="true" 
-                                                     requiredMessage="El correo electrónico es obligatorio" placeholder="Correo"/>
+                                                     requiredMessage="El correo electrónico es obligatorio" placeholder="¡Escribe tu correo!"/>
                                     </div>
                                 </div>
                                 <div class="Button-Enviar">

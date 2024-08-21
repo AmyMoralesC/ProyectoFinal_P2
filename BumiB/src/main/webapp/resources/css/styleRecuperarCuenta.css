@@ -4,7 +4,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 /* 
     Created on : 19 ago 2024, 17:52:43
-    Author     : maule
+    Author     : Amy
 */
 
 /*Body*/
@@ -65,7 +65,7 @@ body, html {
 h2 {
     position: relative;
     width: 100%;
-    left: 5px;
+    left: 40px;
     top: 50px;
     color: #24201F;
 }
@@ -73,7 +73,7 @@ h2 {
 .h3-mini {
     position: relative;
     margin-bottom: -10px;
-    left: 65px;
+    left: 27px;
     width: 100%;
     top: 20px;
     color: #433E3D;

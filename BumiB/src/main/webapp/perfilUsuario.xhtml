@@ -71,30 +71,14 @@
                                         #{not empty perfilController.biografiaUsuario ? perfilController.biografiaUsuario : ''}</p>
                                     <h:commandLink id="contadorSeguidores" value="Seguidores: #{perfilController.cantidadSeguidores}" 
                                                    style="text-decoration: underline; color: black; cursor: pointer; position:
-                                                   relative; right: 150px;" 
+                                                   relative; right: 150px; top:  30px" 
                                                    onclick="PF('dlgSeguidores').show(); return false;">
                                     </h:commandLink>
                                 </div>
                             </div>
                             <p:commandButton value="Editar perfil" icon="pi pi-pencil" onclick="PF('dlgEditarPerfil').show()" process="@this"/>
+                            
                         </div>
-                    </div>
-
-                    <div class="posts-section">
-                        <h3>Mis Publicaciones</h3>
-                        <h:panelGroup id="myPostsContainer">
-                            <ui:repeat value="#{perfilController.postsDelUsuario}" var="post">
-                                <div class="post-card">
-                                    <div class="post-header">
-                                        <span class="user">#{post.creador}</span>
-                                        <span class="date">#{post.fecha}</span>
-                                    </div>
-                                    <div class="post-content">
-                                        <h:outputText value="#{post.texto}" escape="false" />
-                                    </div>
-                                </div>
-                            </ui:repeat>
-                        </h:panelGroup>
                     </div>
 
                     <p:dialog header="Lista de Seguidores" widgetVar="dlgSeguidores" modal="true" 
